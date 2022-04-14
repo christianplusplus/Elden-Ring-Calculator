@@ -2,6 +2,98 @@ function bestStraightSword() {
     return bs = best('Straight Sword', {'str':14,'dex':13,'int':9,'fai':9,'arc':7}, 104)
 }
 
+var vagabond_stats = {'str':14,'dex':13,'int':9,'fai':9,'arc':7};
+
+function optimize(weapon_type, attributes, freeAttributes) {
+    var prospective_weapons = Array.from(weapons.values()).filter(weapon => weapon.weapon_type == weapon_type);
+    var allocated_attributes = {};
+    for(var attr in attributes)
+        allocated_attributes[attr] = attributes[attr];
+    for(var source of attack_sources) {
+        var canSpend = Math.min(99-allocated_attributes['str'], freeAttributes);
+        allocated_attributes['str'] += canSpend;
+        freeAttributes -= canSpend;
+    }
+    
+    var domains = []
+    for(var weapon of prospective_weapons) {
+        domains.push({'weapon' : weapon, 'attrs' : allocated_attributes});
+    }
+    
+    var best_damage;
+    var best_weapon;
+    var best_attr;
+    for(var domain of domains) {
+        var [damage, weapon_and_attrs] = CSPSolver(damage_objective, domain, attr_generator, get_attr_contraints(attributes));
+        if(damage > best_damage) {
+            best_damage = damage;
+            best_weapon = weapon_and_attrs.weapon;
+            best_attr = weapon_and_attrs.attrs;
+            console.log([best_damage, best_weapon, best_attr]);
+        }
+    }
+    return [best_damage, best_weapon, best_attr];
+}
+
+function damage_objective(weapon_and_attrs) {
+    return getDamage(weapon_and_attrs.weapon, weapon_and_attrs.attrs, bosses.get('11'), weapon_and_attrs.weapon.physical_damage_types[0]);
+}
+
+function attr_generator(weapon_and_attrs) {
+    var new_states = [];
+    for(var source of attack_sources) {
+        for(var otherSource of attack_sources) {
+            if(otherSource != source) {
+                var attrs = {
+                    'str':weapon_and_attrs.attrs['str'],
+                    'dex':weapon_and_attrs.attrs['dex'],
+                    'int':weapon_and_attrs.attrs['int'],
+                    'fai':weapon_and_attrs.attrs['fai'],
+                    'arc':weapon_and_attrs.attrs['arc'],
+                };
+                attrs[source]--;
+                attrs[otherSource]++;
+                new_states.push({'weapon':weapon_and_attrs.weapon,'attrs':attrs});
+            }
+        }
+    }
+    return new_states;
+}
+
+function get_attr_contraints(class_attrs) {
+    return [
+        x => x.attrs['str'] <= 99,
+        x => x.attrs['dex'] <= 99,
+        x => x.attrs['int'] <= 99,
+        x => x.attrs['fai'] <= 99,
+        x => x.attrs['arc'] <= 99,
+        x => x.attrs['str'] >= class_attrs['str'],
+        x => x.attrs['dex'] >= class_attrs['dex'],
+        x => x.attrs['int'] >= class_attrs['int'],
+        x => x.attrs['fai'] >= class_attrs['fai'],
+        x => x.attrs['arc'] >= class_attrs['arc'],
+    ]
+}
+
+function CSPSolver(objective, state, move_generator, constraints) {
+    var next_state = state;
+    var highest_value = -1;
+    do {
+        state = next_state;
+        next_state = null;
+        for(var candidate_state of move_generator(state)) {
+            if(constraints.every(constraint => constraint(candidate_state))) {
+                var value = objective(candidate_state);
+                if(value > highest_value) {
+                    highest_value = value;
+                    next_state = candidate_state;
+                }
+            }
+        }
+    }while(next_state);
+    return [highest_value, state];
+}
+
 function best(weapon_type, attributes, freeAttributes) {
     var prospective_weapons = Array.from(weapons.values()).filter(weapon => weapon.weapon_type == weapon_type);
     var attr_combinations = []
