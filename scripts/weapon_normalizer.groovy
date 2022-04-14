@@ -38,7 +38,7 @@ def weapons = weaponData.collectEntries{ key, entry ->
                 'max_base_physical_attack_power': attack[(key)]['Phys +' + entry['Max Upgrade']],
                 'max_base_magic_attack_power': attack[(key)]['Mag +' + entry['Max Upgrade']],
                 'max_base_fire_attack_power': attack[(key)]['Fire +' + entry['Max Upgrade']],
-                'max_base_lighting_attack_power': attack[(key)]['Ligh +' + entry['Max Upgrade']],
+                'max_base_lightning_attack_power': attack[(key)]['Ligh +' + entry['Max Upgrade']],
                 'max_base_holy_attack_power': attack[(key)]['Holy +' + entry['Max Upgrade']],
                 'max_base_stamina_attack_power': attack[(key)]['Stam +' + entry['Max Upgrade']],
                 'max_base_scarlet_rot': passiveEffects[(key)]['Scarlet Rot +0'],
