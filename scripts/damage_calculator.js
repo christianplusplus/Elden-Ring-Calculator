@@ -1,50 +1,96 @@
-function best() {
-    console.log(bestSword({'str':14,'dex':13,'int':9,'fai':9,'arc':7}, 104));
+function bestStraightSword() {
+    return bs = best('Straight Sword', {'str':14,'dex':13,'int':9,'fai':9,'arc':7}, 104)
 }
 
-function bestSword(attributes, freeAttributes) {
-    var swords = Object.entries(weapons).map(([k,v])=>v).filter(weapon => weapon.weapon_type == "Straight Sword");
-    var stat_combinations = []
-    for(var str = attributes['str']; str < 100; str++) {
-        for(var dex = attributes['dex']; dex < 100; dex++) {
-            for(var i = attributes['int']; i < 10; i++) {
-                for(var fai = attributes['fai']; fai < 10; fai++) {
-                    for(var arc = attributes['arc']; arc < 8; arc++) {
-                        if(str + dex + i + fai + arc == freeAttributes + attributes['str'] + attributes['dex'] + attributes['int'] + attributes['fai'] + attributes['arc']) {
-                            stat_combinations.push({'str':str,'dex':dex,'int':i,'fai':fai,'arc':arc});
+function best(weapon_type, attributes, freeAttributes) {
+    var prospective_weapons = Array.from(weapons.values()).filter(weapon => weapon.weapon_type == weapon_type);
+    var attr_combinations = []
+    for(var str = attributes['str']; str <= 99; str++) {
+        for(var dex = attributes['dex']; dex <= 99; dex++) {
+            for(var i = attributes['int']; i <= 99; i++) {
+                for(var fai = attributes['fai']; fai <= 99; fai++) {
+                    for(var arc = attributes['arc']; arc <= attributes['arc']; arc++) {
+                        if(str + dex + i + fai + arc == freeAttributes + Object.values(attributes).reduce((a, b)=>a+b)) {
+                            attr_combinations.push({'str':str,'dex':dex,'int':i,'fai':fai,'arc':arc});
                         }
                     }
                 }
             }
         }
     }
-    var max_ar = 0;
+    console.log('Comparing ' + prospective_weapons.length * attr_combinations.length + ' weapon/stat combinations.')
+    var count = 0n;
+    var max_damage = 0;
     var best_sword;
     var best_attr;
-    for(var attr of stat_combinations) {
-        for(var sword of swords) {
-            var ar = getAttackPower(sword, attr).reduce((a, b) => a + b);
-            console.log([sword.name, ar])
-            if(ar > max_ar) {
-                max_ar = ar;
-                best_sword = sword;
-                best_attr = attr;
+    for(var attr of attr_combinations) {
+        for(var weapon of prospective_weapons) {
+            var damage = getDamage(weapon, attr, bosses.get('11'), 'Standard');
+            count++;
+            if(damage > max_damage) {
+                max_damage = damage;
+                best_sword = weapon.name;
+                best_attr = JSON.stringify(attr);
+                console.log([max_damage, best_sword, best_attr, count]);
             }
         }
     }
-    return [best_sword, max_ar, attr];
+    return [max_damage, best_sword, best_attr];
+}
+
+function getDamage(weapon, attributes, target, swing_type) {
+    var attackPowers = getAttackPower(weapon, attributes);
+    var damage = Object.entries(attackPowers).map(([attack_type, attack_power]) => getTypeDamage(attack_type, attack_power, swing_type, target));
+    return damage.reduce((a, b) => a + b);
+}
+
+function getTypeDamage(attack_type, attack_power, swing_type, target) {
+    var defense = parseFloat(target[capitalize(attack_type) + ' Defense']) * 100;
+    var resistance = parseFloat(attack_type == 'physical' ? target[capitalize(swing_type)] : target[capitalize(attack_type)]);
+    return damageFormula(attack_power, defense, resistance);
+}
+
+function damageFormula(attack_power, defense, resistance) {
+    var damage;
+    if(defense > attack_power * 8)
+        damage = 0.1 * attack_power;
+    else if(defense > attack_power)
+        damage = attack_power * (19.2 / 49 * (attack_power / defense - 0.125) ** 2 + 0.1);
+    else if(defense > attack_power * 0.4)
+        damage = attack_power * (-0.4 / 3 * (attack_power / defense - 2.5) ** 2 + 0.7);
+    else if(defense > attack_power * 0.125)
+        damage = attack_power * (-0.8 / 121 * (attack_power / defense - 8) ** 2 + 0.9);
+    else
+        damage = attack_power * 0.9;
+    return damage * resistance;
+}
+
+function capitalize(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function getAttackPower(weapon, attributes) {
-    return attack_types.map( attack_type =>
-            parseFloat(weapon['max_base_' + attack_type + '_attack_power']) + getMaxBonusAttackPower(weapon, attack_type, attributes)
-        );
+    var attackPowers = {};
+    attack_types.forEach( attack_type =>
+        attackPowers[attack_type] = parseFloat(weapon['max_base_' + attack_type + '_attack_power']) + getMaxBonusAttackPower(weapon, attack_type, attributes)
+    );
+    return attackPowers;
 }
 
 function getMaxBonusAttackPower(weapon, attack_type, attributes) {
-    var source_attack_powers = attack_sources.map( source => getAttackPowerPerSource(weapon, attack_type, attributes, source));
-    var source_attack_power = source_attack_powers.reduce((a, b) => a + b);
+    var source_attack_power;
+    if(attack_sources.every( source => meetsRequirement(weapon, attack_type, attributes, source))) {
+        var source_attack_powers = attack_sources.map( source => getAttackPowerPerSource(weapon, attack_type, attributes, source));
+        source_attack_power = source_attack_powers.reduce((a, b) => a + b);
+    }
+    else {
+        source_attack_power = parseFloat(weapon['max_base_' + attack_type + '_attack_power']) * -0.4;
+    }
     return source_attack_power;
+}
+
+function meetsRequirement(weapon, attack_type, attributes, source) {
+    return !weapon[attack_type + '_' + source + '_element_scaling'] || attributes[source] >= parseInt(weapon['required_' + source]);
 }
 
 function getAttackPowerPerSource(weapon, attack_type, attributes, source) {
@@ -55,7 +101,6 @@ function getAttackPowerPerSource(weapon, attack_type, attributes, source) {
     var calculation_id = parseInt(weapon[attack_type + '_damage_calculation_id'])
     var attribute_correction = parseFloat(attribute_curves[calculation_id](attributes[source])) / 100;
     var bonus_attack_power = base_attack_power * bonus_attack_power_scaling * attribute_correction;
-    //need to reduce power if stat requirements aren't met.
     return bonus_attack_power;
 }
 

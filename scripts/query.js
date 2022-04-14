@@ -1,13 +1,49 @@
-var weapons;
+var weapons = new Map();
 fetch('data/weapons.json')
     .then(response => response.json())
-    .then(data => weapons = data)
+    .then(data => {
+        for(var [key, value] of Object.entries(data))
+            weapons.set(key, value);
+        
+        var attack_element_scaling_params = new Map();
+        fetch('data/flat_attack_element_scaling_params.json')
+            .then(response => response.json())
+            .then(data => {
+                for(var [key, value] of Object.entries(data))
+                    attack_element_scaling_params.set(key, value);
+            
+                for(var weapon of weapons.values()) {
+                    for(var [key, value] of Object.entries(attack_element_scaling_params.get(weapon.attack_element_scaling_id))) {
+                        weapon[key] = value;
+                    }
+                }
+            })
+    });
 
-var attack_element_scaling_params;
-fetch('data/flat_attack_element_scaling_params.json')
+var bosses = new Map();
+fetch('data/boss_data.json')
     .then(response => response.json())
-    .then(data => attack_element_scaling_params = data)
-
+    .then(data => {
+        for(var [key, value] of Object.entries(data))
+            bosses.set(key, value);
+        
+        var difficulty_data = new Map();
+        fetch('data/difficulty_data.json')
+            .then(response => response.json())
+            .then(data => {
+                for(var [key, value] of Object.entries(data))
+                    difficulty_data.set(key, value);
+            
+                for(var boss of bosses.values()) {
+                    var id = boss["SpEffect ID"];
+                    if(difficulty_data.has(id)) {
+                        for(var [key, value] of Object.entries(difficulty_data.get(id))) {
+                            boss[key] = value;
+                        }
+                    }
+                }
+            })
+    });
 
 window.onload = function() {
     document.getElementById("weapon")
@@ -18,8 +54,8 @@ window.onload = function() {
 }
 
 function search() {
-    document.getElementById("output").innerHTML = getAttackPower(
-        getWeapon(document.getElementById("weapon").value),
+    document.getElementById("output").innerHTML = Object.values(getAttackPower(
+        weapons.get(document.getElementById("weapon").value),
         {
             "str" : parseInt(document.getElementById("str").value),
             "dex" : parseInt(document.getElementById("dex").value),
@@ -27,12 +63,5 @@ function search() {
             "fai" : parseInt(document.getElementById("fai").value),
             "arc" : parseInt(document.getElementById("arc").value),
         }
-    ).map(Math.floor);
-}
-
-function getWeapon(name) {
-    var weapon = weapons[name];
-    for(var [key, value] of Object.entries(attack_element_scaling_params[weapon.attack_element_scaling_id]))
-        weapon[key] = value;
-    return weapon;
+    )).map(Math.floor);
 }
