@@ -83,8 +83,23 @@ var attribute_curves = {
     },
 }
 
-function optimize(weapon_type, minimum_attributes, free_attributes) {
-    var prospective_weapons = Array.from(weapons.values()).filter(weapon => weapon.weapon_type == weapon_type);
+function damage_formula(attack_power, defense, resistance) {
+    var damage;
+    if(defense > attack_power * 8)
+        damage = 0.1 * attack_power;
+    else if(defense > attack_power)
+        damage = attack_power * (19.2 / 49 * (attack_power / defense - 0.125) ** 2 + 0.1);
+    else if(defense > attack_power * 0.4)
+        damage = attack_power * (-0.4 / 3 * (attack_power / defense - 2.5) ** 2 + 0.7);
+    else if(defense > attack_power * 0.125)
+        damage = attack_power * (-0.8 / 121 * (attack_power / defense - 8) ** 2 + 0.9);
+    else
+        damage = attack_power * 0.9;
+    return damage * resistance;
+}
+
+function optimize(minimum_attributes, free_attributes) {
+    var prospective_weapons = weapons.values();
     var attribute_combinations;
     var need_attribute_combinations = true;
     
@@ -173,18 +188,18 @@ function attr_generator(weapon_and_attrs) {
     return new_states;
 }
 
-function get_attr_contraints(class_attrs) {
+function get_attr_contraints(min_attrs) {
     return [
         x => x.attrs['str'] <= 99,
         x => x.attrs['dex'] <= 99,
         x => x.attrs['int'] <= 99,
         x => x.attrs['fai'] <= 99,
         x => x.attrs['arc'] <= 99,
-        x => x.attrs['str'] >= class_attrs['str'],
-        x => x.attrs['dex'] >= class_attrs['dex'],
-        x => x.attrs['int'] >= class_attrs['int'],
-        x => x.attrs['fai'] >= class_attrs['fai'],
-        x => x.attrs['arc'] >= class_attrs['arc'],
+        x => x.attrs['str'] >= min_attrs['str'],
+        x => x.attrs['dex'] >= min_attrs['dex'],
+        x => x.attrs['int'] >= min_attrs['int'],
+        x => x.attrs['fai'] >= min_attrs['fai'],
+        x => x.attrs['arc'] >= min_attrs['arc'],
     ]
 }
 
@@ -216,22 +231,7 @@ function getDamage(weapon, attributes, target, swing_type) {
 function getTypeDamage(attack_type, attack_power, swing_type, target) {
     var defense = parseFloat(target[capitalize(attack_type) + ' Defense']) * 100;
     var resistance = parseFloat(attack_type == 'physical' ? target[capitalize(swing_type)] : target[capitalize(attack_type)]);
-    return damageFormula(attack_power, defense, resistance);
-}
-
-function damageFormula(attack_power, defense, resistance) {
-    var damage;
-    if(defense > attack_power * 8)
-        damage = 0.1 * attack_power;
-    else if(defense > attack_power)
-        damage = attack_power * (19.2 / 49 * (attack_power / defense - 0.125) ** 2 + 0.1);
-    else if(defense > attack_power * 0.4)
-        damage = attack_power * (-0.4 / 3 * (attack_power / defense - 2.5) ** 2 + 0.7);
-    else if(defense > attack_power * 0.125)
-        damage = attack_power * (-0.8 / 121 * (attack_power / defense - 8) ** 2 + 0.9);
-    else
-        damage = attack_power * 0.9;
-    return damage * resistance;
+    return damage_formula(attack_power, defense, resistance);
 }
 
 function capitalize(string) {
