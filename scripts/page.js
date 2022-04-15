@@ -56,6 +56,7 @@ window.onload = function() {
 }*/
 
 function enter_optimize_weapon_and_attributes() {
+    document.getElementById('output').innerHTML = 'thinking...';
     var minimum_attributes = {
         'str':parseInt(document.getElementById('str').value),
         'dex':parseInt(document.getElementById('dex').value),
@@ -66,7 +67,15 @@ function enter_optimize_weapon_and_attributes() {
     var free_attributes = parseInt(document.getElementById('floatingPoints').value);
     var constraints = [];
     
-    var selected_weapon_types = getSelectedValues(document.getElementById('weaponTypes'));
+    var selected_weapon_types = getSelectedValues(document.getElementById('weaponTypes'))
+        .map(type => (x => (x.weapon_type == type)));
+    if(selected_weapon_types.length)
+        constraints.push(selected_weapon_types.reduce(disjunction));
+    
+    var selected_affinities = getSelectedValues(document.getElementById('affinities'))
+        .map(affinity => (x => (x.affinity == affinity)));
+    if(selected_affinities.length)
+        constraints.push(selected_affinities.reduce(disjunction));
     
     var result = optimize_weapon_and_attributes(
         minimum_attributes,
@@ -81,4 +90,8 @@ function getSelectedValues(select) {
     return Array.from(select.options)
         .filter(option => option.selected)
         .map(option => option.value);
+}
+
+function disjunction(a, b) {
+    return x => a(x) || b(x);
 }
