@@ -1,38 +1,151 @@
-function bestStraightSword() {
-    return bs = best('Straight Sword', {'str':14,'dex':13,'int':9,'fai':9,'arc':7}, 104)
+var vagabond_stats = {'str':14,'dex':13,'int':9,'fai':9,'arc':7};
+var must_have_required_attributes = false;
+var attack_types = [
+    'physical',
+    'magic',
+    'fire',
+    'lightning',
+    'holy',
+]
+var attack_sources = [
+    'str',
+    'dex',
+    'int',
+    'fai',
+    'arc',
+]
+function IF(a, b, c) {return a ? b : c;}
+function ADD(a, b) {return a + b;}
+function MINUS(a, b) {return a - b;}
+function MULTIPLY(a, b) {return a * b;}
+function DIVIDE(a, b) {return a / b;}
+function POW(a, b) {return a ** b;}
+var attribute_curves = {
+    0:function(attribute){
+            return IF(attribute>80,ADD(90,MULTIPLY(20,DIVIDE(attribute-80,70))),
+            IF(attribute>60,ADD(75,MULTIPLY(15,DIVIDE(attribute-60,20))),
+            IF(attribute>18,ADD(25,MULTIPLY(50,MINUS(1,POW(MINUS(1,DIVIDE(attribute-18,42)),1.2)))),
+            MULTIPLY(25,POW(DIVIDE(attribute-1,17),1.2)) )))
+    },
+    1:function(attribute){
+            return IF(attribute>80,ADD(90,MULTIPLY(20,DIVIDE(attribute-80,70))),
+            IF(attribute>60,ADD(75,MULTIPLY(15,DIVIDE(attribute-60,20))),
+            IF(attribute>20,ADD(35,MULTIPLY(40,MINUS(1,POW(MINUS(1,DIVIDE(attribute-20,40)),1.2)))),
+            MULTIPLY(35,POW(DIVIDE(attribute-1,19),1.2)) )))
+    },
+    2:function(attribute){
+            return IF(attribute>80,ADD(90,MULTIPLY(20,DIVIDE(attribute-80,70))),
+            IF(attribute>60,ADD(75,MULTIPLY(15,DIVIDE(attribute-60,20))),
+            IF(attribute>20,ADD(35,MULTIPLY(40,MINUS(1,POW(MINUS(1,DIVIDE(attribute-20,40)),1.2)))),
+            MULTIPLY(35,POW(DIVIDE(attribute-1,19),1.2)) )))
+    },
+    4:function(attribute){
+            return IF(attribute>80,ADD(95,MULTIPLY(5,DIVIDE(attribute-80,19))),
+            IF(attribute>50,ADD(80,MULTIPLY(15,DIVIDE(attribute-50,30))),
+            IF(attribute>20,ADD(40,MULTIPLY(40,DIVIDE(attribute-20,30))),
+            MULTIPLY(40,DIVIDE(attribute-1,19)) )))
+    },
+    7:function(attribute){
+            return IF(attribute>80,ADD(90,MULTIPLY(20,DIVIDE(attribute-80,70))),
+            IF(attribute>60,ADD(75,MULTIPLY(15,DIVIDE(attribute-60,20))),
+            IF(attribute>20,ADD(35,MULTIPLY(40,MINUS(1,POW(MINUS(1,DIVIDE(attribute-20,40)),1.2)))),
+            MULTIPLY(35,POW(DIVIDE(attribute-1,19),1.2)) )))
+    },
+    8:function(attribute){
+            return IF(attribute>80,ADD(90,MULTIPLY(20,DIVIDE(attribute-80,70))),
+            IF(attribute>60,ADD(75,MULTIPLY(15,DIVIDE(attribute-60,20))),
+            IF(attribute>16,ADD(25,MULTIPLY(50,MINUS(1,POW(MINUS(1,DIVIDE(attribute-16,44)),1.2)))),
+            MULTIPLY(25,POW(DIVIDE(attribute-1,15),1.2)) )))
+    },
+    12:function(attribute){
+            return IF(attribute>45,ADD(75,MULTIPLY(25,DIVIDE(attribute-45,54))),
+            IF(attribute>30,ADD(55,MULTIPLY(20,DIVIDE(attribute-30,15))),
+            IF(attribute>15,ADD(10,MULTIPLY(45,DIVIDE(attribute-15,15))),
+            MULTIPLY(10,DIVIDE(attribute-1,14)) )))
+    },
+    14:function(attribute){
+            return IF(attribute>80,ADD(85,MULTIPLY(15,DIVIDE(attribute-80,19))),
+            IF(attribute>40,ADD(60,MULTIPLY(25,DIVIDE(attribute-40,40))),
+            IF(attribute>20,ADD(40,MULTIPLY(20,DIVIDE(attribute-20,20))),
+            MULTIPLY(40,DIVIDE(attribute-1,19)) )))
+    },
+    15:function(attribute){
+            return IF(attribute>80,ADD(95,MULTIPLY(5,DIVIDE(attribute-80,19))),
+            IF(attribute>60,ADD(65,MULTIPLY(30,DIVIDE(attribute-60,20))),
+            IF(attribute>25,ADD(25,MULTIPLY(40,DIVIDE(attribute-25,35))),
+            MULTIPLY(25,DIVIDE(attribute-1,24)) )))
+    },
+    16:function(attribute){
+            return IF(attribute>80,ADD(90,MULTIPLY(10,DIVIDE(attribute-80,19))),
+            IF(attribute>60,ADD(75,MULTIPLY(15,DIVIDE(attribute-60,20))),
+            IF(attribute>18,ADD(20,MULTIPLY(55,DIVIDE(attribute-18,42))),
+            MULTIPLY(20,DIVIDE(attribute-1,17)) )))
+    },
 }
 
-var vagabond_stats = {'str':14,'dex':13,'int':9,'fai':9,'arc':7};
-
-function optimize(weapon_type, attributes, freeAttributes) {
+function optimize(weapon_type, minimum_attributes, free_attributes) {
     var prospective_weapons = Array.from(weapons.values()).filter(weapon => weapon.weapon_type == weapon_type);
-    var allocated_attributes = {};
-    for(var attr in attributes)
-        allocated_attributes[attr] = attributes[attr];
-    for(var source of attack_sources) {
-        var canSpend = Math.min(99-allocated_attributes['str'], freeAttributes);
-        allocated_attributes['str'] += canSpend;
-        freeAttributes -= canSpend;
-    }
+    var attribute_combinations;
+    var need_attribute_combinations = true;
     
-    var domains = []
-    for(var weapon of prospective_weapons) {
-        domains.push({'weapon' : weapon, 'attrs' : allocated_attributes});
-    }
-    
-    var best_damage;
+    var best_damage = -1;
     var best_weapon;
     var best_attr;
-    for(var domain of domains) {
-        var [damage, weapon_and_attrs] = CSPSolver(damage_objective, domain, attr_generator, get_attr_contraints(attributes));
+    for(var weapon of prospective_weapons) {
+        var locked_attribute_distribution = get_locked_attribute_distribution(weapon, minimum_attributes, free_attributes);
+        var damage = 0;
+        var attributes;
+        if(!locked_attribute_distribution) {
+            if(must_have_required_attributes) {
+                console.log('Couldn\'t wield ' + weapon.name + '!')
+                continue;
+            }
+            if(need_attribute_combinations) {
+                attribute_combinations = get_attribute_combinations(minimum_attributes, free_attributes);
+                need_attribute_combinations = false;
+            }
+            for(var attribute_combination of attribute_combinations) {
+                var damage_with_attributes = getDamage(weapon, attribute_combination, bosses.get('11'), weapon.physical_damage_types[0]);
+                if(damage_with_attributes > damage) {
+                    damage = damage_with_attributes;
+                    attributes = attribute_combination;
+                }
+            }
+        }
+        else {
+            var initial_attribute_distribution = get_initial_attribute_distribution(locked_attribute_distribution, free_attributes + Object.values(minimum_attributes).reduce((a,b)=>a+b) - Object.values(locked_attribute_distribution).reduce((a,b)=>a+b));
+            var final_state;
+            [damage, final_state] = CSPSolver(damage_objective, {'weapon':weapon,'attrs':initial_attribute_distribution}, attr_generator, get_attr_contraints(locked_attribute_distribution));
+            attributes = final_state.attrs;
+        }
+        console.log([damage, weapon, attributes]);
         if(damage > best_damage) {
             best_damage = damage;
-            best_weapon = weapon_and_attrs.weapon;
-            best_attr = weapon_and_attrs.attrs;
-            console.log([best_damage, best_weapon, best_attr]);
+            best_weapon = weapon;
+            best_attr = attributes;
         }
     }
     return [best_damage, best_weapon, best_attr];
+}
+
+function get_locked_attribute_distribution(weapon, minimum_attributes, free_attributes) {
+    var locked_attribute_distribution = {};
+    attack_sources.forEach(attack_source => {
+        var attributes_needed = Math.max(parseInt(weapon['required_' + attack_source]) - minimum_attributes[attack_source], 0);
+        locked_attribute_distribution[attack_source] = minimum_attributes[attack_source] + attributes_needed;
+        free_attributes -= attributes_needed;
+    });
+    return free_attributes >= 0 ? locked_attribute_distribution : null;
+}
+
+function get_initial_attribute_distribution(locked_attribute_distribution, free_attributes) {
+    var initial_attribute_distribution = {};
+    attack_sources.forEach(attack_source => {
+        var attributes_needed = Math.min(99 - locked_attribute_distribution[attack_source], free_attributes);
+        initial_attribute_distribution[attack_source] = locked_attribute_distribution[attack_source] + attributes_needed;
+        free_attributes -= attributes_needed;
+    });
+    return initial_attribute_distribution;
 }
 
 function damage_objective(weapon_and_attrs) {
@@ -75,13 +188,13 @@ function get_attr_contraints(class_attrs) {
     ]
 }
 
-function CSPSolver(objective, state, move_generator, constraints) {
+function CSPSolver(objective, state, state_generator, constraints) {
     var next_state = state;
-    var highest_value = -1;
+    var highest_value = objective(state);
     do {
         state = next_state;
         next_state = null;
-        for(var candidate_state of move_generator(state)) {
+        for(var candidate_state of state_generator(state)) {
             if(constraints.every(constraint => constraint(candidate_state))) {
                 var value = objective(candidate_state);
                 if(value > highest_value) {
@@ -92,42 +205,6 @@ function CSPSolver(objective, state, move_generator, constraints) {
         }
     }while(next_state);
     return [highest_value, state];
-}
-
-function best(weapon_type, attributes, freeAttributes) {
-    var prospective_weapons = Array.from(weapons.values()).filter(weapon => weapon.weapon_type == weapon_type);
-    var attr_combinations = []
-    for(var str = attributes['str']; str <= 99; str++) {
-        for(var dex = attributes['dex']; dex <= 99; dex++) {
-            for(var i = attributes['int']; i <= 99; i++) {
-                for(var fai = attributes['fai']; fai <= 99; fai++) {
-                    for(var arc = attributes['arc']; arc <= attributes['arc']; arc++) {
-                        if(str + dex + i + fai + arc == freeAttributes + Object.values(attributes).reduce((a, b)=>a+b)) {
-                            attr_combinations.push({'str':str,'dex':dex,'int':i,'fai':fai,'arc':arc});
-                        }
-                    }
-                }
-            }
-        }
-    }
-    console.log('Comparing ' + prospective_weapons.length * attr_combinations.length + ' weapon/stat combinations.')
-    var count = 0n;
-    var max_damage = 0;
-    var best_sword;
-    var best_attr;
-    for(var attr of attr_combinations) {
-        for(var weapon of prospective_weapons) {
-            var damage = getDamage(weapon, attr, bosses.get('11'), 'Standard');
-            count++;
-            if(damage > max_damage) {
-                max_damage = damage;
-                best_sword = weapon.name;
-                best_attr = JSON.stringify(attr);
-                console.log([max_damage, best_sword, best_attr, count]);
-            }
-        }
-    }
-    return [max_damage, best_sword, best_attr];
 }
 
 function getDamage(weapon, attributes, target, swing_type) {
@@ -196,89 +273,48 @@ function getAttackPowerPerSource(weapon, attack_type, attributes, source) {
     return bonus_attack_power;
 }
 
+function old_find_best_sword() {
+    return bs = old_find_best('Straight Sword', {'str':14,'dex':13,'int':9,'fai':9,'arc':7}, 104)
+}
 
-var attack_types = [
-    'physical',
-    'magic',
-    'fire',
-    'lightning',
-    'holy',
-]
+function old_find_best(weapon_type, attributes, free_attributes) {
+    var prospective_weapons = Array.from(weapons.values()).filter(weapon => weapon.weapon_type == weapon_type);
+    var attr_combinations = get_attribute_combinations(attributes, free_attributes);
+    
+    console.log('Comparing ' + prospective_weapons.length * attr_combinations.length + ' weapon/stat combinations.')
+    var count = 0n;
+    var max_damage = 0;
+    var best_sword;
+    var best_attr;
+    for(var attr of attr_combinations) {
+        for(var weapon of prospective_weapons) {
+            var damage = getDamage(weapon, attr, bosses.get('11'), weapon.physical_damage_types[0]);
+            count++;
+            if(damage > max_damage) {
+                max_damage = damage;
+                best_sword = weapon.name;
+                best_attr = JSON.stringify(attr);
+                console.log([max_damage, best_sword, best_attr, count]);
+            }
+        }
+    }
+    return [max_damage, best_sword, best_attr];
+}
 
-var attack_sources = [
-    'str',
-    'dex',
-    'int',
-    'fai',
-    'arc',
-]
-
-function IF(a, b, c) {return a ? b : c;}
-function ADD(a, b) {return a + b;}
-function MINUS(a, b) {return a - b;}
-function MULTIPLY(a, b) {return a * b;}
-function DIVIDE(a, b) {return a / b;}
-function POW(a, b) {return a ** b;}
-
-var attribute_curves = {
-    0:function(attribute){
-            return IF(attribute>80,ADD(90,MULTIPLY(20,DIVIDE(attribute-80,70))),
-            IF(attribute>60,ADD(75,MULTIPLY(15,DIVIDE(attribute-60,20))),
-            IF(attribute>18,ADD(25,MULTIPLY(50,MINUS(1,POW(MINUS(1,DIVIDE(attribute-18,42)),1.2)))),
-            MULTIPLY(25,POW(DIVIDE(attribute-1,17),1.2)) )))
-    },
-    1:function(attribute){
-            return IF(attribute>80,ADD(90,MULTIPLY(20,DIVIDE(attribute-80,70))),
-            IF(attribute>60,ADD(75,MULTIPLY(15,DIVIDE(attribute-60,20))),
-            IF(attribute>20,ADD(35,MULTIPLY(40,MINUS(1,POW(MINUS(1,DIVIDE(attribute-20,40)),1.2)))),
-            MULTIPLY(35,POW(DIVIDE(attribute-1,19),1.2)) )))
-    },
-    2:function(attribute){
-            return IF(attribute>80,ADD(90,MULTIPLY(20,DIVIDE(attribute-80,70))),
-            IF(attribute>60,ADD(75,MULTIPLY(15,DIVIDE(attribute-60,20))),
-            IF(attribute>20,ADD(35,MULTIPLY(40,MINUS(1,POW(MINUS(1,DIVIDE(attribute-20,40)),1.2)))),
-            MULTIPLY(35,POW(DIVIDE(attribute-1,19),1.2)) )))
-    },
-    4:function(attribute){
-            return IF(attribute>80,ADD(95,MULTIPLY(5,DIVIDE(attribute-80,19))),
-            IF(attribute>50,ADD(80,MULTIPLY(15,DIVIDE(attribute-50,30))),
-            IF(attribute>20,ADD(40,MULTIPLY(40,DIVIDE(attribute-20,30))),
-            MULTIPLY(40,DIVIDE(attribute-1,19)) )))
-    },
-    7:function(attribute){
-            return IF(attribute>80,ADD(90,MULTIPLY(20,DIVIDE(attribute-80,70))),
-            IF(attribute>60,ADD(75,MULTIPLY(15,DIVIDE(attribute-60,20))),
-            IF(attribute>20,ADD(35,MULTIPLY(40,MINUS(1,POW(MINUS(1,DIVIDE(attribute-20,40)),1.2)))),
-            MULTIPLY(35,POW(DIVIDE(attribute-1,19),1.2)) )))
-    },
-    8:function(attribute){
-            return IF(attribute>80,ADD(90,MULTIPLY(20,DIVIDE(attribute-80,70))),
-            IF(attribute>60,ADD(75,MULTIPLY(15,DIVIDE(attribute-60,20))),
-            IF(attribute>16,ADD(25,MULTIPLY(50,MINUS(1,POW(MINUS(1,DIVIDE(attribute-16,44)),1.2)))),
-            MULTIPLY(25,POW(DIVIDE(attribute-1,15),1.2)) )))
-    },
-    12:function(attribute){
-            return IF(attribute>45,ADD(75,MULTIPLY(25,DIVIDE(attribute-45,54))),
-            IF(attribute>30,ADD(55,MULTIPLY(20,DIVIDE(attribute-30,15))),
-            IF(attribute>15,ADD(10,MULTIPLY(45,DIVIDE(attribute-15,15))),
-            MULTIPLY(10,DIVIDE(attribute-1,14)) )))
-    },
-    14:function(attribute){
-            return IF(attribute>80,ADD(85,MULTIPLY(15,DIVIDE(attribute-80,19))),
-            IF(attribute>40,ADD(60,MULTIPLY(25,DIVIDE(attribute-40,40))),
-            IF(attribute>20,ADD(40,MULTIPLY(20,DIVIDE(attribute-20,20))),
-            MULTIPLY(40,DIVIDE(attribute-1,19)) )))
-    },
-    15:function(attribute){
-            return IF(attribute>80,ADD(95,MULTIPLY(5,DIVIDE(attribute-80,19))),
-            IF(attribute>60,ADD(65,MULTIPLY(30,DIVIDE(attribute-60,20))),
-            IF(attribute>25,ADD(25,MULTIPLY(40,DIVIDE(attribute-25,35))),
-            MULTIPLY(25,DIVIDE(attribute-1,24)) )))
-    },
-    16:function(attribute){
-            return IF(attribute>80,ADD(90,MULTIPLY(10,DIVIDE(attribute-80,19))),
-            IF(attribute>60,ADD(75,MULTIPLY(15,DIVIDE(attribute-60,20))),
-            IF(attribute>18,ADD(20,MULTIPLY(55,DIVIDE(attribute-18,42))),
-            MULTIPLY(20,DIVIDE(attribute-1,17)) )))
-    },
+function get_attribute_combinations(minimum_attributes, free_attributes) {
+    var attribute_combinations = [];
+    for(var str = minimum_attributes['str']; str <= Math.min(99, minimum_attributes['str'] + free_attributes); str++) {
+        for(var dex = minimum_attributes['dex']; dex <= Math.min(99, minimum_attributes['dex'] + free_attributes); dex++) {
+            for(var i = minimum_attributes['int']; i <= Math.min(99, minimum_attributes['int'] + free_attributes); i++) {
+                for(var fai = minimum_attributes['fai']; fai <= Math.min(99, minimum_attributes['fai'] + free_attributes); fai++) {
+                    for(var arc = minimum_attributes['arc']; arc <= Math.min(99, minimum_attributes['arc'] + free_attributes); arc++) {
+                        if(str + dex + i + fai + arc == free_attributes + Object.values(minimum_attributes).reduce((a, b)=>a+b)) {
+                            attribute_combinations.push({'str':str,'dex':dex,'int':i,'fai':fai,'arc':arc});
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return attribute_combinations;
 }
