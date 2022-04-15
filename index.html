@@ -1,20 +1,109 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE HTML>
+<html lang="en">
 <head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="scripts/query.js"></script>
-<script src="scripts/damage_calculator.js"></script>
+    <style src="css/style.css"></style>
+    <script src="scripts/page.js"></script>
+    <script src="scripts/damage_calculator.js"></script>
 </head>
-
 <body>
-
-<p>weapon name</p><input id="weapon" type="text"></input>
-<p>str:</p><input id="str" type="text" value="72"></input>
-<p>dex:</p><input id="dex" type="text" value="60"></input>
-<p>int:</p><input id="int" type="text" value="9"></input>
-<p>fai:</p><input id="fai" type="text" value="9"></input>
-<p>arc:</p><input id="arc" type="text" value="7"></input>
-<pre id="output"></pre>
-
+<div id="container">
+    <div id="header">
+    </div>
+    <div id="wrapper">
+        <div id="content">
+            <select name="weaponTypes" id="weaponTypes" multiple>
+                <option value="Dagger" selected>Dagger</option>
+                <option value="Straight Sword" selected>Straight Sword</option>
+                <option value="Curved Sword" selected>Curved Sword</option>
+                <option value="Greatsword" selected>Greatsword</option>
+                <option value="Colossal Sword" selected>Colossal Sword</option>
+                <option value="Thrusting Sword" selected>Thrusting Sword</option>
+                <option value="Heavy Thrusting Sword" selected>Heavy Thrusting Sword</option>
+                <option value="Curved Greatsword" selected>Curved Greatsword</option>
+                <option value="Katana" selected>Katana</option>
+                <option value="Twinblade" selected>Twinblade</option>
+                <option value="Hammer" selected>Hammer</option>
+                <option value="Warhammer" selected>Warhammer</option>
+                <option value="Flail" selected>Flail</option>
+                <option value="Axe" selected>Axe</option>
+                <option value="Greataxe" selected>Greataxe</option>
+                <option value="Spear" selected>Spear</option>
+                <option value="Great Spear" selected>Great Spear</option>
+                <option value="Halberd" selected>Halberd</option>
+                <option value="Reaper" selected>Reaper</option>
+                <option value="Whip" selected>Whip</option>
+                <option value="Fist" selected>Fist</option>
+                <option value="Claw" selected>Claw</option>
+                <option value="Colossal Weapon" selected>Colossal Weapon</option>
+                <option value="Torch" selected>Torch</option>
+                <option value="Small Shield" selected>Small Shield</option>
+                <option value="Medium Shield" selected>Medium Shield</option>
+                <option value="Greatshield" selected>Greatshield</option>
+                <option value="Glintstone Staff" selected>Glintstone Staff</option>
+                <option value="Sacred Seal" selected>Sacred Seal</option>
+                <option value="Light Bow" selected>Light Bow</option>
+                <option value="Bow" selected>Bow</option>
+                <option value="Greatbow" selected>Greatbow</option>
+                <option value="Crossbow" selected>Crossbow</option>
+                <option value="Ballista" selected>Ballista</option>
+            </select>
+            <label for="weaponTypes">:Weapon Types</label>
+            <br>
+            <select name="affinities" id="affinities" multiple>
+                <option value="None" selected>Standard</option>
+                <option value="Heavy" selected>Heavy</option>
+                <option value="Keen" selected>Keen</option>
+                <option value="Quality" selected>Quality</option>
+                <option value="Magic" selected>Magic</option>
+                <option value="Cold" selected>Cold</option>
+                <option value="Fire" selected>Fire</option>
+                <option value="Flame Art" selected>Flame Art</option>
+                <option value="Lightning" selected>Lightning</option>
+                <option value="Sacred" selected>Sacred</option>
+                <option value="Poison" selected>Poison</option>
+                <option value="Blood" selected>Blood</option>
+                <option value="Occult" selected>Occult</option>
+            </select>
+            <label for="affinities">:Affinities</label>
+            <br>
+            <input type="checkbox" name="isTwoHanding" id="isTwoHanding">
+            <label for="isTwoHanding">:Is Two Handing</label>
+            <br>
+            <input type="checkbox" name="isDualWieldable" id="isDualWieldable">
+            <label for="isDualWieldable">:Is Dual Wieldable</label>
+            <br>
+            <input type="checkbox" name="meetsAttributeRequirements" id="meetsAttributeRequirements">
+            <label for="meetsAttributeRequirements">:Meets Attribute Requirements</label>
+            <br>
+            <input type="number" id="str" name="str" min="1" max="99" value="16" size="2">
+            <label for="str">:Strength</label>
+            <br>
+            <input type="number" id="dex" name="dex" min="1" max="99" value="9">
+            <label for="dex">:Dexterity</label>
+            <br>
+            <input type="number" id="int" name="int" min="1" max="99" value="7">
+            <label for="int">:Intelligence</label>
+            <br>
+            <input type="number" id="fai" name="fai" min="1" max="99" value="8">
+            <label for="fai">:Faith</label>
+            <br>
+            <input type="number" id="arc" name="arc" min="1" max="99" value="11">
+            <label for="arc">:Arcane</label>
+            <br>
+            <input type="number" id="floatingPoints" name="floatingPoints" min="0" max="445" value="113">
+            <label for="floatingPoints">:Floating Points</label>
+            <br>
+            <button type="button" onclick="enter_optimize_weapon_and_attributes()">Calculate!</button>
+        </div>
+    </div>
+    <div id="navigation">
+    </div>
+        <div id="extra">
+            <pre id="output">
+            </pre>
+        </div>
+    <div id="footer">
+    </div>
+</div>
 </body>
 </html>

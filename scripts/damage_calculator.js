@@ -1,4 +1,18 @@
-var vagabond_stats = {'str':14,'dex':13,'int':9,'fai':9,'arc':7};
+var class_stats = {
+    hero : {'lvl':7,'vig':14,'min':9,'end':12,'str':16,'dex':9,'int':7,'fai':8,'arc':11},
+    bandit : {'lvl':5,'vig':10,'min':11,'end':10,'str':9,'dex':13,'int':9,'fai':8,'arc':14},
+    astrologer : {'lvl':6,'vig':9,'min':15,'end':9,'str':8,'dex':12,'int':16,'fai':7,'arc':9},
+    warrior : {'lvl':8,'vig':11,'min':12,'end':11,'str':10,'dex':16,'int':10,'fai':8,'arc':9},
+    prisoner : {'lvl':9,'vig':11,'min':12,'end':11,'str':11,'dex':14,'int':14,'fai':6,'arc':9},
+    confessor : {'lvl':10,'vig':10,'min':13,'end':10,'str':12,'dex':12,'int':9,'fai':14,'arc':9},
+    wretch : {'lvl':1,'vig':10,'min':10,'end':10,'str':10,'dex':10,'int':10,'fai':10,'arc':10},
+    vagabond : {'lvl':9,'vig':15,'min':10,'end':11,'str':14,'dex':13,'int':9,'fai':9,'arc':7},
+    prophet : {'lvl':7,'vig':10,'min':14,'end':8,'str':11,'dex':10,'int':7,'fai':16,'arc':10},
+    samurai : {'lvl':9,'vig':12,'min':11,'end':13,'str':12,'dex':15,'int':9,'fai':8,'arc':8},
+}
+function get_attack_stats(clazz) {
+    return {'str':clazz['str'],'dex':clazz['dex'],'int':clazz['int'],'fai':clazz['fai'],'arc':clazz['arc']};
+}
 var must_have_required_attributes = false;
 var attack_types = [
     'physical',
@@ -82,8 +96,7 @@ var attribute_curves = {
             MULTIPLY(20,DIVIDE(attribute-1,17)) )))
     },
 }
-
-function damage_formula(attack_power, defense, resistance) {
+function DAMAGE_FORMULA(attack_power, defense, resistance) {
     var damage;
     if(defense > attack_power * 8)
         damage = 0.1 * attack_power;
@@ -98,49 +111,40 @@ function damage_formula(attack_power, defense, resistance) {
     return damage * resistance;
 }
 
-function optimize(minimum_attributes, free_attributes) {
-    var prospective_weapons = weapons.values();
+function optimize_weapon_and_attributes(minimum_attributes, free_attributes, constraints) {
+    var prospective_weapons = Array.from(weapons.values()).filter(weapon => constraints.every(constraint => constraint(weapon)));
     var attribute_combinations;
-    var need_attribute_combinations = true;
+    var attribute_combinations_are_cached = false;
     
-    var best_damage = -1;
-    var best_weapon;
-    var best_attr;
+    var best_damage = 0;
+    var best_weapon_and_attributes;
     for(var weapon of prospective_weapons) {
         var locked_attribute_distribution = get_locked_attribute_distribution(weapon, minimum_attributes, free_attributes);
-        var damage = 0;
-        var attributes;
+        var damage;
+        var weapon_and_attributes;
         if(!locked_attribute_distribution) {
             if(must_have_required_attributes) {
                 console.log('Couldn\'t wield ' + weapon.name + '!')
                 continue;
             }
-            if(need_attribute_combinations) {
+            if(!attribute_combinations_are_cached) {
                 attribute_combinations = get_attribute_combinations(minimum_attributes, free_attributes);
-                need_attribute_combinations = false;
+                attribute_combinations_are_cached = true;
             }
-            for(var attribute_combination of attribute_combinations) {
-                var damage_with_attributes = getDamage(weapon, attribute_combination, bosses.get('11'), weapon.physical_damage_types[0]);
-                if(damage_with_attributes > damage) {
-                    damage = damage_with_attributes;
-                    attributes = attribute_combination;
-                }
-            }
+            var weapon_attribute_states = get_weapon_attribute_states(weapon, attribute_combinations);
+            [damage, weapon_and_attributes] = brute_solver(damage_objective, weapon_attribute_states);
         }
         else {
             var initial_attribute_distribution = get_initial_attribute_distribution(locked_attribute_distribution, free_attributes + Object.values(minimum_attributes).reduce((a,b)=>a+b) - Object.values(locked_attribute_distribution).reduce((a,b)=>a+b));
-            var final_state;
-            [damage, final_state] = CSPSolver(damage_objective, {'weapon':weapon,'attrs':initial_attribute_distribution}, attr_generator, get_attr_contraints(locked_attribute_distribution));
-            attributes = final_state.attrs;
+            [damage, weapon_and_attributes] = CSPSolver(damage_objective, {'weapon':weapon,'attrs':initial_attribute_distribution}, attr_generator, get_attr_contraints(locked_attribute_distribution));
         }
-        console.log([damage, weapon, attributes]);
+        print_damage_weapon_attributes(damage, weapon_and_attributes);
         if(damage > best_damage) {
             best_damage = damage;
-            best_weapon = weapon;
-            best_attr = attributes;
+            best_weapon_and_attributes = weapon_and_attributes;
         }
     }
-    return [best_damage, best_weapon, best_attr];
+    return [best_damage, best_weapon_and_attributes.weapon, best_weapon_and_attributes.attrs];
 }
 
 function get_locked_attribute_distribution(weapon, minimum_attributes, free_attributes) {
@@ -153,6 +157,14 @@ function get_locked_attribute_distribution(weapon, minimum_attributes, free_attr
     return free_attributes >= 0 ? locked_attribute_distribution : null;
 }
 
+function get_attributes_needed_to_wield(weapon, attributes) {
+    var needed = 0;
+    for(var source in attributes) {
+        needed += Math.max(parseInt(weapon['required_' + source]) - attributes[source], 0);
+    }
+    return needed;
+}
+
 function get_initial_attribute_distribution(locked_attribute_distribution, free_attributes) {
     var initial_attribute_distribution = {};
     attack_sources.forEach(attack_source => {
@@ -163,8 +175,32 @@ function get_initial_attribute_distribution(locked_attribute_distribution, free_
     return initial_attribute_distribution;
 }
 
+function get_weapon_attribute_states(weapon, attribute_combinations) {
+    var weapon_attribute_states = {'weapon':weapon,'attrs':attribute_combinations};
+    weapon_attribute_states[Symbol.iterator] = function(){
+        var old_iterator = weapon_attribute_states.attrs[Symbol.iterator]();
+        return { next: function() {
+            var next_object = old_iterator.next();
+            return {
+                done: next_object.done,
+                value: {'weapon':weapon, 'attrs':next_object.value}
+            };
+        }};
+    };
+    return weapon_attribute_states;
+}
+
+function print_damage_weapon_attributes(damage, weapon_and_attributes) {
+    console.log(damage, weapon_and_attributes.weapon.name, JSON.stringify(weapon_and_attributes.attrs));
+}
+
 function damage_objective(weapon_and_attrs) {
-    return getDamage(weapon_and_attrs.weapon, weapon_and_attrs.attrs, bosses.get('11'), weapon_and_attrs.weapon.physical_damage_types[0]);
+    try{
+        return get_damage(weapon_and_attrs.weapon, weapon_and_attrs.attrs, bosses.get('11'), weapon_and_attrs.weapon.physical_damage_types[0]);
+    }catch(error) {
+        debugger;
+    }
+    
 }
 
 function attr_generator(weapon_and_attrs) {
@@ -222,7 +258,20 @@ function CSPSolver(objective, state, state_generator, constraints) {
     return [highest_value, state];
 }
 
-function getDamage(weapon, attributes, target, swing_type) {
+function brute_solver(objective, state_space) {
+    var optimal_state = state_space[Symbol.iterator]().next().value;
+    var highest_value = objective(optimal_state);
+    for(var state of state_space) {
+        var value = objective(state);
+        if(value > highest_value) {
+            highest_value = value;
+            optimal_state = state;
+        }
+    }
+    return [highest_value, optimal_state];
+}
+
+function get_damage(weapon, attributes, target, swing_type) {
     var attackPowers = getAttackPower(weapon, attributes);
     var damage = Object.entries(attackPowers).map(([attack_type, attack_power]) => getTypeDamage(attack_type, attack_power, swing_type, target));
     return damage.reduce((a, b) => a + b);
@@ -231,11 +280,15 @@ function getDamage(weapon, attributes, target, swing_type) {
 function getTypeDamage(attack_type, attack_power, swing_type, target) {
     var defense = parseFloat(target[capitalize(attack_type) + ' Defense']) * 100;
     var resistance = parseFloat(attack_type == 'physical' ? target[capitalize(swing_type)] : target[capitalize(attack_type)]);
-    return damage_formula(attack_power, defense, resistance);
+    return DAMAGE_FORMULA(attack_power, defense, resistance);
 }
 
 function capitalize(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function sum(a, b) {
+    return a + b;
 }
 
 function getAttackPower(weapon, attributes) {
@@ -274,31 +327,26 @@ function getAttackPowerPerSource(weapon, attack_type, attributes, source) {
 }
 
 function old_find_best_sword() {
-    return bs = old_find_best('Straight Sword', {'str':14,'dex':13,'int':9,'fai':9,'arc':7}, 104)
+    return bs = old_find_best('Straight Sword', get_attack_stats(class_stats.vagabond), 53)
 }
 
 function old_find_best(weapon_type, attributes, free_attributes) {
     var prospective_weapons = Array.from(weapons.values()).filter(weapon => weapon.weapon_type == weapon_type);
-    var attr_combinations = get_attribute_combinations(attributes, free_attributes);
+    var attribute_combinations = get_attribute_combinations(attributes, free_attributes);
     
-    console.log('Comparing ' + prospective_weapons.length * attr_combinations.length + ' weapon/stat combinations.')
-    var count = 0n;
-    var max_damage = 0;
-    var best_sword;
-    var best_attr;
-    for(var attr of attr_combinations) {
-        for(var weapon of prospective_weapons) {
-            var damage = getDamage(weapon, attr, bosses.get('11'), weapon.physical_damage_types[0]);
-            count++;
-            if(damage > max_damage) {
-                max_damage = damage;
-                best_sword = weapon.name;
-                best_attr = JSON.stringify(attr);
-                console.log([max_damage, best_sword, best_attr, count]);
-            }
+    console.log('Comparing ' + prospective_weapons.length * attribute_combinations.length + ' weapon/stat combinations.')
+
+    var best_damage = 0;
+    var best_weapon_and_attributes;
+    for(var weapon of prospective_weapons) {
+        var [damage, weapon_and_attributes] = brute_solver(damage_objective, attribute_combinations.map(attrs => {return{'weapon':weapon,'attrs':attrs}}));
+        print_damage_weapon_attributes(damage, weapon_and_attributes);
+        if(damage > best_damage) {
+            best_damage = damage;
+            best_weapon_and_attributes = weapon_and_attributes;
         }
     }
-    return [max_damage, best_sword, best_attr];
+    return [best_damage, best_weapon_and_attributes.weapon, best_weapon_and_attributes.attrs];
 }
 
 function get_attribute_combinations(minimum_attributes, free_attributes) {

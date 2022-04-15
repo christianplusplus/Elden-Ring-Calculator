@@ -1,4 +1,7 @@
 var weapons = new Map();
+var bosses = new Map();
+var affinities = [];
+
 fetch('data/weapons.json')
     .then(response => response.json())
     .then(data => {
@@ -20,7 +23,6 @@ fetch('data/weapons.json')
             })
     });
 
-var bosses = new Map();
 fetch('data/boss_data.json')
     .then(response => response.json())
     .then(data => {
@@ -44,24 +46,39 @@ fetch('data/boss_data.json')
                 }
             })
     });
-
+/*
 window.onload = function() {
     document.getElementById("weapon")
         .addEventListener("keyup", function(event) {
             if(event.keyCode === 13)
-                search();
+                compute();
         });
+}*/
+
+function enter_optimize_weapon_and_attributes() {
+    var minimum_attributes = {
+        'str':parseInt(document.getElementById('str').value),
+        'dex':parseInt(document.getElementById('dex').value),
+        'int':parseInt(document.getElementById('int').value),
+        'fai':parseInt(document.getElementById('fai').value),
+        'arc':parseInt(document.getElementById('arc').value),
+    };
+    var free_attributes = parseInt(document.getElementById('floatingPoints').value);
+    var constraints = [];
+    
+    var selected_weapon_types = getSelectedValues(document.getElementById('weaponTypes'));
+    
+    var result = optimize_weapon_and_attributes(
+        minimum_attributes,
+        free_attributes,
+        constraints
+    )
+    console.log('done');
+    document.getElementById('output').innerHTML = JSON.stringify(result, null, 2);
 }
 
-function search() {
-    document.getElementById("output").innerHTML = Object.values(getAttackPower(
-        weapons.get(document.getElementById("weapon").value),
-        {
-            "str" : parseInt(document.getElementById("str").value),
-            "dex" : parseInt(document.getElementById("dex").value),
-            "int" : parseInt(document.getElementById("int").value),
-            "fai" : parseInt(document.getElementById("fai").value),
-            "arc" : parseInt(document.getElementById("arc").value),
-        }
-    )).map(Math.floor);
+function getSelectedValues(select) {
+    return Array.from(select.options)
+        .filter(option => option.selected)
+        .map(option => option.value);
 }
