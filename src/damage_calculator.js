@@ -1,21 +1,6 @@
-var class_stats = {
-    hero : {'lvl':7,'vig':14,'min':9,'end':12,'str':16,'dex':9,'int':7,'fai':8,'arc':11},
-    bandit : {'lvl':5,'vig':10,'min':11,'end':10,'str':9,'dex':13,'int':9,'fai':8,'arc':14},
-    astrologer : {'lvl':6,'vig':9,'min':15,'end':9,'str':8,'dex':12,'int':16,'fai':7,'arc':9},
-    warrior : {'lvl':8,'vig':11,'min':12,'end':11,'str':10,'dex':16,'int':10,'fai':8,'arc':9},
-    prisoner : {'lvl':9,'vig':11,'min':12,'end':11,'str':11,'dex':14,'int':14,'fai':6,'arc':9},
-    confessor : {'lvl':10,'vig':10,'min':13,'end':10,'str':12,'dex':12,'int':9,'fai':14,'arc':9},
-    wretch : {'lvl':1,'vig':10,'min':10,'end':10,'str':10,'dex':10,'int':10,'fai':10,'arc':10},
-    vagabond : {'lvl':9,'vig':15,'min':10,'end':11,'str':14,'dex':13,'int':9,'fai':9,'arc':7},
-    prophet : {'lvl':7,'vig':10,'min':14,'end':8,'str':11,'dex':10,'int':7,'fai':16,'arc':10},
-    samurai : {'lvl':9,'vig':12,'min':11,'end':13,'str':12,'dex':15,'int':9,'fai':8,'arc':8},
-}
-function get_attack_stats(clazz) {
-    return {'str':clazz['str'],'dex':clazz['dex'],'int':clazz['int'],'fai':clazz['fai'],'arc':clazz['arc']};
-}
 var must_have_required_attributes = false;
 var is_two_handing = false;
-var enemy;
+var enemy = {};
 var attack_types = [
     'physical',
     'magic',
@@ -332,29 +317,6 @@ function getAttackPowerPerSource(weapon, attack_type, attributes, source) {
     var attribute_correction = parseFloat(attribute_curves[calculation_id](attribute)) / 100;
     var bonus_attack_power = base_attack_power * bonus_attack_power_scaling * attribute_correction;
     return bonus_attack_power;
-}
-
-function old_find_best_sword() {
-    return old_find_best('Straight Sword', get_attack_stats(class_stats.vagabond), 53)
-}
-
-function old_find_best(weapon_type, attributes, free_attributes) {
-    var prospective_weapons = Array.from(weapons.values()).filter(weapon => weapon.weapon_type == weapon_type);
-    var attribute_combinations = get_attribute_combinations(attributes, free_attributes);
-    
-    console.log('Comparing ' + prospective_weapons.length * attribute_combinations.length + ' weapon/stat combinations.')
-
-    var best_damage = 0;
-    var best_weapon_and_attributes;
-    for(var weapon of prospective_weapons) {
-        var [damage, weapon_and_attributes] = brute_solver(damage_objective, attribute_combinations.map(attrs => {return{'weapon':weapon,'attrs':attrs}}));
-        print_damage_weapon_attributes(damage, weapon_and_attributes);
-        if(damage > best_damage) {
-            best_damage = damage;
-            best_weapon_and_attributes = weapon_and_attributes;
-        }
-    }
-    return [best_damage, best_weapon_and_attributes.weapon, best_weapon_and_attributes.attrs];
 }
 
 function get_attribute_combinations(minimum_attributes, free_attributes) {

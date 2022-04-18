@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
     <style src="style.css"></style>
+    <!--<script src="https://unpkg.com/vue@3"></script>-->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="views/weapon_attributes_optimizer.js"></script>
+    <script src="views/main.js"></script>
     <script src="script.js"></script>
 </head>
 <body>
@@ -10,108 +14,6 @@
     </div>
     <div id="wrapper">
         <div id="content">
-            <select name="enemy" id="enemy">
-            </select>
-            <label for="enemy">:Enemy</label>
-            <br>
-            <select name="weaponTypes" id="weaponTypes" multiple>
-                <option value="Dagger">Dagger</option>
-                <option value="Straight Sword">Straight Sword</option>
-                <option value="Curved Sword">Curved Sword</option>
-                <option value="Greatsword">Greatsword</option>
-                <option value="Colossal Sword">Colossal Sword</option>
-                <option value="Thrusting Sword">Thrusting Sword</option>
-                <option value="Heavy Thrusting Sword">Heavy Thrusting Sword</option>
-                <option value="Curved Greatsword">Curved Greatsword</option>
-                <option value="Katana">Katana</option>
-                <option value="Twinblade">Twinblade</option>
-                <option value="Hammer">Hammer</option>
-                <option value="Warhammer">Warhammer</option>
-                <option value="Flail">Flail</option>
-                <option value="Axe">Axe</option>
-                <option value="Greataxe">Greataxe</option>
-                <option value="Spear">Spear</option>
-                <option value="Great Spear">Great Spear</option>
-                <option value="Halberd">Halberd</option>
-                <option value="Reaper">Reaper</option>
-                <option value="Whip">Whip</option>
-                <option value="Fist">Fist</option>
-                <option value="Claw">Claw</option>
-                <option value="Colossal Weapon">Colossal Weapon</option>
-                <option value="Torch">Torch</option>
-                <option value="Small Shield">Small Shield</option>
-                <option value="Medium Shield">Medium Shield</option>
-                <option value="Greatshield">Greatshield</option>
-                <option value="Glintstone Staff">Glintstone Staff</option>
-                <option value="Sacred Seal">Sacred Seal</option>
-                <option value="Light Bow">Light Bow</option>
-                <option value="Bow">Bow</option>
-                <option value="Greatbow">Greatbow</option>
-                <option value="Crossbow">Crossbow</option>
-                <option value="Ballista">Ballista</option>
-            </select>
-            <label for="weaponTypes">:Weapon Types</label>
-            <br>
-            <select name="affinities" id="affinities" multiple>
-                <option value="None">Standard</option>
-                <option value="Heavy">Heavy</option>
-                <option value="Keen">Keen</option>
-                <option value="Quality">Quality</option>
-                <option value="Magic">Magic</option>
-                <option value="Cold">Cold</option>
-                <option value="Fire">Fire</option>
-                <option value="Flame Art">Flame Art</option>
-                <option value="Lightning">Lightning</option>
-                <option value="Sacred">Sacred</option>
-                <option value="Poison">Poison</option>
-                <option value="Blood">Blood</option>
-                <option value="Occult">Occult</option>
-                <option value="-">Somber</option>
-            </select>
-            <label for="affinities">:Affinities</label>
-            <br>
-            <input type="checkbox" name="isDualWieldable" id="isDualWieldable">
-            <label for="isDualWieldable">:Is Dual Wieldable</label>
-            <br>
-            <input type="checkbox" name="isTwoHanding" id="isTwoHanding">
-            <label for="isTwoHanding">:Is Two Handing</label>
-            <br>
-            <input type="checkbox" name="meetsAttributeRequirements" id="meetsAttributeRequirements">
-            <label for="meetsAttributeRequirements">:Meets Attribute Requirements</label>
-            <br>
-            <select name="classes" id="classes">
-                <option value="hero">Hero</option>
-                <option value="bandit">Bandit</option>
-                <option value="astrologer">Astrologer</option>
-                <option value="warrior">Warrior</option>
-                <option value="prisoner">Prisoner</option>
-                <option value="confessor">Confessor</option>
-                <option value="wretch">Wretch</option>
-                <option value="vagabond">Vagabond</option>
-                <option value="prophet">Prophet</option>
-                <option value="samurai">Samurai</option>
-            </select>
-            <button type="button" onclick="load_class()">Load Class</button>
-            <br>
-            <input type="number" id="str" name="str" min="1" max="99" value="16" size="2">
-            <label for="str">:Strength</label>
-            <br>
-            <input type="number" id="dex" name="dex" min="1" max="99" value="9">
-            <label for="dex">:Dexterity</label>
-            <br>
-            <input type="number" id="int" name="int" min="1" max="99" value="7">
-            <label for="int">:Intelligence</label>
-            <br>
-            <input type="number" id="fai" name="fai" min="1" max="99" value="8">
-            <label for="fai">:Faith</label>
-            <br>
-            <input type="number" id="arc" name="arc" min="1" max="99" value="11">
-            <label for="arc">:Arcane</label>
-            <br>
-            <input type="number" id="floatingPoints" name="floatingPoints" min="0" max="445" value="100">
-            <label for="floatingPoints">:Floating Points</label>
-            <br>
-            <button type="button" onclick="enter_optimize_weapon_and_attributes()">Calculate!</button>
         </div>
     </div>
     <div id="navigation">
@@ -123,5 +25,10 @@
     <div id="footer">
     </div>
 </div>
+<script>
+var main = Vue.createApp(Main);
+main.component('WeaponAttributesOptimizer', WeaponAttributesOptimizer);
+main.mount("#content");
+</script>
 </body>
 </html>
