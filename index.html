@@ -1,9 +1,8 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-    <style src="css/style.css"></style>
-    <script src="scripts/page.js"></script>
-    <script src="scripts/damage_calculator.js"></script>
+    <style src="style.css"></style>
+    <script src="script.js"></script>
 </head>
 <body>
 <div id="container">
@@ -11,6 +10,10 @@
     </div>
     <div id="wrapper">
         <div id="content">
+            <select name="enemy" id="enemy">
+            </select>
+            <label for="enemy">:Enemy</label>
+            <br>
             <select name="weaponTypes" id="weaponTypes" multiple>
                 <option value="Dagger">Dagger</option>
                 <option value="Straight Sword">Straight Sword</option>
@@ -67,14 +70,28 @@
             </select>
             <label for="affinities">:Affinities</label>
             <br>
-            <input type="checkbox" name="isTwoHanding" id="isTwoHanding">
-            <label for="isTwoHanding">:Is Two Handing</label>
-            <br>
             <input type="checkbox" name="isDualWieldable" id="isDualWieldable">
             <label for="isDualWieldable">:Is Dual Wieldable</label>
             <br>
+            <input type="checkbox" name="isTwoHanding" id="isTwoHanding">
+            <label for="isTwoHanding">:Is Two Handing</label>
+            <br>
             <input type="checkbox" name="meetsAttributeRequirements" id="meetsAttributeRequirements">
             <label for="meetsAttributeRequirements">:Meets Attribute Requirements</label>
+            <br>
+            <select name="classes" id="classes">
+                <option value="hero">Hero</option>
+                <option value="bandit">Bandit</option>
+                <option value="astrologer">Astrologer</option>
+                <option value="warrior">Warrior</option>
+                <option value="prisoner">Prisoner</option>
+                <option value="confessor">Confessor</option>
+                <option value="wretch">Wretch</option>
+                <option value="vagabond">Vagabond</option>
+                <option value="prophet">Prophet</option>
+                <option value="samurai">Samurai</option>
+            </select>
+            <button type="button" onclick="load_class()">Load Class</button>
             <br>
             <input type="number" id="str" name="str" min="1" max="99" value="16" size="2">
             <label for="str">:Strength</label>
@@ -91,7 +108,7 @@
             <input type="number" id="arc" name="arc" min="1" max="99" value="11">
             <label for="arc">:Arcane</label>
             <br>
-            <input type="number" id="floatingPoints" name="floatingPoints" min="0" max="445" value="113">
+            <input type="number" id="floatingPoints" name="floatingPoints" min="0" max="445" value="100">
             <label for="floatingPoints">:Floating Points</label>
             <br>
             <button type="button" onclick="enter_optimize_weapon_and_attributes()">Calculate!</button>
