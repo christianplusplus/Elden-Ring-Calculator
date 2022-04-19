@@ -7,6 +7,7 @@ var WeaponAttributesOptimizer = {
         calculate(minimum_attributes, free_attributes, constraints) {
             document.getElementById('output').innerHTML = 'Loading...';
             weapons = this.args.weapons;
+            bosses = this.args.bosses;
             must_have_required_attributes = this.args.must_have_required_attributes;
             is_two_handing = this.args.is_two_handing;
             enemy = this.args.enemy;
