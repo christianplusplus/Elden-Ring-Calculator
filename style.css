@@ -1,14 +1,33 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
 body {
+    margin: 0;
     background-color: #102a29;
-}
-
-div {
     font-family: Optimus;
-    font-style: italic;
-    color: #f8cd6d;
+    /*font-style: italic;*/
+    color: goldenrod;
+    padding: 10px;
 }
 
-div#header a {
+footer {
+    background: #42444e;
+    color: #fff;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 20px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.selectNoScroll {
+    overflow: hidden;
+}
+
+#header a {
     position: absolute;
     right: 0;
     top: 23px;
@@ -16,43 +35,47 @@ div#header a {
     color: #006;
 }
 
-div#navigation {
-    background: #7cb71c;
+#navigation {
+    float: left;
+    width: 200px;
 }
 
-div#navigation li {
+#navigation ul {
+    padding-inline-start:0;
+}
+
+#navigation li {
     list-style: none;
 }
 
-div#extra {
-    background: #147FA9;
+#extra {
+    clear: left;
+    width: 100%;
 }
 
-div#footer {
-    background: #42444e;
-    color: #fff;
-}
-
-div#footer p {
+#footer p {
     padding: 20px 10px;
 }
 
-div#wrapper {
-    float: left;
-    width: 100%;
-}
-
-div#content {
+#content {
     margin-left: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
 
-div#navigation {
-    float: left;
-    width: 200px;
-    margin-left: -100%;
+#content > div {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 30px;
 }
 
-div#extra {
-    clear: left;
-    width: 100%;
+input[type='number'] {
+    width: 40px;
+}
+
+button {
+    align-self: flex-start;
 }
