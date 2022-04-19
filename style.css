@@ -14,11 +14,10 @@ body {
 
 footer {
     background: #42444e;
-    color: #fff;
+    color: #ddd;
     position: absolute;
     left: 0;
     bottom: 0;
-    height: 20px;
     width: 100%;
     overflow: hidden;
 }
@@ -51,10 +50,6 @@ footer {
 #extra {
     clear: left;
     width: 100%;
-}
-
-#footer p {
-    padding: 20px 10px;
 }
 
 #content {

@@ -2,6 +2,7 @@ var Main = {
     data() { 
         return {
             args: {
+                progress: 0,
                 vig: 14,
                 min: 9,
                 end: 12,
@@ -34,7 +35,8 @@ var Main = {
                     prophet : {'lvl':7,'vig':10,'min':14,'end':8,'str':11,'dex':10,'int':7,'fai':16,'arc':10},
                     samurai : {'lvl':9,'vig':12,'min':11,'end':13,'str':12,'dex':15,'int':9,'fai':8,'arc':8},
                 },
-            }
+            },
+            worker: new Worker('worker.js'),
         }
     },
     computed: {
@@ -44,11 +46,17 @@ var Main = {
             'int': this.args.int,
             fai: this.args.fai,
             arc: this.args.arc,
-        };}
+        };},
+        globals() { return {
+            must_have_required_attributes: this.args.must_have_required_attributes,
+            is_two_handing: this.args.is_two_handing,
+            enemy: this.args.enemy,
+            weapons: this.args.weapons,
+        };},
     },
     methods: {
         load_class() {
-            for(var [key, value] of Object.entries(this.get_attack_attributes(this.args.clazz)))
+            for(var [key, value] of Object.entries(this.args.clazz))
                 this.args[key] = value;
         },
         get_attack_attributes(clazz) { return {
@@ -58,16 +66,40 @@ var Main = {
             fai: clazz.fai,
             arc: clazz.arc,
         };},
+        run(runnable, ...args) {
+            document.getElementById('output').innerHTML = '<img style="opacity:0;" id="ring" height="300" src="elden_ring.png"/>';
+            this.async(runnable, this.print, this.update, args);
+        },
+        async(runnable, callback, update, args) {
+            this.worker.onmessage = function(e) {
+                if(e.data.header == 'result' && callback && callback instanceof Function)
+                    callback(e.data.result);
+                else if(e.data.header == 'update' && update && update instanceof Function)
+                    update(e.data.progress);
+            };
+            this.worker.postMessage({
+                runnable: runnable.name,
+                args: JSON.stringify(args),
+                globals: JSON.stringify(this.globals),
+            });
+        },
+        update(progress) {
+            document.getElementById('ring').style.opacity = progress;
+        },
+        print(output) {
+            console.log('done');
+            document.getElementById('output').innerHTML = JSON.stringify(output, null, 2);
+        },
     },
     mounted() {
-        this.args.weapons = new Map();
+        this.args.weapons = [];
         this.args.bosses = [];
         
         fetch('data/weapons.json')
             .then(response => response.json())
             .then(data => {
-                for(var [key, value] of Object.entries(data))
-                    this.args.weapons.set(key, value);
+                for(var weapon of Object.values(data))
+                    this.args.weapons.push(weapon);
                 
                 var attack_element_scaling_params = new Map();
                 fetch('data/flat_attack_element_scaling_params.json')
@@ -76,14 +108,14 @@ var Main = {
                         for(var [key, value] of Object.entries(data))
                             attack_element_scaling_params.set(key, value);
                     
-                        for(var weapon of this.args.weapons.values()) {
+                        for(var weapon of Object.values(this.args.weapons)) {
                             for(var [key, value] of Object.entries(attack_element_scaling_params.get(weapon['attack_element_scaling_id']))) {
                                 weapon[key] = value;
                             }
                         }
                         
-                        this.args.weapon_types = [...new Set(Array.from(this.args.weapons.values()).map(w=>w.weapon_type))];
-                        this.args.affinities = [...new Set(Array.from(this.args.weapons.values()).map(w=>w.affinity))];
+                        this.args.weapon_types = [...new Set(this.args.weapons.map(w=>w.weapon_type))];
+                        this.args.affinities = [...new Set(this.args.weapons.map(w=>w.affinity))];
                     })
             });
 
@@ -114,11 +146,14 @@ var Main = {
             });
         
         this.args.clazz = this.args.class_stats['hero'];
+        weapons = this.args.weapons;
+        bosses = this.args.bosses;
     },
     template:`
 <WeaponAttributesOptimizer
     :args="args"
     :attack_attributes="attack_attributes"
+    @run="run"
     @load_class="load_class"
 />
 `,

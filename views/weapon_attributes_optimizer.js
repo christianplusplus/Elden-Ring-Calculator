@@ -3,31 +3,25 @@ var WeaponAttributesOptimizer = {
         args: Object,
         attack_attributes: Object,
     },
+    data() {
+        return {
+            optimize_weapon_and_attributes: optimize_weapon_and_attributes,
+        }
+    },
     methods: {
-        calculate(minimum_attributes, free_attributes, constraints) {
-            document.getElementById('output').innerHTML = 'Loading...';
-            weapons = this.args.weapons;
-            bosses = this.args.bosses;
-            must_have_required_attributes = this.args.must_have_required_attributes;
-            is_two_handing = this.args.is_two_handing;
-            enemy = this.args.enemy;
-            var result = optimize_weapon_and_attributes(this.attack_attributes, this.args.floatingPoints, this.constraints);
-            console.log('done');
-            document.getElementById('output').innerHTML = JSON.stringify(result, null, 2);
-        },
         disjunction(a, b) {
             return function(x) { return a(x) || b(x) };
         },
     },
     computed: {
-        constraints() {
+        text_constraints() {
             var constraints = [];
             if(this.args.weapon_types_selected.length && this.args.weapon_types_selected.length < this.args.weapon_types.length)
-                constraints.push(this.args.weapon_types_selected.map(weapon_type => (x => x.weapon_type == weapon_type)).reduce(this.disjunction));
+                constraints.push(this.args.weapon_types_selected.map(weapon_type=>`weapon.weapon_type=='${weapon_type}'`).reduce((a,b)=>a+'||'+b));
             if(this.args.affinities_selected.length && this.args.affinities_selected.length < this.args.affinities.length)
-                constraints.push(this.args.affinities_selected.map(affinity => (x => x.affinity == affinity)).reduce(this.disjunction));
+                constraints.push(this.args.affinities_selected.map(affinity=>`weapon.affinity=='${affinity}'`).reduce((a,b)=>a+'||'+b));
             if(this.args.is_dual_wieldable)
-                constraints.push(weapon => weapon.dual_wieldable);
+                constraints.push('weapon.dual_wieldable');
             return constraints;
         }
     },
@@ -129,7 +123,7 @@ var WeaponAttributesOptimizer = {
         </select>
     </div>
 </div>
-<button @click="calculate">Calculate!</button>
+<button @click="$emit('run', optimize_weapon_and_attributes, attack_attributes, args.floatingPoints, text_constraints)">Calculate!</button>
 `,
 };
 
