@@ -48,7 +48,7 @@ var WeaponAttributesOptimizer = {
         <input type="checkbox" name="isTwoHanding" v-model="args.is_two_handing" :true-value=true :false-value=false>
         <label for="isTwoHanding"> Two Handing</label>
         <br>
-        <input type="checkbox" name="meetsAttributeRequirements" v-model="must_have_required_attributes" :true-value=true :false-value=false>
+        <input type="checkbox" name="meetsAttributeRequirements" v-model="args.must_have_required_attributes" :true-value=true :false-value=false>
         <label for="meetsAttributeRequirements"> Required Attributes</label>
     </div>
     <div>
@@ -123,7 +123,7 @@ var WeaponAttributesOptimizer = {
         </select>
     </div>
 </div>
-<button @click="$emit('run', optimize_weapon_and_attributes, attack_attributes, args.floatingPoints, text_constraints)">Calculate!</button>
+<button :disabled="args.disabled" @click="$emit('run', optimize_weapon_and_attributes, attack_attributes, args.floatingPoints, text_constraints)">Calculate!</button>
 `,
 };
 

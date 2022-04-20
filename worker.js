@@ -9,7 +9,6 @@ onmessage = function(e) {
         self[key] = value;
     var runnable = eval(e.data.runnable);
     var args = JSON.parse(e.data.args);
-    console.log(args);
     args[2] = args[2].map(text => eval('weapon => ' + text));
     var result = runnable(...args);
     postMessage({header: 'result', result: result});

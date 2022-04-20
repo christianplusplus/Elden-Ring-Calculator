@@ -2,6 +2,7 @@ var Main = {
     data() { 
         return {
             args: {
+                disabled: false,
                 progress: 0,
                 vig: 14,
                 min: 9,
@@ -67,13 +68,17 @@ var Main = {
             arc: clazz.arc,
         };},
         run(runnable, ...args) {
+            this.args.disabled = true;
             document.getElementById('output').innerHTML = '<img style="opacity:0;" id="ring" height="300" src="elden_ring.png"/>';
             this.async(runnable, this.print, this.update, args);
         },
         async(runnable, callback, update, args) {
+            var main = this;
             this.worker.onmessage = function(e) {
-                if(e.data.header == 'result' && callback && callback instanceof Function)
+                if(e.data.header == 'result' && callback && callback instanceof Function) {
                     callback(e.data.result);
+                    main.args.disabled = false;
+                }
                 else if(e.data.header == 'update' && update && update instanceof Function)
                     update(e.data.progress);
             };
