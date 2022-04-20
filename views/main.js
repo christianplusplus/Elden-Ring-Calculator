@@ -13,7 +13,7 @@ var Main = {
                 fai: 8,
                 arc:11,
                 floatingPoints:10,
-                must_have_required_attributes: false,
+                must_have_required_attributes: true,
                 is_two_handing: false,
                 is_dual_wieldable: false,
                 weapons: {},
@@ -23,6 +23,8 @@ var Main = {
                 affinities_selected: [],
                 bosses: {},
                 enemy: {},
+                attack_element_scaling: {},
+                difficulty_scaling: {},
                 clazz: {},
                 class_stats: {
                     hero : {'lvl':7,'vig':14,'min':9,'end':12,'str':16,'dex':9,'int':7,'fai':8,'arc':11},
@@ -48,12 +50,15 @@ var Main = {
             fai: this.args.fai,
             arc: this.args.arc,
         };},
-        globals() { return {
-            must_have_required_attributes: this.args.must_have_required_attributes,
-            is_two_handing: this.args.is_two_handing,
-            enemy: this.args.enemy,
-            weapons: this.args.weapons,
-        };},
+        globals() { 
+            return {
+                must_have_required_attributes: this.args.must_have_required_attributes,
+                is_two_handing: this.args.is_two_handing,
+                enemy: Object.assign({}, this.args.enemy, this.args.difficulty_scaling[this.args.enemy['SpEffect ID']]),
+                weapons: this.args.weapons,
+                attack_element_scaling: this.args.attack_element_scaling,
+            };
+        },
     },
     methods: {
         load_class() {
@@ -97,65 +102,37 @@ var Main = {
         },
     },
     mounted() {
-        this.args.weapons = [];
-        this.args.bosses = [];
-        
         fetch('data/weapons.json')
             .then(response => response.json())
             .then(data => {
-                for(var weapon of Object.values(data))
-                    this.args.weapons.push(weapon);
-                
-                var attack_element_scaling_params = new Map();
-                fetch('data/flat_attack_element_scaling_params.json')
-                    .then(response => response.json())
-                    .then(data => {
-                        for(var [key, value] of Object.entries(data))
-                            attack_element_scaling_params.set(key, value);
-                    
-                        for(var weapon of Object.values(this.args.weapons)) {
-                            for(var [key, value] of Object.entries(attack_element_scaling_params.get(weapon['attack_element_scaling_id']))) {
-                                weapon[key] = value;
-                            }
-                        }
-                        
-                        this.args.weapon_types = [...new Set(this.args.weapons.map(w=>w.weapon_type))];
-                        this.args.affinities = [...new Set(this.args.weapons.map(w=>w.affinity))];
-                    })
+                this.args.weapons = data;
+                this.args.weapon_types = [...new Set(this.args.weapons.map(w=>w.weapon_type))];
+                this.args.affinities = [...new Set(this.args.weapons.map(w=>w.affinity))];
             });
 
+        fetch('data/attack_element_scaling.json')
+            .then(response => response.json())
+            .then(data => {
+                this.args.attack_element_scaling = data;
+            });
+        
         fetch('data/boss_data.json')
             .then(response => response.json())
             .then(data => {
-                for(var value of Object.values(data))
-                    this.args.bosses.push(value);
-                
-                var difficulty_data = new Map();
-                fetch('data/difficulty_data.json')
-                    .then(response => response.json())
-                    .then(data => {
-                        for(var [key, value] of Object.entries(data))
-                            difficulty_data.set(key, value);
-                    
-                        for(var boss of this.args.bosses.values()) {
-                            var id = boss["SpEffect ID"];
-                            if(difficulty_data.has(id)) {
-                                for(var [key, value] of Object.entries(difficulty_data.get(id))) {
-                                    boss[key] = value;
-                                }
-                            }
-                        }
-                        
-                        this.args.enemy = this.args.bosses.find(b=>b.Name=='Malenia, Blade of Miquella');
-                    })
+                this.args.bosses = data;
+                this.args.enemy = this.args.bosses.find(b=>b.Name=='Malenia, Blade of Miquella');
+            });
+            
+        fetch('data/difficulty_scaling.json')
+            .then(response => response.json())
+            .then(data => {
+                this.args.difficulty_scaling = data;
             });
         
         this.args.clazz = this.args.class_stats['hero'];
-        weapons = this.args.weapons;
-        bosses = this.args.bosses;
     },
     template:`
-<WeaponAttributesOptimizer
+<WeaponAttributesForm
     :args="args"
     :attack_attributes="attack_attributes"
     @run="run"

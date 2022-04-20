@@ -1,6 +1,3 @@
-var must_have_required_attributes = false;
-var is_two_handing = false;
-var enemy = {};
 var attack_types = [
     'physical',
     'magic',
@@ -112,7 +109,6 @@ function optimize_weapon_and_attributes(minimum_attributes, free_attributes, con
         var weapon_and_attributes;
         if(!locked_attribute_distribution) {
             if(must_have_required_attributes) {
-                console.log('Couldn\'t wield ' + weapon.name + '!')
                 continue;
             }
             if(!attribute_combinations_are_cached) {
@@ -134,7 +130,7 @@ function optimize_weapon_and_attributes(minimum_attributes, free_attributes, con
     }
     if(best_damage == 0)
         return null;
-    return [best_damage, best_weapon_and_attributes.weapon, best_weapon_and_attributes.attrs];
+return {damage: Math.floor(best_damage), weapon: beautify_weapon_stats(best_weapon_and_attributes.weapon, best_weapon_and_attributes.attrs), attributes: best_weapon_and_attributes.attrs};
 }
 
 function get_locked_attribute_distribution(weapon, minimum_attributes, free_attributes) {
@@ -148,6 +144,78 @@ function get_locked_attribute_distribution(weapon, minimum_attributes, free_attr
         free_attributes -= attributes_needed;
     });
     return free_attributes >= 0 ? locked_attribute_distribution : null;
+}
+
+function beautify_weapon_stats(weapon, attributes) {
+    var attack_power = getAttackPower(weapon, attributes);
+    var base_attack_power = attack_types.map(
+            attack_type => ({[attack_type]: parseFloat(weapon['max_base_' + attack_type + '_attack_power'])})
+        ).reduce(
+            (a,b) => Object.assign(a,b),
+            {}
+        );
+    var bonus_attack_power = Object.entries(attack_power).map(([attack_type, ap]) => ({[attack_type]: ap-base_attack_power[attack_type]})
+            ).reduce(
+                (a,b) => Object.assign(a,b),
+                {}
+            )
+    return {
+        name: weapon['name'],
+        base_weapon_name : weapon['base_weapon_name'],
+        affinity: weapon['affinity'],
+        weight: weapon['weight'],
+        weapon_type: weapon['weapon_type'],
+        dual_wieldable: weapon['dual_wieldable'],
+        required_str: weapon['required_str'],
+        required_dex: weapon['required_dex'],
+        required_int: weapon['required_int'],
+        required_fai: weapon['required_fai'],
+        required_arc: weapon['required_arc'],
+        str_scaling_grade: getScalingGrade(weapon['max_str_scaling']),
+        dex_scaling_grade: getScalingGrade(weapon['max_dex_scaling']),
+        int_scaling_grade: getScalingGrade(weapon['max_int_scaling']),
+        fai_scaling_grade: getScalingGrade(weapon['max_fai_scaling']),
+        arc_scaling_grade: getScalingGrade(weapon['max_arc_scaling']),
+        physical_damage_types: weapon['physical_damage_types'],
+        base_attack_power: Object.entries(base_attack_power).map(([attack_type, ap]) => ({[attack_type]: ap.toFixed(1)})
+            ).reduce(
+                (a,b) => Object.assign(a,b),
+                {}
+            ),
+        bonus_attack_power: Object.entries(bonus_attack_power).map(([attack_type, ap]) => ({[attack_type]: ap.toFixed(1)})
+            ).reduce(
+                (a,b) => Object.assign(a,b),
+                {}
+            ),
+        attack_power: Object.entries(attack_power).map(([attack_type, ap]) => ({[attack_type]: ap.toFixed(1)})
+            ).reduce(
+                (a,b) => Object.assign(a,b),
+                {}
+            ),
+        scarlet_rot: weapon['max_base_scarlet_rot'],
+        madness: weapon['max_base_madness'],
+        sleep: weapon['max_base_sleep'],
+        frostbite: weapon['max_base_frostbite'],
+        poison: weapon['max_base_poison'],
+        bleed: weapon['max_base_bleed'],
+    };
+}
+
+function getScalingGrade(scaling) {
+    scaling = parseFloat(scaling);
+    if(scaling > 1.75)
+        return 'S';
+    if(scaling >= 1.4)
+        return 'A';
+    if(scaling >= 0.9)
+        return 'B';
+    if(scaling >= 0.6)
+        return 'C';
+    if(scaling >= 0.25)
+        return 'D';
+    if(scaling > 0)
+        return 'E';
+    return '-';
 }
 
 function get_attributes_needed_to_wield(weapon, attributes) {
@@ -192,7 +260,7 @@ function print_damage_weapon_attributes(damage, weapon_and_attributes) {
 }
 
 function damage_objective(weapon_and_attrs) {
-    return get_damage(weapon_and_attrs.weapon, weapon_and_attrs.attrs, enemy, weapon_and_attrs.weapon.physical_damage_types[0]);
+    return Object.values(get_damage(weapon_and_attrs.weapon, weapon_and_attrs.attrs, enemy, weapon_and_attrs.weapon.physical_damage_types[0])).reduce((a,b)=>a+b);
 }
 
 function attr_generator(weapon_and_attrs) {
@@ -265,8 +333,11 @@ function brute_solver(objective, state_space) {
 
 function get_damage(weapon, attributes, target, swing_type) {
     var attackPowers = getAttackPower(weapon, attributes);
-    var damage = Object.entries(attackPowers).map(([attack_type, attack_power]) => getTypeDamage(attack_type, attack_power, swing_type, target));
-    return damage.reduce((a, b) => a + b);
+    return Object.entries(attackPowers).map(
+        ([attack_type, attack_power]) => ({[attack_type]: getTypeDamage(attack_type, attack_power, swing_type, target)})
+    ).reduce(
+        (a,b) => Object.assign(a,b), {}
+    );
 }
 
 function getTypeDamage(attack_type, attack_power, swing_type, target) {
@@ -305,12 +376,12 @@ function getMaxBonusAttackPower(weapon, attack_type, attributes) {
 
 function meetsRequirement(weapon, attack_type, attributes, source) {
     if(source == 'str')
-        return !weapon[attack_type + '_' + source + '_element_scaling'] || attributes[source] >= (is_two_handing ? Math.ceil(parseInt(weapon['required_str']) / 1.5) : parseInt(weapon['required_str']));
-    return !weapon[attack_type + '_' + source + '_element_scaling'] || attributes[source] >= parseInt(weapon['required_' + source]);
+        return !canScale(weapon, attack_type, source) || attributes[source] >= (is_two_handing ? Math.ceil(parseInt(weapon['required_str']) / 1.5) : parseInt(weapon['required_str']));
+    return !canScale(weapon, attack_type, source) || attributes[source] >= parseInt(weapon['required_' + source]);
 }
 
 function getAttackPowerPerSource(weapon, attack_type, attributes, source) {
-    if(!weapon[attack_type + '_' + source + '_element_scaling'])
+    if(!canScale(weapon, attack_type, source))
         return 0;
     var attribute = attributes[source];
     if(is_two_handing && source == 'str')
@@ -321,6 +392,10 @@ function getAttackPowerPerSource(weapon, attack_type, attributes, source) {
     var attribute_correction = parseFloat(attribute_curves[calculation_id](attribute)) / 100;
     var bonus_attack_power = base_attack_power * bonus_attack_power_scaling * attribute_correction;
     return bonus_attack_power;
+}
+
+function canScale(weapon, attack_type, source) {
+    return attack_element_scaling[weapon['attack_element_scaling_id']][attack_type + '_' + source + '_element_scaling'];
 }
 
 function get_attribute_combinations(minimum_attributes, free_attributes) {

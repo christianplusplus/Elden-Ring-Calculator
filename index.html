@@ -4,11 +4,15 @@
     <link rel="stylesheet" href="style.css">
     <!--<script src="https://unpkg.com/vue@3"></script>-->
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-    <script src="views/weapon_attributes_optimizer.js"></script>
+    <script src="views/weapon_attributes_form.js"></script>
+    <script src="views/weapon_attributes_result.js"></script>
     <script src="views/main.js"></script>
     <script src="script.js"></script>
 </head>
 <body>
+<video loop autoplay playsinline disablepictureinpicture muted class="video_background">
+    <source src="https://static.bandainamcoent.eu/video/elden-ring-header-animated.mp4" type="video/mp4">
+</video>
 <div id="header">
 </div>
 <div id="navigation">
@@ -26,11 +30,12 @@
     </pre>
 </div>
 <footer>
-<small>&copy; Copyright 2022, All rights reserved.</small>
+<small>&copy; Copyright 2022, All rights reserved. Patch 1.04</small>
 </footer>
 <script>
 var main = Vue.createApp(Main);
-main.component('WeaponAttributesOptimizer', WeaponAttributesOptimizer);
+main.component('WeaponAttributesForm', WeaponAttributesForm);
+main.component('WeaponAttributesResult', WeaponAttributesResult);
 main.mount("#content");
 </script>
 </body>
