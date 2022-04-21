@@ -3,7 +3,6 @@ var Main = {
         return {
             args: {
                 disabled: false,
-                progress: 0,
                 vig: 14,
                 min: 9,
                 end: 12,
@@ -39,6 +38,9 @@ var Main = {
                     samurai : {'lvl':9,'vig':12,'min':11,'end':13,'str':12,'dex':15,'int':9,'fai':8,'arc':8},
                 },
             },
+            result: {},
+            progress: 0,
+            output_state: '',
             worker: new Worker('worker.js'),
         }
     },
@@ -73,17 +75,13 @@ var Main = {
             arc: clazz.arc,
         };},
         run(runnable, ...args) {
-            this.args.disabled = true;
-            document.getElementById('output').innerHTML = '<img style="opacity:0;" id="ring" height="300" src="elden_ring.png"/>';
-            this.async(runnable, this.print, this.update, args);
+            this.setup();
+            this.async(runnable, this.update, this.print, args);
         },
-        async(runnable, callback, update, args) {
-            var main = this;
+        async(runnable, update, callback, args) {
             this.worker.onmessage = function(e) {
-                if(e.data.header == 'result' && callback && callback instanceof Function) {
+                if(e.data.header == 'result' && callback && callback instanceof Function)
                     callback(e.data.result);
-                    main.args.disabled = false;
-                }
                 else if(e.data.header == 'update' && update && update instanceof Function)
                     update(e.data.progress);
             };
@@ -93,12 +91,18 @@ var Main = {
                 globals: JSON.stringify(this.globals),
             });
         },
+        setup() {
+            this.args.disabled = true;
+            this.output_state = '';
+        },
         update(progress) {
-            document.getElementById('ring').style.opacity = progress;
+            this.progress = progress;
+            this.output_state = 'update';
         },
         print(output) {
-            console.log('done');
-            document.getElementById('output').innerHTML = JSON.stringify(output, null, 2);
+            this.args.disabled = false;
+            this.result = output;
+            this.output_state = 'output';
         },
     },
     mounted() {
@@ -137,6 +141,12 @@ var Main = {
     :attack_attributes="attack_attributes"
     @run="run"
     @load_class="load_class"
+/>
+<WeaponAttributesResult
+    :args="args"
+    :result="result"
+    :progress="progress"
+    :state="output_state"
 />
 `,
 };

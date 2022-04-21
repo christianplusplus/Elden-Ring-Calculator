@@ -12,6 +12,14 @@ body {
     padding: 10px;
 }
 
+header a {
+    position: absolute;
+    right: 0;
+    top: 23px;
+    padding: 10px;
+    color: #006;
+}
+
 footer {
     background: #42444e;
     color: #ddd;
@@ -22,16 +30,12 @@ footer {
     overflow: hidden;
 }
 
-#video-container {
-    
-}
-
 .video_background {
     height:100%;
     overflow: hidden;
     position: fixed;
     z-index: -1;
-    opacity: 0.4;
+    opacity: 0.2;
     /* to center the frame */
     transform: translate(-50%, 0px);
     left: 50%;
@@ -41,17 +45,15 @@ footer {
     overflow: hidden;
 }
 
-#header a {
-    position: absolute;
-    right: 0;
-    top: 23px;
-    padding: 10px;
-    color: #006;
+#band {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 #navigation {
-    float: left;
     width: 200px;
+    flex-grow: 0;
 }
 
 #navigation ul {
@@ -62,24 +64,45 @@ footer {
     list-style: none;
 }
 
-#extra {
-    clear: left;
+#content {
+    flex-grow: 1;
+    align-self: center;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
 }
 
-#content {
-    margin-left: 200px;
+#ad {
+    width: 200px;
+    flex-grow: 0;
+}
+
+.runes img {
+    height: 200px;
+}
+
+.form {
     display: flex;
     flex-direction: column;
     gap: 30px;
 }
 
-#content > div {
+.form > div {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     justify-content: flex-start;
     gap: 30px;
+}
+
+.elden_sheet {
+    background-image: linear-gradient(black, #1d1b0c, #505050);
+    opacity: 0.8;
+    border-radius: 10px;
+    padding: 10px;
+    width: fit-content;
 }
 
 .t0{ grid-area: t0}
@@ -88,17 +111,117 @@ footer {
 .t3{ grid-area: t3}
 .t4{ grid-area: t4}
 .t5{ grid-area: t5}
-.t6{ grid-area: t6}
 .p0{ grid-area: p0}
-.weapon_table {
-    width: 100%;
+.weapon_result {
     display: grid;
     grid-template:
         't0 p0'
-        't1 t2'
-        't3 t4'
-        't5 t6';
+        't1 t1'
+        't2 t3'
+        't4 t4';
     grid-gap: 10px;
+    grid-template-columns: 280px 280px;
+    grid-template-rows: auto auto auto auto;
+}
+.stat_box {
+    display: flex;
+    flex-direction: column;
+    border-left-style: groove;
+    border-left-color: orange;
+    padding-left: 5px;
+}
+.stat_box > div {
+    display: flex;
+    flex-direction: row;
+}
+.weapon_result > div:not(:first-child) > div:first-child {
+    color: tan;
+}
+.damage_result {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    color: gold;
+}
+.damage_result {
+    animation: fire 2.0s infinite alternate;
+}
+.attribute_result {
+    font-size: 50px;
+    color: white;
+    width: 570px;
+}
+.attribute_result > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.attribute_result > div > *:nth-child(odd) {
+    text-align: left;
+    flex-basis: 0;
+    flex-grow: 1;
+}
+.attribute_result > div > *:nth-child(even) {
+    text-align: right;
+    flex-basis: 0;
+    flex-grow: 1;
+}
+@keyframes fire
+{
+   0%
+   {
+       text-shadow:
+       5px -25px 50px yellow,
+       0 0px 20px red,
+       10px -15px 15px orange;
+   }
+   33%
+   {
+       text-shadow:
+       0 -20px 30px yellow,
+       15px -5px 20px red,
+       5px 0 20px orange;
+   }
+   66%
+   {
+       text-shadow:
+       10px -25px 50px yellow,
+       5px -10px 20px red,
+       0 -5px 20px orange;
+   }
+   100%
+   {
+       text-shadow:
+       0 -20px 50px yellow,
+       5px -15px 20px red,
+       10px 0 20px orange;
+   }
+}
+/*
+.damage_result span {
+    display: inline-block;
+    text-transform: uppercase;
+    animation: flip 10s infinite;
+    animation-delay: calc(.5s * var(--i));
+}
+@keyframes flip {
+  0%,80% {
+    transform: rotateY(360deg) 
+  }
+}*/
+.stat_box {
+    color: white;
+}
+.stat_box > div > *:nth-child(odd) {
+    text-align: left;
+    flex-basis: 0;
+    flex-grow: 1;
+}
+.stat_box > div > *:nth-child(even) {
+    text-align: right;
+    flex-basis: 0;
+    flex-grow: 1;
 }
 
 input[type='number'] {

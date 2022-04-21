@@ -130,7 +130,7 @@ function optimize_weapon_and_attributes(minimum_attributes, free_attributes, con
     }
     if(best_damage == 0)
         return null;
-return {damage: Math.floor(best_damage), weapon: beautify_weapon_stats(best_weapon_and_attributes.weapon, best_weapon_and_attributes.attrs), attributes: best_weapon_and_attributes.attrs};
+    return {damage: Math.floor(best_damage), weapon: beautify_weapon_stats(best_weapon_and_attributes.weapon, best_weapon_and_attributes.attrs), attributes: best_weapon_and_attributes.attrs};
 }
 
 function get_locked_attribute_distribution(weapon, minimum_attributes, free_attributes) {
@@ -177,28 +177,32 @@ function beautify_weapon_stats(weapon, attributes) {
         fai_scaling_grade: getScalingGrade(weapon['max_fai_scaling']),
         arc_scaling_grade: getScalingGrade(weapon['max_arc_scaling']),
         physical_damage_types: weapon['physical_damage_types'],
-        base_attack_power: Object.entries(base_attack_power).map(([attack_type, ap]) => ({[attack_type]: ap.toFixed(1)})
+        base_attack_power: Object.entries(base_attack_power).map(([attack_type, ap]) => ({[attack_type]: apFormat(ap)})
             ).reduce(
                 (a,b) => Object.assign(a,b),
                 {}
             ),
-        bonus_attack_power: Object.entries(bonus_attack_power).map(([attack_type, ap]) => ({[attack_type]: ap.toFixed(1)})
+        bonus_attack_power: Object.entries(bonus_attack_power).map(([attack_type, ap]) => ({[attack_type]: apFormat(ap)})
             ).reduce(
                 (a,b) => Object.assign(a,b),
                 {}
             ),
-        attack_power: Object.entries(attack_power).map(([attack_type, ap]) => ({[attack_type]: ap.toFixed(1)})
+        attack_power: Object.entries(attack_power).map(([attack_type, ap]) => ({[attack_type]: apFormat(ap)})
             ).reduce(
                 (a,b) => Object.assign(a,b),
                 {}
             ),
-        scarlet_rot: weapon['max_base_scarlet_rot'],
-        madness: weapon['max_base_madness'],
-        sleep: weapon['max_base_sleep'],
-        frostbite: weapon['max_base_frostbite'],
-        poison: weapon['max_base_poison'],
-        bleed: weapon['max_base_bleed'],
+        scarlet_rot: parseInt(weapon['max_base_scarlet_rot']),
+        madness: parseInt(weapon['max_base_madness']),
+        sleep: parseInt(weapon['max_base_sleep']),
+        frostbite: parseInt(weapon['max_base_frostbite']),
+        poison: parseInt(weapon['max_base_poison']),
+        bleed: parseInt(weapon['max_base_bleed']),
     };
+}
+
+function apFormat(ap) {
+    return parseInt(ap.toFixed(0));
 }
 
 function getScalingGrade(scaling) {
