@@ -142,7 +142,7 @@ var Main = {
     @run="run"
     @load_class="load_class"
 />
-<WeaponAttributesResult
+<resultForm
     :args="args"
     :result="result"
     :progress="progress"

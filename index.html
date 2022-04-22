@@ -5,7 +5,10 @@
     <!--<script src="https://unpkg.com/vue@3"></script>-->
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="views/weapon_attributes_form.js"></script>
-    <script src="views/weapon_attributes_result.js"></script>
+    <script src="views/result_form.js"></script>
+    <script src="views/weapon_result_form.js"></script>
+    <script src="views/attribute_result_form.js"></script>
+    <script src="views/progress_bar.js"></script>
     <script src="views/main.js"></script>
     <script src="script.js"></script>
 </head>
@@ -25,8 +28,8 @@
     <div id="band">
         <div class="elden_sheet" id="navigation">
             <ul>
-                <li>Class Weapon Attributes Optimizer</li>
-                <li>Weapon Attributes Optimizer</li>
+                <li>Class/Weapon/Attributes Optimizer</li>
+                <li>Weapon/Attributes Optimizer</li>
                 <li>Damage Calculator</li>
                 <li>Attack Power Calculator</li>
             </ul>
@@ -43,7 +46,10 @@
 <script>
 var main = Vue.createApp(Main);
 main.component('WeaponAttributesForm', WeaponAttributesForm);
-main.component('WeaponAttributesResult', WeaponAttributesResult);
+main.component('resultForm', resultForm);
+main.component('weaponResultForm', weaponResultForm);
+main.component('attributeResultForm', attributeResultForm);
+main.component('progressBar', progressBar);
 main.mount("#content");
 </script>
 </body>

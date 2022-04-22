@@ -20,10 +20,14 @@ button {
     align-self: flex-start;
 }
 
+select {
+    width: 100%;
+}
+
 #master-band {
     display: flex;
     flex-direction: column;
-    min-height: 97vh;
+    min-height: 96vh;
 }
 
 #header {
@@ -68,6 +72,7 @@ button {
 
 #navigation li {
     list-style: none;
+    margin: 20px 0;
 }
 
 #content {
@@ -123,6 +128,7 @@ button {
     flex-direction: row;
     align-items: flex-start;
     justify-content: flex-start;
+    flex-wrap: wrap;
     gap: 30px;
 }
 
@@ -131,20 +137,20 @@ button {
     opacity: 0.8;
     border-radius: 10px;
     padding: 10px;
-    width: fit-content;
 }
 
 .weapon_result {
     display: grid;
-    grid-template:
-        't0 p0'
-        't1 t1'
+    grid-template-columns: repeat(auto-fit, 200px);
+    /*grid-template:
+        't0 p0 t1 t1 t2 t3 t4 t4';
+        /*'t1 t1'
         't2 t3'
-        't4 t4';
+        't4 t4';*/
     grid-gap: 10px;
-    grid-template-columns: 280px 280px;
-    grid-template-rows: auto auto auto auto;
-}
+    /*grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));*/
+    /*grid-template-rows: auto auto auto auto;*/
+}/*
 .t0{ grid-area: t0}
 .t1{ grid-area: t1}
 .t2{ grid-area: t2}
@@ -152,7 +158,7 @@ button {
 .t4{ grid-area: t4}
 .t5{ grid-area: t5}
 .p0{ grid-area: p0}
-
+*/
 .stat_box {
     display: flex;
     flex-direction: column;
@@ -169,36 +175,40 @@ button {
 .weapon_result > div:not(:first-child) > div:first-child {
     color: tan;
 }
+
 .damage_result {
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 50px;
     color: gold;
-}
-.damage_result {
     animation: fire 2.0s infinite alternate;
 }
+
 .attribute_result {
     font-size: 50px;
     color: white;
-    width: 570px;
+    width: 100%;
 }
+
 .attribute_result > div {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
+
 .attribute_result > div > *:nth-child(odd) {
     text-align: left;
-    flex-basis: 0;
-    flex-grow: 1;
+    /*flex-basis: 0;
+    flex-grow: 1;*/
 }
+
 .attribute_result > div > *:nth-child(even) {
     text-align: right;
-    flex-basis: 0;
-    flex-grow: 1;
+    /*flex-basis: 0;
+    flex-grow: 1;*/
 }
+
 @keyframes fire
 {
    0%
@@ -230,26 +240,17 @@ button {
        10px 0 20px orange;
    }
 }
-/*
-.damage_result span {
-    display: inline-block;
-    text-transform: uppercase;
-    animation: flip 10s infinite;
-    animation-delay: calc(.5s * var(--i));
-}
-@keyframes flip {
-  0%,80% {
-    transform: rotateY(360deg) 
-  }
-}*/
+
 .stat_box {
     color: white;
 }
+
 .stat_box > div > *:nth-child(odd) {
     text-align: left;
     flex-basis: 0;
     flex-grow: 1;
 }
+
 .stat_box > div > *:nth-child(even) {
     text-align: right;
     flex-basis: 0;
