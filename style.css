@@ -79,7 +79,7 @@ select {
     align-self: flex-start;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     justify-content: flex-start;
     margin-top: 50px;
     margin-bottom: 50px;
@@ -141,10 +141,10 @@ select {
 
 .weapon_result {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 200px);
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     /*grid-template:
         't0 p0 t1 t1 t2 t3 t4 t4';
-        /*'t1 t1'
+        't1 t1'
         't2 t3'
         't4 t4';*/
     grid-gap: 10px;
@@ -159,18 +159,6 @@ select {
 .t5{ grid-area: t5}
 .p0{ grid-area: p0}
 */
-.stat_box {
-    display: flex;
-    flex-direction: column;
-    border-left-style: groove;
-    border-left-color: orange;
-    padding-left: 5px;
-}
-
-.stat_box > div {
-    display: flex;
-    flex-direction: row;
-}
 
 .weapon_result > div:not(:first-child) > div:first-child {
     color: tan;
@@ -188,25 +176,21 @@ select {
 .attribute_result {
     font-size: 50px;
     color: white;
-    width: 100%;
 }
 
 .attribute_result > div {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    width: 100%;
 }
 
 .attribute_result > div > *:nth-child(odd) {
     text-align: left;
-    /*flex-basis: 0;
-    flex-grow: 1;*/
 }
 
 .attribute_result > div > *:nth-child(even) {
     text-align: right;
-    /*flex-basis: 0;
-    flex-grow: 1;*/
 }
 
 @keyframes fire
@@ -241,8 +225,26 @@ select {
    }
 }
 
+.filler {
+}
+
 .stat_box {
     color: white;
+    border-left-style: groove;
+    border-left-color: orange;
+    padding-left: 5px;
+
+    display: grid;
+    grid-template-columns: repeat(6, auto);
+
+    /*
+    display: flex;
+    flex-direction: column;*/
+}
+/*
+.stat_box > div {
+    display: flex;
+    flex-direction: row;
 }
 
 .stat_box > div > *:nth-child(odd) {
@@ -255,4 +257,4 @@ select {
     text-align: right;
     flex-basis: 0;
     flex-grow: 1;
-}
+}*/
