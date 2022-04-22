@@ -12,22 +12,78 @@ body {
     padding: 10px;
 }
 
-header a {
-    position: absolute;
-    right: 0;
-    top: 23px;
-    padding: 10px;
-    color: #006;
+input[type='number'] {
+    width: 40px;
 }
 
-footer {
+button {
+    align-self: flex-start;
+}
+
+#master-band {
+    display: flex;
+    flex-direction: column;
+    min-height: 97vh;
+}
+
+#header {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: goldenrod;
+}
+
+#header > .empty {
+    width: 129px;
+    height: 100px;
+}
+
+#footer {
     background: #42444e;
     color: #ddd;
     position: absolute;
     left: 0;
     bottom: 0;
     width: 100%;
+    flex-shrink: 0;
     overflow: hidden;
+}
+
+#band {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+#navigation {
+    width: 150px;
+    flex: none;
+}
+
+#navigation ul {
+    padding-inline-start:0;
+}
+
+#navigation li {
+    list-style: none;
+}
+
+#content {
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    gap: 50px;
+}
+
+#ad {
+    width: 150px;
+    flex: none;
 }
 
 .video_background {
@@ -45,42 +101,15 @@ footer {
     overflow: hidden;
 }
 
-#band {
+.runes {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-#navigation {
-    width: 200px;
-    flex-grow: 0;
-}
-
-#navigation ul {
-    padding-inline-start:0;
-}
-
-#navigation li {
-    list-style: none;
-}
-
-#content {
-    flex-grow: 1;
-    align-self: center;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 50px;
-}
-
-#ad {
-    width: 200px;
-    flex-grow: 0;
+    flex-direction : row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 
 .runes img {
-    height: 200px;
+    height: 150px;
 }
 
 .form {
@@ -105,13 +134,6 @@ footer {
     width: fit-content;
 }
 
-.t0{ grid-area: t0}
-.t1{ grid-area: t1}
-.t2{ grid-area: t2}
-.t3{ grid-area: t3}
-.t4{ grid-area: t4}
-.t5{ grid-area: t5}
-.p0{ grid-area: p0}
 .weapon_result {
     display: grid;
     grid-template:
@@ -123,6 +145,14 @@ footer {
     grid-template-columns: 280px 280px;
     grid-template-rows: auto auto auto auto;
 }
+.t0{ grid-area: t0}
+.t1{ grid-area: t1}
+.t2{ grid-area: t2}
+.t3{ grid-area: t3}
+.t4{ grid-area: t4}
+.t5{ grid-area: t5}
+.p0{ grid-area: p0}
+
 .stat_box {
     display: flex;
     flex-direction: column;
@@ -130,10 +160,12 @@ footer {
     border-left-color: orange;
     padding-left: 5px;
 }
+
 .stat_box > div {
     display: flex;
     flex-direction: row;
 }
+
 .weapon_result > div:not(:first-child) > div:first-child {
     color: tan;
 }
@@ -222,12 +254,4 @@ footer {
     text-align: right;
     flex-basis: 0;
     flex-grow: 1;
-}
-
-input[type='number'] {
-    width: 40px;
-}
-
-button {
-    align-self: flex-start;
 }

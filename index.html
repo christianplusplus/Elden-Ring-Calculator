@@ -13,7 +13,14 @@
 <video loop autoplay playsinline disablepictureinpicture muted class="video_background">
     <source src="https://static.bandainamcoent.eu/video/elden-ring-header-animated.mp4" type="video/mp4">
 </video>
+<div id="master-band">
     <div id="header">
+        <img src="assets/gideon.png" height="100">
+        <h1>
+            GIDEON'S TRUE DAMAGE OPTIMIZER
+        </h1>
+        <div class="empty">
+        </div>
     </div>
     <div id="band">
         <div class="elden_sheet" id="navigation">
@@ -26,12 +33,13 @@
         </div>
         <div id="content">
         </div>
-        <div id="ad">
+        <div class="elden_sheet" id="ad">
         </div>
     </div>
-    <footer>
-    <small>&copy; Copyright 2022, All rights reserved. Patch 1.04</small>
-    </footer>
+    <div id="footer">
+        <small>&copy; Copyright 2022, All rights reserved. Patch 1.04</small>
+    </div>
+</div>
 <script>
 var main = Vue.createApp(Main);
 main.component('WeaponAttributesForm', WeaponAttributesForm);
