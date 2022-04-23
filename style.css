@@ -52,6 +52,8 @@ select {
     width: 100%;
     flex-shrink: 0;
     overflow: hidden;
+    display: flex;
+    justify-content: space-between;
 }
 
 #band {
@@ -140,27 +142,12 @@ select {
 }
 
 .weapon_result {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    /*grid-template:
-        't0 p0 t1 t1 t2 t3 t4 t4';
-        't1 t1'
-        't2 t3'
-        't4 t4';*/
-    grid-gap: 10px;
-    /*grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));*/
-    /*grid-template-rows: auto auto auto auto;*/
-}/*
-.t0{ grid-area: t0}
-.t1{ grid-area: t1}
-.t2{ grid-area: t2}
-.t3{ grid-area: t3}
-.t4{ grid-area: t4}
-.t5{ grid-area: t5}
-.p0{ grid-area: p0}
-*/
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 
-.weapon_result > div:not(:first-child) > div:first-child {
+.weapon_result > div:not(:first-child) {
     color: tan;
 }
 
@@ -228,33 +215,82 @@ select {
 .filler {
 }
 
+.weapon_data {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.weapon_data > div {
+    min-width: 50%;
+    flex: auto;
+}
+
+.attribute_scaling {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.attribute_scaling > div {
+    flex: 1;
+}
+
 .stat_box {
     color: white;
     border-left-style: groove;
     border-left-color: orange;
     padding-left: 5px;
-
-    display: grid;
-    grid-template-columns: repeat(6, auto);
-
-    /*
-    display: flex;
-    flex-direction: column;*/
 }
-/*
-.stat_box > div {
+
+.col_2_flex {
+    color: white;
+    border-left-style: groove;
+    border-left-color: orange;
+    padding-left: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.col_2_flex > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.col_2_flex > div > *:nth-child(odd) {
     display: flex;
     flex-direction: row;
 }
 
-.stat_box > div > *:nth-child(odd) {
-    text-align: left;
-    flex-basis: 0;
-    flex-grow: 1;
+.col_2_flex > div > *:nth-child(even) {
+    display: flex;
+    flex-direction: row;
 }
 
-.stat_box > div > *:nth-child(even) {
+.col_2 {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+}
+
+.col_4 {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+}
+
+.col_4 > * {
+    padding-right: 20px;
+}
+
+.col_6 {
+    display: grid;
+    grid-template-columns: repeat(6, auto);
+}
+
+.stat_box > *:nth-child(odd) {
+    text-align: left;
+}
+
+.stat_box > *:nth-child(even) {
     text-align: right;
-    flex-basis: 0;
-    flex-grow: 1;
-}*/
+}
