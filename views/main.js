@@ -136,7 +136,7 @@ var Main = {
         this.args.clazz = this.args.class_stats['hero'];
     },
     template:`
-<WeaponAttributesForm
+<inputForm
     :args="args"
     :attack_attributes="attack_attributes"
     @run="run"

@@ -1,3 +1,15 @@
+class_stats: {
+    hero : {'lvl':7,'vig':14,'min':9,'end':12,'str':16,'dex':9,'int':7,'fai':8,'arc':11},
+    bandit : {'lvl':5,'vig':10,'min':11,'end':10,'str':9,'dex':13,'int':9,'fai':8,'arc':14},
+    astrologer : {'lvl':6,'vig':9,'min':15,'end':9,'str':8,'dex':12,'int':16,'fai':7,'arc':9},
+    warrior : {'lvl':8,'vig':11,'min':12,'end':11,'str':10,'dex':16,'int':10,'fai':8,'arc':9},
+    prisoner : {'lvl':9,'vig':11,'min':12,'end':11,'str':11,'dex':14,'int':14,'fai':6,'arc':9},
+    confessor : {'lvl':10,'vig':10,'min':13,'end':10,'str':12,'dex':12,'int':9,'fai':14,'arc':9},
+    wretch : {'lvl':1,'vig':10,'min':10,'end':10,'str':10,'dex':10,'int':10,'fai':10,'arc':10},
+    vagabond : {'lvl':9,'vig':15,'min':10,'end':11,'str':14,'dex':13,'int':9,'fai':9,'arc':7},
+    prophet : {'lvl':7,'vig':10,'min':14,'end':8,'str':11,'dex':10,'int':7,'fai':16,'arc':10},
+    samurai : {'lvl':9,'vig':12,'min':11,'end':13,'str':12,'dex':15,'int':9,'fai':8,'arc':8},
+},
 var attack_types = [
     'physical',
     'magic',
@@ -93,6 +105,57 @@ function DAMAGE_FORMULA(attack_power, defense, resistance) {
     else
         damage = attack_power * 0.9;
     return damage * resistance;
+}
+
+function optimize_class_weapon_and_attributes(target_attributes, target_level, constraints) {
+    var prospective_weapons = weapons.filter(weapon => constraints.every(constraint => constraint(weapon)));
+    
+    var count = 0;
+    var best_damage = 0;
+    var best_weapon_and_attributes;
+    var best_class;
+    
+    for(var clazz of class_stats) {
+        var minimum_attributes = clazz;
+        var free_attributes = target_level;
+        for(var [attr_name, attr_value] of Object.entries(target_attributes))
+            free_attributes -= Math.max(attr_value, class_stats[attr_name]);
+        if(free_attributes >= 0) {
+            
+            var attribute_combinations;
+            var attribute_combinations_are_cached = false;
+            
+            for(var weapon of prospective_weapons) {
+                var locked_attribute_distribution = get_locked_attribute_distribution(weapon, minimum_attributes, free_attributes);
+                var damage;
+                var weapon_and_attributes;
+                if(!locked_attribute_distribution) {
+                    if(must_have_required_attributes) {
+                        continue;
+                    }
+                    if(!attribute_combinations_are_cached) {
+                        attribute_combinations = get_attribute_combinations(minimum_attributes, free_attributes);
+                        attribute_combinations_are_cached = true;
+                    }
+                    var weapon_attribute_states = get_weapon_attribute_states(weapon, attribute_combinations);
+                    [damage, weapon_and_attributes] = brute_solver(damage_objective, weapon_attribute_states);
+                }
+                else {
+                    var initial_attribute_distribution = get_initial_attribute_distribution(locked_attribute_distribution, free_attributes + Object.values(minimum_attributes).reduce((a,b)=>a+b) - Object.values(locked_attribute_distribution).reduce((a,b)=>a+b));
+                    [damage, weapon_and_attributes] = CSPSolver(damage_objective, {'weapon':weapon,'attrs':initial_attribute_distribution}, attr_generator, get_attr_contraints(locked_attribute_distribution));
+                }
+                status_update(++count / (prospective_weapons.length * Object.keys(class_stats).length));
+                if(damage > best_damage) {
+                    best_damage = damage;
+                    best_weapon_and_attributes = weapon_and_attributes;
+                    best_class = clazz;
+                }
+            }
+        }
+    }
+    if(best_damage == 0)
+        return null;
+    return {damage: Math.floor(best_damage), weapon: beautify_weapon_stats(best_weapon_and_attributes.weapon, best_weapon_and_attributes.attrs), attributes: best_weapon_and_attributes.attrs, 'class': best_class};
 }
 
 function optimize_weapon_and_attributes(minimum_attributes, free_attributes, constraints) {

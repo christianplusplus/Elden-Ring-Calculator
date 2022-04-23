@@ -119,13 +119,13 @@ select {
     height: 150px;
 }
 
-.form {
+.optimal_weapon_attribute_form {
     display: flex;
     flex-direction: column;
     gap: 30px;
 }
 
-.form > div {
+.optimal_weapon_attribute_form > div {
     display: flex;
     flex-direction: row;
     align-items: flex-start;

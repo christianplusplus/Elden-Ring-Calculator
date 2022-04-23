@@ -1,4 +1,4 @@
-var WeaponAttributesForm = {
+var inputForm = {
     props: {
         args: Object,
         attack_attributes: Object,
@@ -26,7 +26,7 @@ var WeaponAttributesForm = {
         }
     },
     template:`
-<div class="form elden_sheet">
+<div class="optimal_weapon_attribute_form elden_sheet">
     <div>
         <div>
             <label for="weaponTypes">Weapon Types</label>
