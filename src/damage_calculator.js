@@ -164,7 +164,7 @@ function optimize_class_weapon_and_attributes(target_attributes, target_level, c
         else
             return {error: "Your target level is too low."};
     }
-    return {weapon: beautify_weapon_stats(best_weapon_and_attributes.weapon, best_weapon_and_attributes.attrs, best_damage), attributes: best_weapon_and_attributes.attrs, 'class': best_class};
+    return {weapon: beautify_weapon_stats(best_weapon_and_attributes.weapon, best_weapon_and_attributes.attrs, best_damage), 'class':{class_name:best_class, attack_attributes:best_weapon_and_attributes.attrs}};
 }
 
 function optimize_weapon_and_attributes(minimum_attributes, free_attributes, constraints) {
@@ -339,6 +339,12 @@ function print_damage_weapon_attributes(damage, weapon_and_attributes) {
 
 function damage_objective(weapon_and_attrs) {
     return Object.values(get_damage(weapon_and_attrs.weapon, weapon_and_attrs.attrs, enemy, weapon_and_attrs.weapon.physical_damage_types[0])).reduce((a,b)=>a+b);
+}
+
+function get_damage_pretty(weapon, attributes) {
+    var weapon_and_attributes = {weapon: weapon, attrs: attributes};
+    var damage = damage_objective(weapon_and_attributes);
+    return {weapon: beautify_weapon_stats(weapon_and_attributes.weapon, weapon_and_attributes.attrs, damage)};
 }
 
 function attr_generator(weapon_and_attrs) {

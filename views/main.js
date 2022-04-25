@@ -134,10 +134,9 @@ var Main = {
     template:`
 <div class="elden_sheet" id="navigation">
     <ul>
-        <li><a @click="input_state='class_weapon_attribute';args.attributes={'vig':0,'min':0,'end':0,'str':0,'dex':0,'int':0,'fai':0,'arc':0}">Class/Weapon/Attributes Optimizer</a></li>
-        <li><a @click="input_state='weapon_attribute'">Weapon/Attributes Optimizer</a></li>
-        <li><a @click="input_state='damage_calc'">Damage Calculator</a></li>
-        <li><a @click="input_state='attack_power_calc'">Attack Power Calculator</a></li>
+        <li><a :style="input_state=='class_weapon_attribute'?{color: 'RoyalBlue'}:{}" @click="input_state='class_weapon_attribute';args.attributes={'vig':50,'min':0,'end':0,'str':0,'dex':0,'int':0,'fai':0,'arc':0}">Class/Weapon/Attributes Optimizer</a></li>
+        <li><a :style="input_state=='weapon_attribute'?{color: 'RoyalBlue'}:{}" @click="input_state='weapon_attribute'">Weapon/Attributes Optimizer</a></li>
+        <li><a :style="input_state=='damage_calc'?{color: 'RoyalBlue'}:{}" @click="input_state='damage_calc'">Damage Calculator</a></li>
     </ul>
 </div>
 <div id="content">

@@ -118,7 +118,9 @@ select {
     display: flex;
     flex-direction : row;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: space-around;
+    width: 0;
+    min-width: 100%;
 }
 
 .runes img {
@@ -184,6 +186,22 @@ select {
 
 .attribute_result > div > *:nth-child(even) {
     text-align: right;
+}
+
+.class_result {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.class_result > * {
+    flex: 1;
+}
+
+.error_result {
+    align-self: center;
+    text-align: center;
 }
 
 @keyframes fire

@@ -56,7 +56,7 @@ var classWeaponAttributeInputForm = {
             <table>
                 <tr>
                     <td>
-                        <input type="number" v-model.number="args.attributes.vig" min="1" max="99">
+                        <input type="number" v-model.number="args.attributes.vig" min="0" max="99">
                     </td>
                     <td>
                         <label for="vig">VIG</label>
@@ -64,7 +64,7 @@ var classWeaponAttributeInputForm = {
                 </tr>
                 <tr>
                     <td>
-                        <input type="number" v-model.number="args.attributes.min" min="1" max="99">
+                        <input type="number" v-model.number="args.attributes.min" min="0" max="99">
                     </td>
                     <td>
                         <label for="min">MIN</label>
@@ -72,7 +72,7 @@ var classWeaponAttributeInputForm = {
                 </tr>
                 <tr>
                     <td>
-                        <input type="number" v-model.number="args.attributes.end" min="1" max="99">
+                        <input type="number" v-model.number="args.attributes.end" min="0" max="99">
                     </td>
                     <td>
                         <label for="end">END</label>
@@ -80,7 +80,7 @@ var classWeaponAttributeInputForm = {
                 </tr>
                 <tr>
                     <td>
-                        <input type="number" v-model.number="args.attributes.str" min="1" max="99">
+                        <input type="number" v-model.number="args.attributes.str" min="0" max="99">
                     </td>
                     <td>
                         <label for="str">STR</label>
@@ -88,7 +88,7 @@ var classWeaponAttributeInputForm = {
                 </tr>
                 <tr>
                     <td>
-                        <input type="number" v-model.number="args.attributes.dex" min="1" max="99">
+                        <input type="number" v-model.number="args.attributes.dex" min="0" max="99">
                     </td>
                     <td>
                         <label for="dex">DEX</label>
@@ -96,7 +96,7 @@ var classWeaponAttributeInputForm = {
                 </tr>
                 <tr>
                     <td>
-                        <input type="number" v-model.number="args.attributes.int" min="1" max="99">
+                        <input type="number" v-model.number="args.attributes.int" min="0" max="99">
                     </td>
                     <td>
                         <label for="int">INT</label>
@@ -104,7 +104,7 @@ var classWeaponAttributeInputForm = {
                 </tr>
                 <tr>
                     <td>
-                        <input type="number" v-model.number="args.attributes.fai" min="1" max="99">
+                        <input type="number" v-model.number="args.attributes.fai" min="0" max="99">
                     </td>
                     <td>
                         <label for="fai">FAI</label>
@@ -112,7 +112,7 @@ var classWeaponAttributeInputForm = {
                 </tr>
                 <tr>
                     <td>
-                        <input type="number" v-model.number="args.attributes.arc" min="1" max="99">
+                        <input type="number" v-model.number="args.attributes.arc" min="0" max="99">
                     </td>
                     <td>
                         <label for="arc">ARC</label>
@@ -120,7 +120,7 @@ var classWeaponAttributeInputForm = {
                 </tr>
                 <tr>
                     <td>
-                        <input type="number" v-model.number="args.target_level" min="1" max="713">
+                        <input type="number" v-model.number="args.target_level" min="0" max="713">
                     </td>
                     <td>
                         <label for="lvl">Target Level</label>
