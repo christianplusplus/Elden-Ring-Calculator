@@ -7,10 +7,17 @@ var resultForm = {
     },
     
     template:`
-<weaponResultForm v-if="state=='output'"
+<errorResultForm v-if="state=='output' && result.error != null"
     :result="result"
 />
-<attributeResultForm v-if="state=='output'"
+<weaponResultForm v-if="state=='output' && result.weapon != null"
+    :result="result"
+/>
+<attributeResultForm v-if="state=='output' && result.attributes != null"
+    :result="result"
+    :args="args"
+/>
+<classResultForm v-if="state=='output' && result.class != null"
     :result="result"
     :args="args"
 />

@@ -12,6 +12,12 @@ body {
     padding: 10px;
 }
 
+a {
+     cursor:pointer;
+     color:orange;
+     text-decoration:underline;
+}
+
 input[type='number'] {
     width: 40px;
 }

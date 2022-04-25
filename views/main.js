@@ -3,15 +3,9 @@ var Main = {
         return {
             args: {
                 disabled: false,
-                vig: 14,
-                min: 9,
-                end: 12,
-                str: 16,
-                dex: 9,
-                'int': 7,
-                fai: 8,
-                arc:11,
+                attributes: {},
                 floatingPoints:10,
+                target_level: 150,
                 must_have_required_attributes: true,
                 is_two_handing: false,
                 is_dual_wieldable: false,
@@ -26,31 +20,32 @@ var Main = {
                 difficulty_scaling: {},
                 clazz: {},
                 class_stats: {
-                    hero : {'lvl':7,'vig':14,'min':9,'end':12,'str':16,'dex':9,'int':7,'fai':8,'arc':11},
-                    bandit : {'lvl':5,'vig':10,'min':11,'end':10,'str':9,'dex':13,'int':9,'fai':8,'arc':14},
-                    astrologer : {'lvl':6,'vig':9,'min':15,'end':9,'str':8,'dex':12,'int':16,'fai':7,'arc':9},
-                    warrior : {'lvl':8,'vig':11,'min':12,'end':11,'str':10,'dex':16,'int':10,'fai':8,'arc':9},
-                    prisoner : {'lvl':9,'vig':11,'min':12,'end':11,'str':11,'dex':14,'int':14,'fai':6,'arc':9},
-                    confessor : {'lvl':10,'vig':10,'min':13,'end':10,'str':12,'dex':12,'int':9,'fai':14,'arc':9},
-                    wretch : {'lvl':1,'vig':10,'min':10,'end':10,'str':10,'dex':10,'int':10,'fai':10,'arc':10},
-                    vagabond : {'lvl':9,'vig':15,'min':10,'end':11,'str':14,'dex':13,'int':9,'fai':9,'arc':7},
-                    prophet : {'lvl':7,'vig':10,'min':14,'end':8,'str':11,'dex':10,'int':7,'fai':16,'arc':10},
-                    samurai : {'lvl':9,'vig':12,'min':11,'end':13,'str':12,'dex':15,'int':9,'fai':8,'arc':8},
+                    hero : {'vig':14,'min':9,'end':12,'str':16,'dex':9,'int':7,'fai':8,'arc':11},
+                    bandit : {'vig':10,'min':11,'end':10,'str':9,'dex':13,'int':9,'fai':8,'arc':14},
+                    astrologer : {'vig':9,'min':15,'end':9,'str':8,'dex':12,'int':16,'fai':7,'arc':9},
+                    warrior : {'vig':11,'min':12,'end':11,'str':10,'dex':16,'int':10,'fai':8,'arc':9},
+                    prisoner : {'vig':11,'min':12,'end':11,'str':11,'dex':14,'int':14,'fai':6,'arc':9},
+                    confessor : {'vig':10,'min':13,'end':10,'str':12,'dex':12,'int':9,'fai':14,'arc':9},
+                    wretch : {'vig':10,'min':10,'end':10,'str':10,'dex':10,'int':10,'fai':10,'arc':10},
+                    vagabond : {'vig':15,'min':10,'end':11,'str':14,'dex':13,'int':9,'fai':9,'arc':7},
+                    prophet : {'vig':10,'min':14,'end':8,'str':11,'dex':10,'int':7,'fai':16,'arc':10},
+                    samurai : {'vig':12,'min':11,'end':13,'str':12,'dex':15,'int':9,'fai':8,'arc':8},
                 },
             },
             result: {},
             progress: 0,
+            input_state: 'weapon_attribute',
             output_state: '',
             worker: new Worker('worker.js'),
         }
     },
     computed: {
         attack_attributes() { return {
-            str: this.args.str,
-            dex: this.args.dex,
-            'int': this.args.int,
-            fai: this.args.fai,
-            arc: this.args.arc,
+            str: this.args.attributes.str,
+            dex: this.args.attributes.dex,
+            'int': this.args.attributes.int,
+            fai: this.args.attributes.fai,
+            arc: this.args.attributes.arc,
         };},
         globals() { 
             return {
@@ -65,7 +60,7 @@ var Main = {
     methods: {
         load_class() {
             for(var [key, value] of Object.entries(this.args.clazz))
-                this.args[key] = value;
+                this.args.attributes[key] = value;
         },
         get_attack_attributes(clazz) { return {
             str: clazz.str,
@@ -134,19 +129,33 @@ var Main = {
             });
         
         this.args.clazz = this.args.class_stats['hero'];
+        this.load_class();
     },
     template:`
-<inputForm
+<div class="elden_sheet" id="navigation">
+    <ul>
+        <li><a @click="input_state='class_weapon_attribute';args.attributes={'vig':0,'min':0,'end':0,'str':0,'dex':0,'int':0,'fai':0,'arc':0}">Class/Weapon/Attributes Optimizer</a></li>
+        <li><a @click="input_state='weapon_attribute'">Weapon/Attributes Optimizer</a></li>
+        <li><a @click="input_state='damage_calc'">Damage Calculator</a></li>
+        <li><a @click="input_state='attack_power_calc'">Attack Power Calculator</a></li>
+    </ul>
+</div>
+<div id="content">
+    <inputForm
     :args="args"
     :attack_attributes="attack_attributes"
+    :state="input_state"
     @run="run"
     @load_class="load_class"
-/>
-<resultForm
-    :args="args"
-    :result="result"
-    :progress="progress"
-    :state="output_state"
-/>
+    />
+    <resultForm
+        :args="args"
+        :result="result"
+        :progress="progress"
+        :state="output_state"
+    />
+</div>
+<div class="elden_sheet" id="ad">
+</div>
 `,
 };

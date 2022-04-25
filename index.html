@@ -5,9 +5,13 @@
     <!--<script src="https://unpkg.com/vue@3"></script>-->
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="views/input_form.js"></script>
+    <script src="views/class_weapon_attribute_input_form.js"></script>
+    <script src="views/weapon_attribute_input_form.js"></script>
     <script src="views/result_form.js"></script>
+    <script src="views/error_result_form.js"></script>
     <script src="views/weapon_result_form.js"></script>
     <script src="views/attribute_result_form.js"></script>
+    <script src="views/class_result_form.js"></script>
     <script src="views/progress_bar.js"></script>
     <script src="views/main.js"></script>
     <script src="script.js"></script>
@@ -26,18 +30,6 @@
         </div>
     </div>
     <div id="band">
-        <div class="elden_sheet" id="navigation">
-            <ul>
-                <li>Class/Weapon/Attributes Optimizer</li>
-                <li>Weapon/Attributes Optimizer</li>
-                <li>Damage Calculator</li>
-                <li>Attack Power Calculator</li>
-            </ul>
-        </div>
-        <div id="content">
-        </div>
-        <div class="elden_sheet" id="ad">
-        </div>
     </div>
     <div id="footer">
         <small>&copy; Copyright 2022, All rights reserved. Patch 1.04</small><a href="https://twitter.com/VadimTheNatilus">"Gideon's Portrait" by Vladim</a>
@@ -46,11 +38,15 @@
 <script>
 var main = Vue.createApp(Main);
 main.component('inputForm', inputForm);
+main.component('classWeaponAttributeInputForm', classWeaponAttributeInputForm);
+main.component('weaponAttributeInputForm', weaponAttributeInputForm);
 main.component('resultForm', resultForm);
+main.component('errorResultForm', errorResultForm);
 main.component('weaponResultForm', weaponResultForm);
 main.component('attributeResultForm', attributeResultForm);
+main.component('classResultForm', classResultForm);
 main.component('progressBar', progressBar);
-main.mount("#content");
+main.mount("#band");
 </script>
 </body>
 </html>

@@ -35,7 +35,7 @@ var weaponResultForm = {
             </div>
         </div>
         <div class="damage_result">
-            <div class="anim_fire">{{ result.damage }}</div>
+            <div class="anim_fire">{{ result.weapon.damage }}</div>
         </div>
     </div>
     <div class="attack_power">
