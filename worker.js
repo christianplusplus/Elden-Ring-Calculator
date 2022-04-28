@@ -9,7 +9,9 @@ onmessage = function(e) {
         self[key] = value;
     var runnable = eval(e.data.runnable);
     var args = JSON.parse(e.data.args);
-    args[2] = args[2].map(text => eval('weapon => ' + text));
-    var result = runnable(...args);
+    var predicates = e.data.predicates;
+    if(predicates)
+        predicates = predicates.map(text => eval('weapon => ' + text));
+    var result = runnable(...args, predicates);
     postMessage({header: 'result', result: result});
 };

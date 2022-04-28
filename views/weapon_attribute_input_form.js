@@ -124,7 +124,7 @@ var weaponAttributeInputForm = {
             </select>
         </div>
     </div>
-    <button :disabled="args.disabled" @click="$emit('run', optimize_weapon_and_attributes, attack_attributes, args.floatingPoints, text_constraints)">Calculate!</button>
+    <button :disabled="args.disabled" @click="$emit('run_with_predicates', optimize_weapon_and_attributes, text_constraints, attack_attributes, args.floatingPoints)">Calculate!</button>
 </div>`,
 };
 

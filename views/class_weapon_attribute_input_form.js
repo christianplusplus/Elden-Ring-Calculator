@@ -139,7 +139,7 @@ var classWeaponAttributeInputForm = {
             </select>
         </div>
     </div>
-    <button :disabled="args.disabled" @click="$emit('run', optimize_class_weapon_and_attributes, args.attributes, args.target_level, text_constraints)">Calculate!</button>
+    <button :disabled="args.disabled" @click="$emit('run_with_predicates', optimize_class_weapon_and_attributes, text_constraints, args.attributes, args.target_level)">Calculate!</button>
 </div>`,
 };
 

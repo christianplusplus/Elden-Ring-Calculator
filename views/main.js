@@ -73,18 +73,30 @@ var Main = {
             this.setup();
             this.async(runnable, this.update, this.print, args);
         },
-        async(runnable, update, callback, args) {
+        run_with_predicates(runnable, predicates, ...args) {
+            this.setup();
+            this.async(runnable, this.update, this.print, args, predicates);
+        },
+        async(runnable, update, callback, args, predicates) {
             this.worker.onmessage = function(e) {
                 if(e.data.header == 'result' && callback && callback instanceof Function)
                     callback(e.data.result);
                 else if(e.data.header == 'update' && update && update instanceof Function)
                     update(e.data.progress);
             };
-            this.worker.postMessage({
-                runnable: runnable.name,
-                args: JSON.stringify(args),
-                globals: JSON.stringify(this.globals),
-            });
+            if(predicates === undefined)
+                this.worker.postMessage({
+                    runnable: runnable.name,
+                    args: JSON.stringify(args),
+                    globals: JSON.stringify(this.globals),
+                });
+            else
+                this.worker.postMessage({
+                    runnable: runnable.name,
+                    args: JSON.stringify(args),
+                    predicates: predicates,
+                    globals: JSON.stringify(this.globals),
+                });
         },
         setup() {
             this.args.disabled = true;
@@ -145,6 +157,7 @@ var Main = {
     :attack_attributes="attack_attributes"
     :state="input_state"
     @run="run"
+    @run_with_predicates="run_with_predicates"
     @load_class="load_class"
     />
     <resultForm

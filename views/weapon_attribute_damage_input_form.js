@@ -9,6 +9,28 @@ var weaponAttributeDamageInputForm = {
             weapon: {},
         }
     },
+    computed: {
+        constraints() {
+            var constraints = [];
+            if(this.args.weapon_types_selected.length && this.args.weapon_types_selected.length < this.args.weapon_types.length)
+                constraints.push(this.args.weapon_types_selected.map(weapon_type => (weapon => weapon.weapon_type == weapon_type)).reduce(this.disjunction));
+            if(this.args.affinities_selected.length && this.args.affinities_selected.length < this.args.affinities.length)
+                constraints.push(this.args.affinities_selected.map(affinity => (weapon => weapon.affinity == affinity)).reduce(this.disjunction));
+            if(this.args.is_dual_wieldable)
+                constraints.push(weapon => weapon.dual_wieldable);
+            if(this.args.must_have_required_attributes) {
+                constraints.push(weapon => weapon.required_str <= this.args.attributes.str);
+                constraints.push(weapon => weapon.required_dex <= this.args.attributes.dex);
+                constraints.push(weapon => weapon.required_int <= this.args.attributes.int);
+                constraints.push(weapon => weapon.required_fai <= this.args.attributes.fai);
+                constraints.push(weapon => weapon.required_arc <= this.args.attributes.arc);
+            }
+            return constraints;
+        },
+        filtered_weapons() {
+            return this.args.weapons.filter(weapon => this.constraints.every(constraint => constraint(weapon)));
+        },
+    },
     methods: {
         disjunction(a, b) {
             return function(x) { return a(x) || b(x) };
@@ -37,6 +59,9 @@ var weaponAttributeDamageInputForm = {
             <br>
             <input type="checkbox" name="isTwoHanding" v-model="args.is_two_handing" :true-value=true :false-value=false>
             <label for="isTwoHanding"> Two Handing</label>
+            <br>
+            <input type="checkbox" name="meetsAttributeRequirements" v-model="args.must_have_required_attributes" :true-value=true :false-value=false>
+            <label for="meetsAttributeRequirements"> Required Attributes</label>
         </div>
         <div>
             <button type="button" @click="$emit('load_class')">Load Class</button>
@@ -90,6 +115,16 @@ var weaponAttributeDamageInputForm = {
                     </td>
                 </tr>
             </table>
+        </div>
+    </div>
+    <div>
+        <div>
+            <label for="weapon">Weapon </label>
+            <select name="weapon" v-model="weapon">
+                <option v-for="weapon in filtered_weapons" :value="weapon">
+                    {{ weapon.name }}
+                </option>
+            </select>
         </div>
     </div>
     <div>

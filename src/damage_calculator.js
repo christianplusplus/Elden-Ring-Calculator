@@ -160,7 +160,7 @@ function optimize_class_weapon_and_attributes(target_attributes, target_level, c
     }
     if(best_damage == 0) {
         if(!prospective_weapons.length)
-            return {error: "No Weapons found."};
+            return {error: "No weapons found."};
         else
             return {error: "Your target level is too low."};
     }
@@ -202,7 +202,7 @@ function optimize_weapon_and_attributes(minimum_attributes, free_attributes, con
         }
     }
     if(best_damage == 0)
-        return {error: "No Weapons found."};
+        return {error: "No weapons found."};
     return {weapon: beautify_weapon_stats(best_weapon_and_attributes.weapon, best_weapon_and_attributes.attrs, best_damage), attributes: best_weapon_and_attributes.attrs};
 }
 
@@ -342,9 +342,13 @@ function damage_objective(weapon_and_attrs) {
 }
 
 function get_damage_pretty(weapon, attributes) {
-    var weapon_and_attributes = {weapon: weapon, attrs: attributes};
-    var damage = damage_objective(weapon_and_attributes);
-    return {weapon: beautify_weapon_stats(weapon_and_attributes.weapon, weapon_and_attributes.attrs, damage)};
+    try {
+        var weapon_and_attributes = {weapon: weapon, attrs: attributes};
+        var damage = damage_objective(weapon_and_attributes);
+        return {weapon: beautify_weapon_stats(weapon_and_attributes.weapon, weapon_and_attributes.attrs, damage)};
+    } catch(error) {
+        return {error: "No weapon selected."};
+    }
 }
 
 function attr_generator(weapon_and_attrs) {
