@@ -30,6 +30,10 @@ select {
     width: 100%;
 }
 
+.ad {
+    width: 100%;
+}
+
 #master-band {
     display: flex;
     flex-direction: column;
