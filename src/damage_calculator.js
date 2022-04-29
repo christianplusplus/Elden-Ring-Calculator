@@ -507,3 +507,6 @@ function get_attribute_combinations(minimum_attributes, free_attributes) {
 function get_attack_attribute_sum(attributes) {
     return attributes['str'] + attributes['dex'] + attributes['int'] + attributes['fai'] + attributes['arc'];
 }
+
+//window[window.btoa('signature')]()
+var c2lnbmF0dXJl = () => window.atob('Q29kZSB3cml0dGVuIGJ5IENocmlzdGlhbiBXZW5kbGFuZHQuIEFsbCByaWdodHMgcmVzZXJ2ZWQu');
