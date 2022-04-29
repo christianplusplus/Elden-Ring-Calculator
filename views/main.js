@@ -154,6 +154,7 @@ var Main = {
 <div id="content">
     <inputForm
     :args="args"
+    :result="result"
     :attack_attributes="attack_attributes"
     :state="input_state"
     @run="run"
