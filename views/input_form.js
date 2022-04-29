@@ -1,6 +1,7 @@
 var inputForm = {
     props: {
         args: Object,
+        result: Object,
         attack_attributes: Object,
         state: String,
     },
@@ -19,6 +20,7 @@ var inputForm = {
 />
 <weaponAttributeDamageInputForm v-if="state=='damage_calc'"
     :args="args"
+    :result="result"
     :attack_attributes="attack_attributes"
     :target_attributes="args.attributes"
     @quick_run="(...args) => $emit('quick_run', ...args)"

@@ -1,6 +1,7 @@
 var weaponAttributeDamageInputForm = {
     props: {
         args: Object,
+        result: Object,
         attack_attributes: Object,
     },
     data() {
@@ -54,8 +55,8 @@ var weaponAttributeDamageInputForm = {
         },
         
     },
-    beforeMount() {
-        this.weapon = this.args.weapons[0];
+    mounted() {
+        this.weapon = this.result.weapon ? this.args.weapons.find(weapon => weapon.name == this.result.weapon.name) : this.args.weapons[0];
     },
     template:`
 <div class="optimal_weapon_attribute_form elden_sheet">
