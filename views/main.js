@@ -69,6 +69,12 @@ var Main = {
             fai: clazz.fai,
             arc: clazz.arc,
         };},
+        quick_run(runnable, ...args) {
+            for(var [key, value] of Object.entries(this.globals))
+                window[key] = value;
+            this.result = runnable(...args);
+            this.output_state = 'output';
+        },
         run(runnable, ...args) {
             this.setup();
             this.async(runnable, this.update, this.print, args);
@@ -84,19 +90,13 @@ var Main = {
                 else if(e.data.header == 'update' && update && update instanceof Function)
                     update(e.data.progress);
             };
-            if(predicates === undefined)
-                this.worker.postMessage({
-                    runnable: runnable.name,
-                    args: JSON.stringify(args),
-                    globals: JSON.stringify(this.globals),
-                });
-            else
-                this.worker.postMessage({
-                    runnable: runnable.name,
-                    args: JSON.stringify(args),
-                    predicates: predicates,
-                    globals: JSON.stringify(this.globals),
-                });
+            
+            this.worker.postMessage({
+                runnable: runnable.name,
+                args: JSON.stringify(args),
+                predicates: predicates,
+                globals: JSON.stringify(this.globals),
+            });
         },
         setup() {
             this.args.disabled = true;
@@ -146,7 +146,7 @@ var Main = {
     template:`
 <div class="elden_sheet" id="navigation">
     <ul>
-        <li><a :style="input_state=='class_weapon_attribute'?{color: 'RoyalBlue'}:{}" @click="input_state='class_weapon_attribute';args.attributes={'vig':50,'min':0,'end':0,'str':0,'dex':0,'int':0,'fai':0,'arc':0}">Class/Weapon/Attributes Optimizer</a></li>
+        <li><a :style="input_state=='class_weapon_attribute'?{color: 'RoyalBlue'}:{}" @click="input_state='class_weapon_attribute'">Class/Weapon/Attributes Optimizer</a></li>
         <li><a :style="input_state=='weapon_attribute'?{color: 'RoyalBlue'}:{}" @click="input_state='weapon_attribute'">Weapon/Attributes Optimizer</a></li>
         <li><a :style="input_state=='damage_calc'?{color: 'RoyalBlue'}:{}" @click="input_state='damage_calc'">Damage Calculator</a></li>
     </ul>
@@ -157,6 +157,7 @@ var Main = {
     :attack_attributes="attack_attributes"
     :state="input_state"
     @run="run"
+    @quick_run="quick_run"
     @run_with_predicates="run_with_predicates"
     @load_class="load_class"
     />

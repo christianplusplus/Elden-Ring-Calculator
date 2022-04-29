@@ -30,11 +30,32 @@ var weaponAttributeDamageInputForm = {
         filtered_weapons() {
             return this.args.weapons.filter(weapon => this.constraints.every(constraint => constraint(weapon)));
         },
+        formEvent() {
+            return [
+                this.args.attributes,
+                this.args.enemy,
+                this.args.is_two_handing,
+                this.weapon,
+            ];
+        },
     },
     methods: {
         disjunction(a, b) {
             return function(x) { return a(x) || b(x) };
         },
+    },
+    watch: {
+        formEvent: {
+            handler() {
+                this.$emit('quick_run', this.get_damage_pretty, this.weapon, this.attack_attributes);
+            },
+            deep: true,
+            flush: 'post',
+        },
+        
+    },
+    beforeMount() {
+        this.weapon = this.args.weapons[0];
     },
     template:`
 <div class="optimal_weapon_attribute_form elden_sheet">
@@ -137,7 +158,6 @@ var weaponAttributeDamageInputForm = {
             </select>
         </div>
     </div>
-    <button :disabled="args.disabled" @click="$emit('run', get_damage_pretty, weapon, attack_attributes)">Calculate!</button>
 </div>`,
 };
 

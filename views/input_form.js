@@ -21,7 +21,8 @@ var inputForm = {
     :args="args"
     :attack_attributes="attack_attributes"
     :target_attributes="args.attributes"
-    @run="(...args) => $emit('run', ...args)"
+    @quick_run="(...args) => $emit('quick_run', ...args)"
+    @load_class="(...args) => $emit('load_class', ...args)"
 />`,
 };
 

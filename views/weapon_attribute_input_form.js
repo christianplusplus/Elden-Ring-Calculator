@@ -23,7 +23,7 @@ var weaponAttributeInputForm = {
             if(this.args.is_dual_wieldable)
                 constraints.push('weapon.dual_wieldable');
             return constraints;
-        }
+        },
     },
     template:`
 <div class="optimal_weapon_attribute_form elden_sheet">
