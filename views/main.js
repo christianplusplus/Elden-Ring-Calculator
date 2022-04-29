@@ -169,6 +169,18 @@ var Main = {
     />
 </div>
 <div class="elden_sheet" id="ad">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3997865404309179"
+     crossorigin="anonymous"></script>
+<!-- side-bar-ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3997865404309179"
+     data-ad-slot="3269106063"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 </div>
 `,
 };
