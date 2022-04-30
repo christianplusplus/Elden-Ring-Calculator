@@ -174,11 +174,9 @@ var Main = {
          crossorigin="anonymous"></script>
     <!-- side-bar-ad -->
     <ins class="adsbygoogle"
-         style="display:block;height:400px"
+         style="display:inline-block;width:130px;height:400px"
          data-ad-client="ca-pub-3997865404309179"
-         data-ad-slot="3269106063"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
+         data-ad-slot="3269106063"></ins>
     <script>
          (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
