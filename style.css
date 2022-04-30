@@ -30,10 +30,6 @@ select {
     width: 100%;
 }
 
-.ad {
-    width: 100%;
-}
-
 #master-band {
     display: flex;
     flex-direction: column;
@@ -70,6 +66,7 @@ select {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    gap: 10px;
     flex-grow: 1;
 }
 
@@ -96,7 +93,7 @@ select {
     gap: 50px;
 }
 
-#ad {
+#side-ad {
     width: 150px;
     flex: none;
 }
@@ -149,6 +146,11 @@ select {
     opacity: 0.8;
     border-radius: 10px;
     padding: 10px;
+}
+
+.ad {
+    width: 100%;
+    padding: 20px;
 }
 
 .weapon_result {
