@@ -174,7 +174,7 @@ var Main = {
          crossorigin="anonymous"></script>
     <!-- side-bar-ad -->
     <ins class="adsbygoogle"
-         style="display:block"
+         style="display:block;height:400px"
          data-ad-client="ca-pub-3997865404309179"
          data-ad-slot="3269106063"
          data-ad-format="auto"
