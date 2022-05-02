@@ -17,6 +17,7 @@ var inputForm = {
     :args="args"
     :target_attributes="args.attributes"
     @run_with_predicates="(...args) => $emit('run_with_predicates', ...args)"
+    @blank_slate="(...args) => $emit('blank_slate', ...args)"
 />
 <weaponAttributeDamageInputForm v-if="state=='damage_calc'"
     :args="args"

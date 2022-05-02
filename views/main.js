@@ -62,6 +62,16 @@ var Main = {
             for(var [key, value] of Object.entries(this.args.clazz))
                 this.args.attributes[key] = value;
         },
+        blank_slate() {
+            this.args.attributes.vig = 50;
+            this.args.attributes.min = 0;
+            this.args.attributes.end = 20;
+            this.args.attributes.str = 0;
+            this.args.attributes.dex = 0;
+            this.args.attributes.int = 0;
+            this.args.attributes.fai = 0;
+            this.args.attributes.arc = 0;
+        },
         get_attack_attributes(clazz) { return {
             str: clazz.str,
             dex: clazz.dex,
@@ -161,6 +171,7 @@ var Main = {
     @quick_run="quick_run"
     @run_with_predicates="run_with_predicates"
     @load_class="load_class"
+    @blank_slate="blank_slate"
     />
     <resultForm
         :args="args"

@@ -126,6 +126,11 @@ var classWeaponAttributeInputForm = {
                         <label for="lvl">Target Level</label>
                     </td>
                 </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type="button" @click="$emit('blank_slate')">Blank Slate</button>
+                    </td>
+                </tr>
             </table>
         </div>
     </div>
