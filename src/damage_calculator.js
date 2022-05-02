@@ -352,20 +352,23 @@ function get_damage_pretty(weapon, attributes) {
 }
 
 function attr_generator(weapon_and_attrs) {
+    var speeds = [20, 1];
     var new_states = [];
     for(var source of attack_sources) {
         for(var otherSource of attack_sources) {
             if(otherSource != source) {
-                var attrs = {
-                    'str':weapon_and_attrs.attrs['str'],
-                    'dex':weapon_and_attrs.attrs['dex'],
-                    'int':weapon_and_attrs.attrs['int'],
-                    'fai':weapon_and_attrs.attrs['fai'],
-                    'arc':weapon_and_attrs.attrs['arc'],
-                };
-                attrs[source]--;
-                attrs[otherSource]++;
-                new_states.push({'weapon':weapon_and_attrs.weapon,'attrs':attrs});
+                for(var speed of speeds) {
+                    var attrs = {
+                        'str':weapon_and_attrs.attrs['str'],
+                        'dex':weapon_and_attrs.attrs['dex'],
+                        'int':weapon_and_attrs.attrs['int'],
+                        'fai':weapon_and_attrs.attrs['fai'],
+                        'arc':weapon_and_attrs.attrs['arc'],
+                    };
+                    attrs[source] -= speed;
+                    attrs[otherSource] += speed;
+                    new_states.push({'weapon':weapon_and_attrs.weapon,'attrs':attrs});
+                }
             }
         }
     }
