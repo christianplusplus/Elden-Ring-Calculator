@@ -23,13 +23,7 @@ var progressBar = {
     },
     template:`
 <div class="runes">
-    <img :style="{opacity:Math.min(Math.max((progress*7-0),0),1)}" :src="srcs[0]"/>
-    <img :style="{opacity:Math.min(Math.max((progress*7-1),0),1)}" :src="srcs[1]"/>
-    <img :style="{opacity:Math.min(Math.max((progress*7-2),0),1)}" :src="srcs[2]"/>
-    <img :style="{opacity:Math.min(Math.max((progress*7-3),0),1)}" :src="srcs[3]"/>
-    <img :style="{opacity:Math.min(Math.max((progress*7-4),0),1)}" :src="srcs[4]"/>
-    <img :style="{opacity:Math.min(Math.max((progress*7-5),0),1)}" :src="srcs[5]"/>
-    <img :style="{opacity:Math.min(Math.max((progress*7-6),0),1)}" :src="srcs[6]"/>
+    <img v-for="i in srcs.length" :style="{opacity:Math.min(Math.max((progress*srcs.length-i+1),0),1)}" :src="srcs[i-1]"/>
 </div>
 `,
 };
