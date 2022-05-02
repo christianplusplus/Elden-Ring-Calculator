@@ -27,11 +27,10 @@ var classResultForm = {
             return color;
         },
         percentModified(attribute) {
-            var spentPoints = Object.values(this.result.class.attack_attributes).reduce((a,b)=>a+b) +
-                this.args.attributes.vig +
-                this.args.attributes.min +
-                this.args.attributes.end -
-                Object.values(this.args.class_stats[this.result.class.class_name]).reduce((a,b)=>a+b);
+            var currentStats = Object.assign({}, this.result.class.attack_attributes, {vig:this.args.attributes.vig,min:this.args.attributes.min,end:this.args.attributes.end});
+            var totalPoints = Object.entries(currentStats).map(([name,value]) => Math.max(value, this.args.class_stats[this.result.class.class_name][name])).reduce((a,b)=>a+b);
+            var spentPoints = totalPoints - Object.values(this.args.class_stats[this.result.class.class_name]).reduce((a,b)=>a+b);
+            
             if(this.result.class.attack_attributes.hasOwnProperty(attribute))
                 return (this.result.class.attack_attributes[attribute] - this.args.class_stats[this.result.class.class_name][attribute]) / spentPoints;
             return (Math.max(this.args.attributes[attribute] - this.args.class_stats[this.result.class.class_name][attribute], 0)) / spentPoints;
