@@ -3,8 +3,8 @@
 * Stylize buttons, menus, and bars.
 * Find a secure data source pipeline.
 * Moveset data.
-* Rename None affinity.
-* Separate Somber and N/A affinity.
+* Rename "None" affinity.
+* Separate "Somber" and "N/A" affinity.
 * Ranged weapon ammo data.
 * Aggregate all forms/algorithms into one mega form/algorithm.
 * Write an FAQ.
