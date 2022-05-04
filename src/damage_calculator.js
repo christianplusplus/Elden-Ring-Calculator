@@ -1,3 +1,12 @@
+//window[window.btoa('signature')]()
+var c2lnbmF0dXJl = () => window.atob('Q29kZSB3cml0dGVuIGJ5IENocmlzdGlhbiBXZW5kbGFuZHQuIEFsbCByaWdodHMgcmVzZXJ2ZWQu');
+function optimize_class_weapon_and_attributes(target_attributes, target_level, constraints){return _private.optimize_class_weapon_and_attributes(target_attributes, target_level, constraints);};
+function optimize_weapon_and_attributes(minimum_attributes, free_attributes, constraints){return _private.optimize_weapon_and_attributes(minimum_attributes, free_attributes, constraints);};
+function get_damage_pretty(weapon, attributes){return _private.get_damage_pretty(weapon, attributes);};
+function status_update(progress) {};
+
+var _private = {};
+(function(){
 var class_stats = {
     hero : {'lvl':7,'vig':14,'min':9,'end':12,'str':16,'dex':9,'int':7,'fai':8,'arc':11},
     bandit : {'lvl':5,'vig':10,'min':11,'end':10,'str':9,'dex':13,'int':9,'fai':8,'arc':14},
@@ -107,7 +116,7 @@ function DAMAGE_FORMULA(attack_power, defense, resistance) {
     return damage * resistance;
 }
 
-function optimize_class_weapon_and_attributes(target_attributes, target_level, constraints) {
+_private.optimize_class_weapon_and_attributes = function(target_attributes, target_level, constraints) {
     var prospective_weapons = weapons.filter(weapon => constraints.every(constraint => constraint(weapon)));
     
     var count = 0;
@@ -167,7 +176,7 @@ function optimize_class_weapon_and_attributes(target_attributes, target_level, c
     return {weapon: beautify_weapon_stats(best_weapon_and_attributes.weapon, best_weapon_and_attributes.attrs, best_damage), 'class':{class_name:best_class, attack_attributes:best_weapon_and_attributes.attrs}};
 }
 
-function optimize_weapon_and_attributes(minimum_attributes, free_attributes, constraints) {
+_private.optimize_weapon_and_attributes = function(minimum_attributes, free_attributes, constraints) {
     var prospective_weapons = weapons.filter(weapon => constraints.every(constraint => constraint(weapon)));
     var attribute_combinations;
     var attribute_combinations_are_cached = false;
@@ -330,9 +339,6 @@ function get_weapon_attribute_states(weapon, attribute_combinations) {
     return weapon_attribute_states;
 }
 
-function status_update(progress) {
-}
-
 function print_damage_weapon_attributes(damage, weapon_and_attributes) {
     console.log(damage, weapon_and_attributes.weapon.name, JSON.stringify(weapon_and_attributes.attrs));
 }
@@ -341,7 +347,7 @@ function damage_objective(weapon_and_attrs) {
     return Object.values(get_damage(weapon_and_attrs.weapon, weapon_and_attrs.attrs, enemy, weapon_and_attrs.weapon.physical_damage_types[0])).reduce((a,b)=>a+b);
 }
 
-function get_damage_pretty(weapon, attributes) {
+_private.get_damage_pretty = function(weapon, attributes) {
     try {
         var weapon_and_attributes = {weapon: weapon, attrs: attributes};
         var damage = damage_objective(weapon_and_attributes);
@@ -511,5 +517,4 @@ function get_attack_attribute_sum(attributes) {
     return attributes['str'] + attributes['dex'] + attributes['int'] + attributes['fai'] + attributes['arc'];
 }
 
-//window[window.btoa('signature')]()
-var c2lnbmF0dXJl = () => window.atob('Q29kZSB3cml0dGVuIGJ5IENocmlzdGlhbiBXZW5kbGFuZHQuIEFsbCByaWdodHMgcmVzZXJ2ZWQu');
+}());
