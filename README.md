@@ -1,5 +1,6 @@
 # TODO
 * Stylize buttons, menus, and bars.
+* Show ties button.
 * Find a secure data source pipeline.
 * Moveset data.
 * Rename "None" affinity.
