@@ -1,5 +1,4 @@
 # TODO
-* Github pages description.
 * Stylize buttons, menus, and bars.
 * Find a secure data source pipeline.
 * Moveset data.
