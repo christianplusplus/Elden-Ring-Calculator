@@ -181,13 +181,13 @@ var Main = {
     />
 </div>
 <div class="elden_sheet ad" id="side-ad">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3997865404309179"
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9194425910633811"
          crossorigin="anonymous"></script>
     <!-- side-bar-ad -->
     <ins class="adsbygoogle"
          style="display:inline-block;width:120px;height:400px"
-         data-ad-client="ca-pub-3997865404309179"
-         data-ad-slot="3269106063"></ins>
+         data-ad-client="ca-pub-9194425910633811"
+         data-ad-slot="4655205890"></ins>
     <script>
          (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
