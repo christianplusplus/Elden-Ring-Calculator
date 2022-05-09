@@ -154,7 +154,7 @@ var Main = {
         this.load_class();
     },
     template:`
-<div class="elden_sheet" id="navigation">
+<div class="elden_sheet sidebar" id="navigation">
     <ul>
         <li><a :style="input_state=='class_weapon_attribute'?{color: 'RoyalBlue'}:{}" @click="input_state='class_weapon_attribute'">Class/Weapon/Attributes Optimizer</a></li>
         <li><a :style="input_state=='weapon_attribute'?{color: 'RoyalBlue'}:{}" @click="input_state='weapon_attribute'">Weapon/Attributes Optimizer</a></li>
