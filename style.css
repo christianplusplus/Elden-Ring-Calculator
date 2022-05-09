@@ -76,12 +76,12 @@ select {
 }
 
 #navigation {
-    width: 150px;
+    min-width: 170px;
     flex: none;
 }
 
 #sidebar {
-    width: 150px;
+    min-width: 170px;
     flex: none;
 }
 
