@@ -76,8 +76,8 @@ select {
 }
 
 .sidebar {
-    min-width: 120px;
-    max-width: 120px;
+    min-width: 130px;
+    max-width: 130px;
     flex: none;
 }
 
@@ -155,8 +155,8 @@ select {
 }
 
 .ad {
-    padding: 20px;
-    height: 100px;
+    padding: 10px;
+    height: 60px;
 }
 
 .weapon_result {
