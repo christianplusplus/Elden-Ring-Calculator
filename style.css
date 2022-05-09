@@ -76,7 +76,7 @@ select {
 }
 
 .sidebar {
-    min-width: 170px;
+    min-width: 140px;
     flex: none;
 }
 
