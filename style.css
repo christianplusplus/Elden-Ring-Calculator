@@ -80,6 +80,11 @@ select {
     flex: none;
 }
 
+#sidebar {
+    width: 150px;
+    flex: none;
+}
+
 #navigation ul {
     padding-inline-start:0;
 }
@@ -155,7 +160,7 @@ select {
 
 .ad {
     padding: 20px;
-    height: 160px;
+    height: 100px;
 }
 
 .weapon_result {
