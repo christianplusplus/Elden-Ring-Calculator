@@ -180,7 +180,7 @@ var Main = {
         :state="output_state"
     />
 </div>
-<div class="elden_sheet">
+<div class="elden_sheet sidebar">
 </div>
 `,
 };
