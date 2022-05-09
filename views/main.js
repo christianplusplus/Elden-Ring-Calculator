@@ -180,7 +180,7 @@ var Main = {
         :state="output_state"
     />
 </div>
-<div class="elden_sheet ad" id="side-ad">
+<div class="elden_sheet">
 </div>
 `,
 };
