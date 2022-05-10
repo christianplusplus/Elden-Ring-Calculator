@@ -154,8 +154,7 @@ select {
     padding: 10px;
 }
 
-.ad {
-    padding: 10px;
+.ad > div {
     height: 60px;
 }
 
