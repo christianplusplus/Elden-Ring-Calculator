@@ -154,8 +154,8 @@ select {
     padding: 10px;
 }
 
-.ad > div {
-    height: 60px;
+.ad {
+    flex: auto;
 }
 
 .weapon_result {
