@@ -140,7 +140,7 @@ var Main = {
         fetch('data/boss_data.json')
             .then(response => response.json())
             .then(data => {
-                this.args.bosses = data;
+                this.args.bosses = data.sort((a,b)=>a.Name<b.Name?-1:a.Name>b.Name?1:0);
                 this.args.enemy = this.args.bosses.find(b=>b.Name=='Malenia, Blade of Miquella');
             });
             
