@@ -82,7 +82,7 @@ var Main = {
         quick_run(runnable, ...args) {
             for(var [key, value] of Object.entries(this.globals))
                 window[key] = value;
-            this.result = runnable(...args);
+            this.result = self[runnable](...args);
             this.output_state = 'output';
         },
         run(runnable, ...args) {
@@ -102,7 +102,7 @@ var Main = {
             };
             
             this.worker.postMessage({
-                runnable: runnable.name,
+                runnable: runnable,
                 args: JSON.stringify(args),
                 predicates: predicates,
                 globals: JSON.stringify(this.globals),

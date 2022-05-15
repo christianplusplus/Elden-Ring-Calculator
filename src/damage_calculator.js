@@ -1,12 +1,128 @@
 //window[window.btoa('signature')]()
-var c2lnbmF0dXJl = () => window.atob('Q29kZSB3cml0dGVuIGJ5IENocmlzdGlhbiBXZW5kbGFuZHQuIEFsbCByaWdodHMgcmVzZXJ2ZWQu');
-function optimize_class_weapon_and_attributes(target_attributes, target_level, constraints){return _private.optimize_class_weapon_and_attributes(target_attributes, target_level, constraints);};
-function optimize_weapon_and_attributes(minimum_attributes, free_attributes, constraints){return _private.optimize_weapon_and_attributes(minimum_attributes, free_attributes, constraints);};
-function get_damage_pretty(weapon, attributes){return _private.get_damage_pretty(weapon, attributes);};
-function status_update(progress) {};
+self['c2lnbmF0dXJl'] = () => window.atob('Q29kZSB3cml0dGVuIGJ5IENocmlzdGlhbiBXZW5kbGFuZHQuIEFsbCByaWdodHMgcmVzZXJ2ZWQu');
+self['status_update'] = function(){};
 
-var _private = {};
-(function(){
+self['optimize'] = function(minimum_attributes, optimize_class, optimize_free_points, class_level, free_points, weapons, modifiers, options) {
+    if(optimize_class)
+        if(optimize_free_points)
+            optimize_class_and_attributes();
+        else
+            optimize_class();
+    else if(optimize_free_points)
+        ;
+    else
+        ;
+}
+
+self['optimize_class_weapon_and_attributes'] = function(target_attributes, target_level, constraints) {
+    var prospective_weapons = weapons.filter(weapon => constraints.every(constraint => constraint(weapon)));
+    
+    var count = 0;
+    var best_damage = 0;
+    var best_weapon_and_attributes;
+    var best_class;
+    for(var [class_name, clazz] of Object.entries(class_stats)) {
+        var minimum_attributes = {};
+        var free_attributes = target_level + 79;
+        for(var [attr_name, attr_value] of Object.entries(target_attributes)) {
+            minimum_attributes[attr_name] = Math.max(attr_value, clazz[attr_name]);
+            free_attributes -= minimum_attributes[attr_name];
+        }
+        if(free_attributes >= 0) {
+            
+            var attribute_combinations;
+            var attribute_combinations_are_cached = false;
+            
+            for(var weapon of prospective_weapons) {
+                var locked_attribute_distribution = get_locked_attribute_distribution(weapon, minimum_attributes, free_attributes);
+                var damage;
+                var weapon_and_attributes;
+                if(!locked_attribute_distribution) {
+                    if(must_have_required_attributes) {
+                        continue;
+                    }
+                    if(!attribute_combinations_are_cached) {
+                        attribute_combinations = get_attribute_combinations(minimum_attributes, free_attributes);
+                        attribute_combinations_are_cached = true;
+                    }
+                    var weapon_attribute_states = get_weapon_attribute_states(weapon, attribute_combinations);
+                    [damage, weapon_and_attributes] = brute_solver(damage_objective, weapon_attribute_states);
+                }
+                else {
+                    var initial_attribute_distribution = get_initial_attribute_distribution(locked_attribute_distribution, free_attributes + get_attack_attribute_sum(minimum_attributes) - get_attack_attribute_sum(locked_attribute_distribution));
+                    [damage, weapon_and_attributes] = CSPSolver(damage_objective, {'weapon':weapon,'attrs':initial_attribute_distribution}, attr_generator, get_attr_contraints(locked_attribute_distribution));
+                }
+                self['status_update'](++count / (prospective_weapons.length * Object.keys(class_stats).length));
+                if(damage > best_damage) {
+                    best_damage = damage;
+                    best_weapon_and_attributes = weapon_and_attributes;
+                    best_class = class_name;
+                }
+            }
+        }
+        else {
+            count += prospective_weapons.length;
+            self['status_update'](count / (prospective_weapons.length * Object.keys(class_stats).length));
+        }
+    }
+    if(best_damage == 0) {
+        if(!prospective_weapons.length)
+            return {error: "No weapons found."};
+        else
+            return {error: "Your target level is too low."};
+    }
+    return {weapon: beautify_weapon_stats(best_weapon_and_attributes.weapon, best_weapon_and_attributes.attrs, best_damage), 'class':{class_name:best_class, attack_attributes:best_weapon_and_attributes.attrs}};
+}
+
+self['optimize_weapon_and_attributes'] = function(minimum_attributes, free_attributes, constraints) {
+    var prospective_weapons = weapons.filter(weapon => constraints.every(constraint => constraint(weapon)));
+    var attribute_combinations;
+    var attribute_combinations_are_cached = false;
+    
+    var count = 0;
+    var best_damage = 0;
+    var best_weapon_and_attributes;
+    
+    for(var weapon of prospective_weapons) {
+        var locked_attribute_distribution = get_locked_attribute_distribution(weapon, minimum_attributes, free_attributes);
+        var damage;
+        var weapon_and_attributes;
+        if(!locked_attribute_distribution) {
+            if(must_have_required_attributes) {
+                continue;
+            }
+            if(!attribute_combinations_are_cached) {
+                attribute_combinations = get_attribute_combinations(minimum_attributes, free_attributes);
+                attribute_combinations_are_cached = true;
+            }
+            var weapon_attribute_states = get_weapon_attribute_states(weapon, attribute_combinations);
+            [damage, weapon_and_attributes] = brute_solver(damage_objective, weapon_attribute_states);
+        }
+        else {
+            var initial_attribute_distribution = get_initial_attribute_distribution(locked_attribute_distribution, free_attributes + get_attack_attribute_sum(minimum_attributes) - get_attack_attribute_sum(locked_attribute_distribution));
+            [damage, weapon_and_attributes] = CSPSolver(damage_objective, {'weapon':weapon,'attrs':initial_attribute_distribution}, attr_generator, get_attr_contraints(locked_attribute_distribution));
+        }
+        self['status_update'](++count / prospective_weapons.length);
+        if(damage > best_damage) {
+            best_damage = damage;
+            best_weapon_and_attributes = weapon_and_attributes;
+        }
+    }
+    if(best_damage == 0)
+        return {error: "No weapons found."};
+    return {weapon: beautify_weapon_stats(best_weapon_and_attributes.weapon, best_weapon_and_attributes.attrs, best_damage), attributes: best_weapon_and_attributes.attrs};
+}
+
+self['get_damage_pretty'] = function(weapon, attributes) {
+    try {
+        var weapon_and_attributes = {weapon: weapon, attrs: attributes};
+        var damage = damage_objective(weapon_and_attributes);
+        return {weapon: beautify_weapon_stats(weapon_and_attributes.weapon, weapon_and_attributes.attrs, damage)};
+    } catch(error) {
+        return {error: "No weapon selected."};
+    }
+}
+
 var class_stats = {
     hero : {'lvl':7,'vig':14,'min':9,'end':12,'str':16,'dex':9,'int':7,'fai':8,'arc':11},
     bandit : {'lvl':5,'vig':10,'min':11,'end':10,'str':9,'dex':13,'int':9,'fai':8,'arc':14},
@@ -114,105 +230,6 @@ function DAMAGE_FORMULA(attack_power, defense, resistance) {
     else
         damage = attack_power * 0.9;
     return damage * resistance;
-}
-
-_private.optimize_class_weapon_and_attributes = function(target_attributes, target_level, constraints) {
-    var prospective_weapons = weapons.filter(weapon => constraints.every(constraint => constraint(weapon)));
-    
-    var count = 0;
-    var best_damage = 0;
-    var best_weapon_and_attributes;
-    var best_class;
-    for(var [class_name, clazz] of Object.entries(class_stats)) {
-        var minimum_attributes = {};
-        var free_attributes = target_level + 79;
-        for(var [attr_name, attr_value] of Object.entries(target_attributes)) {
-            minimum_attributes[attr_name] = Math.max(attr_value, clazz[attr_name]);
-            free_attributes -= minimum_attributes[attr_name];
-        }
-        if(free_attributes >= 0) {
-            
-            var attribute_combinations;
-            var attribute_combinations_are_cached = false;
-            
-            for(var weapon of prospective_weapons) {
-                var locked_attribute_distribution = get_locked_attribute_distribution(weapon, minimum_attributes, free_attributes);
-                var damage;
-                var weapon_and_attributes;
-                if(!locked_attribute_distribution) {
-                    if(must_have_required_attributes) {
-                        continue;
-                    }
-                    if(!attribute_combinations_are_cached) {
-                        attribute_combinations = get_attribute_combinations(minimum_attributes, free_attributes);
-                        attribute_combinations_are_cached = true;
-                    }
-                    var weapon_attribute_states = get_weapon_attribute_states(weapon, attribute_combinations);
-                    [damage, weapon_and_attributes] = brute_solver(damage_objective, weapon_attribute_states);
-                }
-                else {
-                    var initial_attribute_distribution = get_initial_attribute_distribution(locked_attribute_distribution, free_attributes + get_attack_attribute_sum(minimum_attributes) - get_attack_attribute_sum(locked_attribute_distribution));
-                    [damage, weapon_and_attributes] = CSPSolver(damage_objective, {'weapon':weapon,'attrs':initial_attribute_distribution}, attr_generator, get_attr_contraints(locked_attribute_distribution));
-                }
-                status_update(++count / (prospective_weapons.length * Object.keys(class_stats).length));
-                if(damage > best_damage) {
-                    best_damage = damage;
-                    best_weapon_and_attributes = weapon_and_attributes;
-                    best_class = class_name;
-                }
-            }
-        }
-        else {
-            count += prospective_weapons.length;
-            status_update(count / (prospective_weapons.length * Object.keys(class_stats).length));
-        }
-    }
-    if(best_damage == 0) {
-        if(!prospective_weapons.length)
-            return {error: "No weapons found."};
-        else
-            return {error: "Your target level is too low."};
-    }
-    return {weapon: beautify_weapon_stats(best_weapon_and_attributes.weapon, best_weapon_and_attributes.attrs, best_damage), 'class':{class_name:best_class, attack_attributes:best_weapon_and_attributes.attrs}};
-}
-
-_private.optimize_weapon_and_attributes = function(minimum_attributes, free_attributes, constraints) {
-    var prospective_weapons = weapons.filter(weapon => constraints.every(constraint => constraint(weapon)));
-    var attribute_combinations;
-    var attribute_combinations_are_cached = false;
-    
-    var count = 0;
-    var best_damage = 0;
-    var best_weapon_and_attributes;
-    
-    for(var weapon of prospective_weapons) {
-        var locked_attribute_distribution = get_locked_attribute_distribution(weapon, minimum_attributes, free_attributes);
-        var damage;
-        var weapon_and_attributes;
-        if(!locked_attribute_distribution) {
-            if(must_have_required_attributes) {
-                continue;
-            }
-            if(!attribute_combinations_are_cached) {
-                attribute_combinations = get_attribute_combinations(minimum_attributes, free_attributes);
-                attribute_combinations_are_cached = true;
-            }
-            var weapon_attribute_states = get_weapon_attribute_states(weapon, attribute_combinations);
-            [damage, weapon_and_attributes] = brute_solver(damage_objective, weapon_attribute_states);
-        }
-        else {
-            var initial_attribute_distribution = get_initial_attribute_distribution(locked_attribute_distribution, free_attributes + get_attack_attribute_sum(minimum_attributes) - get_attack_attribute_sum(locked_attribute_distribution));
-            [damage, weapon_and_attributes] = CSPSolver(damage_objective, {'weapon':weapon,'attrs':initial_attribute_distribution}, attr_generator, get_attr_contraints(locked_attribute_distribution));
-        }
-        status_update(++count / prospective_weapons.length);
-        if(damage > best_damage) {
-            best_damage = damage;
-            best_weapon_and_attributes = weapon_and_attributes;
-        }
-    }
-    if(best_damage == 0)
-        return {error: "No weapons found."};
-    return {weapon: beautify_weapon_stats(best_weapon_and_attributes.weapon, best_weapon_and_attributes.attrs, best_damage), attributes: best_weapon_and_attributes.attrs};
 }
 
 function get_locked_attribute_distribution(weapon, minimum_attributes, free_attributes) {
@@ -345,16 +362,6 @@ function print_damage_weapon_attributes(damage, weapon_and_attributes) {
 
 function damage_objective(weapon_and_attrs) {
     return Object.values(get_damage(weapon_and_attrs.weapon, weapon_and_attrs.attrs, enemy, weapon_and_attrs.weapon.physical_damage_types[0])).reduce((a,b)=>a+b);
-}
-
-_private.get_damage_pretty = function(weapon, attributes) {
-    try {
-        var weapon_and_attributes = {weapon: weapon, attrs: attributes};
-        var damage = damage_objective(weapon_and_attributes);
-        return {weapon: beautify_weapon_stats(weapon_and_attributes.weapon, weapon_and_attributes.attrs, damage)};
-    } catch(error) {
-        return {error: "No weapon selected."};
-    }
 }
 
 function attr_generator(weapon_and_attrs) {
@@ -516,5 +523,3 @@ function get_attribute_combinations(minimum_attributes, free_attributes) {
 function get_attack_attribute_sum(attributes) {
     return attributes['str'] + attributes['dex'] + attributes['int'] + attributes['fai'] + attributes['arc'];
 }
-
-}());

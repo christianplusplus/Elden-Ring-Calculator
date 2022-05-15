@@ -3,11 +3,6 @@ var classWeaponAttributeInputForm = {
         args: Object,
         target_attributes: Object,
     },
-    data() {
-        return {
-            optimize_class_weapon_and_attributes: optimize_class_weapon_and_attributes,
-        }
-    },
     methods: {
         disjunction(a, b) {
             return function(x) { return a(x) || b(x) };
