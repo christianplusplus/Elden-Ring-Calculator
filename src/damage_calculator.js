@@ -1,126 +1,110 @@
 //window[window.btoa('signature')]()
-self['c2lnbmF0dXJl'] = () => window.atob('Q29kZSB3cml0dGVuIGJ5IENocmlzdGlhbiBXZW5kbGFuZHQuIEFsbCByaWdodHMgcmVzZXJ2ZWQu');
-self['status_update'] = function(){};
+self['c2lnbmF0dXJl'] = function(){return window.atob('Q29kZSB3cml0dGVuIGJ5IENocmlzdGlhbiBXZW5kbGFuZHQuIEFsbCByaWdodHMgcmVzZXJ2ZWQu');};
 
-self['optimize'] = function(minimum_attributes, optimize_class, optimize_free_points, class_level, free_points, weapons, modifiers, options) {
-    if(optimize_class)
+self['status_update'] = function(){console.log('No status_update function defined.')};
+
+self['optimize'] = function(objective_statement, minimum_attributes, optimize_class, optimize_free_points, class_level, free_points, weapons, enemy, modifiers, options) {
+    progress_count = 0;
+    progress_total = weapons.length * Object.keys(class_stats).length;
+    
+    var objective = damage_objective; //TODO should depend on objective_statement and enemy
+    
+    if(optimize_class) {
         if(optimize_free_points)
-            optimize_class_and_attributes();
-        else
-            optimize_class();
-    else if(optimize_free_points)
-        ;
-    else
-        ;
+            return optimize_class_with_class_level(objective, minimum_attributes, class_level, weapons, enemy, modifiers, options);
+        return optimize_class_with_minimum_attributes(objective, minimum_attributes, weapons, enemy, modifiers, options);
+    }
+    if(!optimize_free_points)
+        free_points = 0;
+    return optimize_attributes(objective, minimum_attributes, free_points, weapons, modifiers, options)
 }
 
-self['optimize_class_weapon_and_attributes'] = function(target_attributes, target_level, constraints) {
-    var prospective_weapons = weapons.filter(weapon => constraints.every(constraint => constraint(weapon)));
-    
-    var count = 0;
-    var best_damage = 0;
+function optimize_class_with_class_level(objective, minimum_attributes, class_level, weapons, modifiers, options) {
+    var highest_value = 0;
     var best_weapon_and_attributes;
     var best_class;
-    for(var [class_name, clazz] of Object.entries(class_stats)) {
-        var minimum_attributes = {};
-        var free_attributes = target_level + 79;
-        for(var [attr_name, attr_value] of Object.entries(target_attributes)) {
-            minimum_attributes[attr_name] = Math.max(attr_value, clazz[attr_name]);
-            free_attributes -= minimum_attributes[attr_name];
+    
+    for(var [class_name, class_stats] of Object.entries(class_stats)) {
+        var minimum_class_attributes = {};
+        var free_points = class_level + 79;
+        for(var [attr_name, attr_value] of Object.entries(minimum_attributes)) {
+            minimum_class_attributes[attr_name] = Math.max(attr_value, class_stats[attr_name]);
+            free_points -= minimum_class_attributes[attr_name];
         }
-        if(free_attributes >= 0) {
-            
-            var attribute_combinations;
-            var attribute_combinations_are_cached = false;
-            
-            for(var weapon of prospective_weapons) {
-                var locked_attribute_distribution = get_locked_attribute_distribution(weapon, minimum_attributes, free_attributes);
-                var damage;
-                var weapon_and_attributes;
-                if(!locked_attribute_distribution) {
-                    if(must_have_required_attributes) {
-                        continue;
-                    }
-                    if(!attribute_combinations_are_cached) {
-                        attribute_combinations = get_attribute_combinations(minimum_attributes, free_attributes);
-                        attribute_combinations_are_cached = true;
-                    }
-                    var weapon_attribute_states = get_weapon_attribute_states(weapon, attribute_combinations);
-                    [damage, weapon_and_attributes] = brute_solver(damage_objective, weapon_attribute_states);
-                }
-                else {
-                    var initial_attribute_distribution = get_initial_attribute_distribution(locked_attribute_distribution, free_attributes + get_attack_attribute_sum(minimum_attributes) - get_attack_attribute_sum(locked_attribute_distribution));
-                    [damage, weapon_and_attributes] = CSPSolver(damage_objective, {'weapon':weapon,'attrs':initial_attribute_distribution}, attr_generator, get_attr_contraints(locked_attribute_distribution));
-                }
-                self['status_update'](++count / (prospective_weapons.length * Object.keys(class_stats).length));
-                if(damage > best_damage) {
-                    best_damage = damage;
-                    best_weapon_and_attributes = weapon_and_attributes;
-                    best_class = class_name;
-                }
-            }
+        if(free_points < 0) {
+            progress(weapons.length);
+            continue;
         }
-        else {
-            count += prospective_weapons.length;
-            self['status_update'](count / (prospective_weapons.length * Object.keys(class_stats).length));
+        
+        var [value, weapon_and_attributes] = optimize_attributes(objective, minimum_class_attributes, free_points, modifiers, options);
+        if(value > highest_value) {
+            highest_value = value;
+            best_weapon_and_attributes = weapon_and_attributes;
+            best_class = {name: class_name, stats: class_stats};
         }
+        progress();
     }
-    if(best_damage == 0) {
-        if(!prospective_weapons.length)
-            return {error: "No weapons found."};
-        else
-            return {error: "Your target level is too low."};
-    }
-    return {weapon: beautify_weapon_stats(best_weapon_and_attributes.weapon, best_weapon_and_attributes.attrs, best_damage), 'class':{class_name:best_class, attack_attributes:best_weapon_and_attributes.attrs}};
+    
+    return [highest_value, best_weapon_and_attributes, best_class];
 }
 
-self['optimize_weapon_and_attributes'] = function(minimum_attributes, free_attributes, constraints) {
-    var prospective_weapons = weapons.filter(weapon => constraints.every(constraint => constraint(weapon)));
-    var attribute_combinations;
-    var attribute_combinations_are_cached = false;
+function optimize_class_with_minimum_attributes(objective, minimum_attributes, weapons, modifiers, options) {
+    var highest_value = 0;
+    var lowest_level = Number.MAX_VALUE;
+    var best_weapon_and_attributes;
+    var best_class;
     
-    var count = 0;
-    var best_damage = 0;
+    for(var [class_name, class_stats] of Object.entries(class_stats)) {
+        var minimum_class_attributes = {};
+        var class_level = -79;
+        for(var [attr_name, attr_value] of Object.entries(minimum_attributes)) {
+            minimum_class_attributes[attr_name] = Math.max(attr_value, class_stats[attr_name]);
+            class_level += minimum_class_attributes[attr_name];
+        }
+        
+        var [value, weapon_and_attributes] = optimize_attributes(objective, minimum_class_attributes, 0, modifiers, options);
+        if(value > highest_value || (value == highest_value && class_level < lowest_level)) {
+            highest_value = value;
+            lowest_level = class_level;
+            best_weapon_and_attributes = weapon_and_attributes;
+            best_class = {name: class_name, stats: class_stats};
+        }
+        progress();
+    }
+    
+    return [highest_value, best_weapon_and_attributes, best_class];
+}
+
+function optimize_attributes(objective, minimum_attributes, free_points, weapons, modifiers, options) {
+    var highest_value = 0;
     var best_weapon_and_attributes;
     
-    for(var weapon of prospective_weapons) {
-        var locked_attribute_distribution = get_locked_attribute_distribution(weapon, minimum_attributes, free_attributes);
-        var damage;
-        var weapon_and_attributes;
-        if(!locked_attribute_distribution) {
-            if(must_have_required_attributes) {
-                continue;
-            }
-            if(!attribute_combinations_are_cached) {
-                attribute_combinations = get_attribute_combinations(minimum_attributes, free_attributes);
-                attribute_combinations_are_cached = true;
-            }
-            var weapon_attribute_states = get_weapon_attribute_states(weapon, attribute_combinations);
-            [damage, weapon_and_attributes] = brute_solver(damage_objective, weapon_attribute_states);
-        }
-        else {
-            var initial_attribute_distribution = get_initial_attribute_distribution(locked_attribute_distribution, free_attributes + get_attack_attribute_sum(minimum_attributes) - get_attack_attribute_sum(locked_attribute_distribution));
-            [damage, weapon_and_attributes] = CSPSolver(damage_objective, {'weapon':weapon,'attrs':initial_attribute_distribution}, attr_generator, get_attr_contraints(locked_attribute_distribution));
-        }
-        self['status_update'](++count / prospective_weapons.length);
-        if(damage > best_damage) {
-            best_damage = damage;
+    for(var weapon of weapons) {
+        var [value, weapon_and_attributes] = optimize_weapon(objective, minimum_attributes, free_points, modifiers, options);
+        if(value > highest_value) {
+            highest_value = value;
             best_weapon_and_attributes = weapon_and_attributes;
         }
+        progress();
     }
-    if(best_damage == 0)
-        return {error: "No weapons found."};
-    return {weapon: beautify_weapon_stats(best_weapon_and_attributes.weapon, best_weapon_and_attributes.attrs, best_damage), attributes: best_weapon_and_attributes.attrs};
+    
+    return [highest_value, best_weapon_and_attributes];
 }
 
-self['get_damage_pretty'] = function(weapon, attributes) {
-    try {
-        var weapon_and_attributes = {weapon: weapon, attrs: attributes};
-        var damage = damage_objective(weapon_and_attributes);
-        return {weapon: beautify_weapon_stats(weapon_and_attributes.weapon, weapon_and_attributes.attrs, damage)};
-    } catch(error) {
-        return {error: "No weapon selected."};
+function optimize_weapon(objective, minimum_attributes, free_points, modifiers, options) {
+    var minimum_weapon_attributes = get_minimum_weapon_attributes(weapon, minimum_attributes, free_points, options);
+    
+    if(!minimum_weapon_attributes) {
+        if(options['must_have_required_attributes'])
+            return [-1, null];
+        var attribute_combinations = get_attack_attribute_combinations(minimum_attributes, free_points);
+        var weapon_attribute_states = get_weapon_attribute_states(weapon, attribute_combinations);
+        return brute_solver(objective, weapon_attribute_states);
     }
+    
+    var free_points_for_weapon = free_points + get_attack_attribute_sum(minimum_attributes) - get_attack_attribute_sum(minimum_weapon_attributes);
+    var initial_attribute_distribution = get_initial_attribute_distribution(minimum_weapon_attributes, free_points_for_weapon);
+    return CSPSolver(objective, {'weapon':weapon,'attrs':initial_attribute_distribution}, attr_generator, get_attr_contraints(minimum_weapon_attributes));
 }
 
 var class_stats = {
@@ -135,20 +119,23 @@ var class_stats = {
     prophet : {'lvl':7,'vig':10,'min':14,'end':8,'str':11,'dex':10,'int':7,'fai':16,'arc':10},
     samurai : {'lvl':9,'vig':12,'min':11,'end':13,'str':12,'dex':15,'int':9,'fai':8,'arc':8},
 };
+
 var attack_types = [
     'physical',
     'magic',
     'fire',
     'lightning',
     'holy',
-]
+];
+
 var attack_sources = [
     'str',
     'dex',
     'int',
     'fai',
     'arc',
-]
+];
+
 function IF(a, b, c) {return a ? b : c;}
 function ADD(a, b) {return a + b;}
 function MINUS(a, b) {return a - b;}
@@ -217,6 +204,7 @@ var attribute_curves = {
             MULTIPLY(20,DIVIDE(attribute-1,17)) )))
     },
 }
+
 function DAMAGE_FORMULA(attack_power, defense, resistance) {
     var damage;
     if(defense > attack_power * 8)
@@ -232,9 +220,16 @@ function DAMAGE_FORMULA(attack_power, defense, resistance) {
     return damage * resistance;
 }
 
-function get_locked_attribute_distribution(weapon, minimum_attributes, free_attributes) {
+var progress_count = 0;
+var progress_total = 100;
+function progress(units = 1) {
+    progress_count += units;
+    self['status_update'](progress_count / progress_total);
+}
+
+function get_minimum_weapon_attributes(weapon, minimum_attributes, free_attributes, options) {
     var locked_attribute_distribution = {};
-    var attributes_needed = Math.max((is_two_handing ? Math.ceil(parseInt(weapon['required_str']) / 1.5) : parseInt(weapon['required_str'])) - minimum_attributes['str'], 0);
+    var attributes_needed = Math.max((options['is_two_handing'] ? Math.ceil(parseInt(weapon['required_str']) / 1.5) : parseInt(weapon['required_str'])) - minimum_attributes['str'], 0);
     locked_attribute_distribution['str'] = minimum_attributes['str'] + attributes_needed;
     free_attributes -= attributes_needed;
     attack_sources.slice(1).forEach(attack_source => {
@@ -502,7 +497,19 @@ function canScale(weapon, attack_type, source) {
     return attack_element_scaling[weapon['attack_element_scaling_id']][attack_type + '_' + source + '_element_scaling'];
 }
 
-function get_attribute_combinations(minimum_attributes, free_attributes) {
+var minimum_attributes_catch = null;
+var attack_attribute_combinations_catch;
+function get_attack_attribute_combinations(minimum_attributes, free_attributes) {
+    if(
+        minimum_attributes_catch != null
+        && minimum_attributes_catch['str'] == minimum_attributes['str']
+        && minimum_attributes_catch['dex'] == minimum_attributes['dex']
+        && minimum_attributes_catch['int'] == minimum_attributes['int']
+        && minimum_attributes_catch['fai'] == minimum_attributes['fai']
+        && minimum_attributes_catch['arc'] == minimum_attributes['arc']
+        && minimum_attributes_catch['free_attributes'] == free_attributes
+    ) return attack_attribute_combinations_catch;
+    
     var attribute_combinations = [];
     for(var str = minimum_attributes['str']; str <= Math.min(99, minimum_attributes['str'] + free_attributes); str++) {
         for(var dex = minimum_attributes['dex']; dex <= Math.min(99, minimum_attributes['dex'] + free_attributes); dex++) {
@@ -517,6 +524,9 @@ function get_attribute_combinations(minimum_attributes, free_attributes) {
             }
         }
     }
+    minimum_attributes_catch = Object.create(minimum_attributes);
+    minimum_attributes_catch['free_attributes'] = free_attributes;
+    attack_attribute_combinations_catch = Object.create(attribute_combinations);
     return attribute_combinations;
 }
 
