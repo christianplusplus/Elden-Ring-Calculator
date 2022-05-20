@@ -6,7 +6,6 @@ var weaponAttributeDamageInputForm = {
     },
     data() {
         return {
-            get_damage_pretty: get_damage_pretty,
             weapon: {},
         }
     },
@@ -48,7 +47,7 @@ var weaponAttributeDamageInputForm = {
     watch: {
         formEvent: {
             handler() {
-                this.$emit('quick_run', this.get_damage_pretty, this.weapon, this.attack_attributes);
+                this.$emit('quick_run', 'get_damage_pretty', this.weapon, this.attack_attributes);
             },
             deep: true,
             flush: 'post',
