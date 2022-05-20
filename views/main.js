@@ -6,19 +6,23 @@ var Main = {
                 attributes: {},
                 floatingPoints:10,
                 target_level: 150,
-                must_have_required_attributes: true,
                 is_two_handing: false,
                 is_dual_wieldable: false,
-                lock_class: true,
-                lock_weapon: true,
-                lock_attributes: true,
-                weapons: {},
+                optimize_class: true,
+                optimize_weapon: true,
+                optimize_attributes: true,
+                weapon: {},
+                weapons: [],
                 weapon_types: [],
                 weapon_types_selected: [],
                 affinities: [],
                 affinities_selected: [],
                 modifiers: [],
-                options: {},
+                options: {
+                    must_have_required_attributes: true,
+                    is_two_handing: false,
+                    is_dual_wieldable: false,
+                },
                 bosses: {},
                 enemy: {},
                 attack_element_scaling: {},
@@ -50,7 +54,6 @@ var Main = {
                     'fai',
                     'arc',
                 ],
-                weapon_name: '',
             },
             result: {},
             progress: 0,
@@ -83,13 +86,13 @@ var Main = {
         },
         blank_slate() {
             this.args.attributes.vig = 50;
-            this.args.attributes.min = 0;
+            this.args.attributes.min = 1;
             this.args.attributes.end = 20;
-            this.args.attributes.str = 0;
-            this.args.attributes.dex = 0;
-            this.args.attributes.int = 0;
-            this.args.attributes.fai = 0;
-            this.args.attributes.arc = 0;
+            this.args.attributes.str = 1;
+            this.args.attributes.dex = 1;
+            this.args.attributes.int = 1;
+            this.args.attributes.fai = 1;
+            this.args.attributes.arc = 1;
         },
         quick_run(runnable, ...args) {
             this.result = self[runnable](...args);
@@ -130,7 +133,7 @@ var Main = {
         fetch('data/weapons.json')
             .then(response => response.json())
             .then(data => {
-                this.args.weapons = data;
+                this.args.weapons = Object.values(data);
                 this.args.weapon_types = [...new Set(this.args.weapons.map(w=>w.weapon_type))];
                 this.args.affinities = [...new Set(this.args.weapons.map(w=>w.affinity))];
             });
@@ -182,6 +185,7 @@ var Main = {
         :progress="progress"
         :state="output_state"
     />
+    <div class="filler"></div>
 </div>
 <!--
 <div class="elden_sheet sidebar">

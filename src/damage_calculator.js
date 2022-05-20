@@ -5,18 +5,31 @@ self['status_update'] = function(){console.log('No status_update function define
 
 self['optimize'] = function(objective_statement, minimum_attributes, optimize_class, optimize_free_points, class_level, free_points, weapons, enemy, modifiers, options) {
     progress_count = 0;
-    progress_total = weapons.length * Object.keys(class_stats).length;
+    progress_total = optimize_class ? weapons.length * Object.keys(class_stats).length : weapons.length;
     
-    var objective = get_damage_objective(enemy); //TODO should depend on objective_statement
-    
-    if(optimize_class) {
-        if(optimize_free_points)
-            return optimize_class_with_class_level(objective, minimum_attributes, class_level, weapons, modifiers, options);
-        return optimize_class_with_minimum_attributes(objective, minimum_attributes, weapons, modifiers, options);
+    var objective = get_damage_objective(enemy, modifiers, options); //TODO should depend on objective_statement
+    var result = {};
+    var resultArray;
+    try {
+        if(optimize_class) {
+            if(optimize_free_points)
+                resultArray = optimize_class_with_class_level(objective, minimum_attributes, class_level, weapons, modifiers, options);
+            else
+                resultArray = optimize_class_with_minimum_attributes(objective, minimum_attributes, weapons, modifiers, options);
+            result['class'] = {class_name: resultArray[2].name, attack_attributes: resultArray[1].attrs};
+        }
+        else {
+            if(!optimize_free_points)
+                free_points = 0;
+            resultArray = optimize_weapons(objective, minimum_attributes, free_points, weapons, modifiers, options);
+            if(optimize_free_points)
+                result['attributes'] = resultArray[1].attrs;
+        }
+    } catch(e) {
+        return {error: "No Results"};
     }
-    if(!optimize_free_points)
-        free_points = 0;
-    return optimize_weapons(objective, minimum_attributes, free_points, weapons, modifiers, options)
+    result['weapon'] = beautify_weapon_stats(resultArray[1].weapon, resultArray[1].attrs, resultArray[0], modifiers, options);
+    return result;
 }
 
 function optimize_class_with_class_level(objective, minimum_attributes, class_level, weapons, modifiers, options) {
@@ -24,11 +37,11 @@ function optimize_class_with_class_level(objective, minimum_attributes, class_le
     var best_weapon_and_attributes;
     var best_class;
     
-    for(var [class_name, class_stats] of Object.entries(class_stats)) {
+    for(var [name, stats] of Object.entries(class_stats)) {
         var minimum_class_attributes = {};
         var free_points = class_level + 79;
         for(var [attr_name, attr_value] of Object.entries(minimum_attributes)) {
-            minimum_class_attributes[attr_name] = Math.max(attr_value, class_stats[attr_name]);
+            minimum_class_attributes[attr_name] = Math.max(attr_value, stats[attr_name]);
             free_points -= minimum_class_attributes[attr_name];
         }
         if(free_points < 0) {
@@ -40,7 +53,7 @@ function optimize_class_with_class_level(objective, minimum_attributes, class_le
         if(value > highest_value) {
             highest_value = value;
             best_weapon_and_attributes = weapon_and_attributes;
-            best_class = {name: class_name, stats: class_stats};
+            best_class = {name: name, stats: stats};
         }
         progress();
     }
@@ -54,11 +67,11 @@ function optimize_class_with_minimum_attributes(objective, minimum_attributes, w
     var best_weapon_and_attributes;
     var best_class;
     
-    for(var [class_name, class_stats] of Object.entries(class_stats)) {
+    for(var [name, stats] of Object.entries(class_stats)) {
         var minimum_class_attributes = {};
         var class_level = -79;
         for(var [attr_name, attr_value] of Object.entries(minimum_attributes)) {
-            minimum_class_attributes[attr_name] = Math.max(attr_value, class_stats[attr_name]);
+            minimum_class_attributes[attr_name] = Math.max(attr_value, stats[attr_name]);
             class_level += minimum_class_attributes[attr_name];
         }
         
@@ -67,7 +80,7 @@ function optimize_class_with_minimum_attributes(objective, minimum_attributes, w
             highest_value = value;
             lowest_level = class_level;
             best_weapon_and_attributes = weapon_and_attributes;
-            best_class = {name: class_name, stats: class_stats};
+            best_class = {name: name, stats: stats};
         }
         progress();
     }
@@ -92,7 +105,7 @@ function optimize_weapons(objective, minimum_attributes, free_points, weapons, m
 }
 
 function optimize_attributes(objective, minimum_attributes, free_points, weapon, modifiers, options) {
-    var minimum_weapon_attributes = get_minimum_weapon_attributes(weapon, minimum_attributes, free_points, options);
+    var minimum_weapon_attributes = get_minimum_weapon_attributes(weapon, minimum_attributes, free_points, modifiers, options);
     
     if(minimum_weapon_attributes) {
         var free_points_for_weapon = free_points + get_attack_attribute_sum(minimum_attributes) - get_attack_attribute_sum(minimum_weapon_attributes);
@@ -228,7 +241,7 @@ function progress(units = 1) {
     self['status_update'](progress_count / progress_total);
 }
 
-function get_minimum_weapon_attributes(weapon, minimum_attributes, free_attributes, options) {
+function get_minimum_weapon_attributes(weapon, minimum_attributes, free_attributes, modifiers, options) {
     var locked_attribute_distribution = {};
     var attributes_needed = Math.max((options['is_two_handing'] ? Math.ceil(parseInt(weapon['required_str']) / 1.5) : parseInt(weapon['required_str'])) - minimum_attributes['str'], 0);
     locked_attribute_distribution['str'] = minimum_attributes['str'] + attributes_needed;
@@ -241,8 +254,8 @@ function get_minimum_weapon_attributes(weapon, minimum_attributes, free_attribut
     return free_attributes >= 0 ? locked_attribute_distribution : null;
 }
 
-function beautify_weapon_stats(weapon, attributes, damage) {
-    var attack_power = get_attack_power(weapon, attributes);
+function beautify_weapon_stats(weapon, attributes, damage, modifiers, options) {
+    var attack_power = get_attack_powers(weapon, attributes, modifiers, options);
     var base_attack_power = attack_types.map(
             attack_type => ({[attack_type]: parseFloat(weapon['max_base_' + attack_type + '_attack_power'])})
         ).reduce(
@@ -318,15 +331,6 @@ function get_scaling_grade(scaling) {
     return '-';
 }
 
-function get_attributes_needed_to_wield(weapon, attributes) {
-    var needed = 0;
-    needed += Math.max((is_two_handing ? Math.ceil(parseInt(weapon['required_str']) / 1.5) : parseInt(weapon['required_str'])) - attributes['str'], 0);
-    for(var source in attributes.slice(1)) {
-        needed += Math.max(parseInt(weapon['required_' + source]) - attributes[source], 0);
-    }
-    return needed;
-}
-
 function get_initial_attribute_distribution(locked_attribute_distribution, free_attributes) {
     var initial_attribute_distribution = {};
     attack_sources.forEach(attack_source => {
@@ -356,9 +360,9 @@ function print_damage_weapon_attributes(damage, weapon_and_attributes) {
     console.log(damage, weapon_and_attributes.weapon.name, JSON.stringify(weapon_and_attributes.attrs));
 }
 
-function get_damage_objective(enemy) {
+function get_damage_objective(enemy, modifiers, options) {
     return function(weapon_and_attrs) {
-        return get_damage(weapon_and_attrs.weapon, weapon_and_attrs.attrs, enemy, weapon_and_attrs.weapon.physical_damage_types[0], 1);
+        return get_damage(weapon_and_attrs.weapon, weapon_and_attrs.attrs, enemy, weapon_and_attrs.weapon.physical_damage_types[0], 1, modifiers, options);
     };
 }
 
@@ -405,7 +409,7 @@ function ascent_solver(objective, initial_state, state_generator, constraints) {
     var highest_value = objective(initial_state);
     var next_state = initial_state;
     do {
-        state = next_state;
+        var state = next_state;
         next_state = null;
         for(var candidate_state of state_generator(state)) {
             if(constraints.every(constraint => constraint(candidate_state))) {
@@ -433,8 +437,8 @@ function brute_solver(objective, state_space) {
     return [highest_value, optimal_state];
 }
 
-function get_damage(weapon, attributes, target, swing_type, movement_value) {
-    var attack_powers = get_attack_powers(weapon, attributes);
+function get_damage(weapon, attributes, target, swing_type, movement_value, modifiers, options) {
+    var attack_powers = get_attack_powers(weapon, attributes, modifiers, options);
     return Object.entries(attack_powers).map(([attack_type, attack_power]) => get_type_damage(attack_type, attack_power, target, swing_type, movement_value)).reduce(sum);
 }
 
@@ -452,18 +456,18 @@ function sum(a, b) {
     return a + b;
 }
 
-function get_attack_powers(weapon, attributes) {
+function get_attack_powers(weapon, attributes, modifiers, options) {
     var attack_powers = {};
     attack_types.forEach( attack_type =>
-        attack_powers[attack_type] = parseFloat(weapon['max_base_' + attack_type + '_attack_power']) + get_max_bonus_attack_power(weapon, attack_type, attributes)
+        attack_powers[attack_type] = parseFloat(weapon['max_base_' + attack_type + '_attack_power']) + get_max_bonus_attack_power(weapon, attack_type, attributes, modifiers, options)
     );
     return attack_powers;
 }
 
-function get_max_bonus_attack_power(weapon, attack_type, attributes) {
+function get_max_bonus_attack_power(weapon, attack_type, attributes, modifiers, options) {
     var source_attack_power;
-    if(attack_sources.every( source => meets_requirement(weapon, attack_type, attributes, source))) {
-        var source_attack_powers = attack_sources.map( source => get_attack_power_per_source(weapon, attack_type, attributes, source));
+    if(attack_sources.every( source => meets_requirement(weapon, attack_type, attributes, source, modifiers, options))) {
+        var source_attack_powers = attack_sources.map( source => get_attack_power_per_source(weapon, attack_type, attributes, source, modifiers, options));
         source_attack_power = source_attack_powers.reduce((a, b) => a + b);
     }
     else {
@@ -472,17 +476,17 @@ function get_max_bonus_attack_power(weapon, attack_type, attributes) {
     return source_attack_power;
 }
 
-function meets_requirement(weapon, attack_type, attributes, source) {
+function meets_requirement(weapon, attack_type, attributes, source, modifiers, options) {
     if(source == 'str')
-        return !can_scale(weapon, attack_type, source) || attributes[source] >= (is_two_handing ? Math.ceil(parseInt(weapon['required_str']) / 1.5) : parseInt(weapon['required_str']));
+        return !can_scale(weapon, attack_type, source) || attributes[source] >= (options['is_two_handing'] ? Math.ceil(parseInt(weapon['required_str']) / 1.5) : parseInt(weapon['required_str']));
     return !can_scale(weapon, attack_type, source) || attributes[source] >= parseInt(weapon['required_' + source]);
 }
 
-function get_attack_power_per_source(weapon, attack_type, attributes, source) {
+function get_attack_power_per_source(weapon, attack_type, attributes, source, modifiers, options) {
     if(!can_scale(weapon, attack_type, source))
         return 0;
     var attribute = attributes[source];
-    if(is_two_handing && source == 'str')
+    if(options['is_two_handing'] && source == 'str')
         attribute *= 1.5;
     var base_attack_power = parseFloat(weapon['max_base_' + attack_type + '_attack_power']);
     var bonus_attack_power_scaling = parseFloat(weapon['max_' + source +'_scaling']);
@@ -524,9 +528,9 @@ function get_attack_attribute_combinations(minimum_attributes, free_attributes) 
         }
     }
     
-    minimum_attributes_catch = Object.create(minimum_attributes);
+    minimum_attributes_catch = Object.assign({}, minimum_attributes);
     minimum_attributes_catch['free_attributes'] = free_attributes;
-    attack_attribute_combinations_catch = Object.create(attribute_combinations);
+    attack_attribute_combinations_catch = attribute_combinations;
     return attribute_combinations;
 }
 
