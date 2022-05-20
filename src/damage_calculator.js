@@ -493,7 +493,7 @@ function get_attack_power_per_source(weapon, attack_type, attributes, source) {
 }
 
 function can_scale(weapon, attack_type, source) {
-    return attack_element_scaling[weapon['attack_element_scaling_id']][attack_type + '_' + source + '_element_scaling'];
+    return weapon[attack_type + '_' + source + '_element_scaling'];
 }
 
 var minimum_attributes_catch = null;

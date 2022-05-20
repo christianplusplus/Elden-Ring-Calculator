@@ -1,1 +1,535 @@
-var a0_0x22c7d6=a0_0x5938;(function(_0x5d0494,_0xb437d5){var _0x1f737e=a0_0x5938,_0xd3ec85=_0x5d0494();while(!![]){try{var _0x2a5441=-parseInt(_0x1f737e(0x1f2))/0x1*(parseInt(_0x1f737e(0x1f3))/0x2)+parseInt(_0x1f737e(0x1c2))/0x3+-parseInt(_0x1f737e(0x1bb))/0x4+-parseInt(_0x1f737e(0x1b9))/0x5+-parseInt(_0x1f737e(0x1ce))/0x6+parseInt(_0x1f737e(0x1ff))/0x7+parseInt(_0x1f737e(0x1ef))/0x8;if(_0x2a5441===_0xb437d5)break;else _0xd3ec85['push'](_0xd3ec85['shift']());}catch(_0x23f740){_0xd3ec85['push'](_0xd3ec85['shift']());}}}(a0_0x4979,0x237a2));var a0_0x1a3bf5=(function(){var _0x4c5c5a=!![];return function(_0x189ef0,_0x3dee88){var _0x406562=_0x4c5c5a?function(){if(_0x3dee88){var _0x1bc492=_0x3dee88['apply'](_0x189ef0,arguments);return _0x3dee88=null,_0x1bc492;}}:function(){};return _0x4c5c5a=![],_0x406562;};}()),a0_0x1fb09e=a0_0x1a3bf5(this,function(){var _0x261377=a0_0x5938;return a0_0x1fb09e[_0x261377(0x1d4)]()['search'](_0x261377(0x1c5))[_0x261377(0x1d4)]()[_0x261377(0x1eb)](a0_0x1fb09e)['search'](_0x261377(0x1c5));});a0_0x1fb09e(),self['c2lnbmF0dXJl']=()=>window[a0_0x22c7d6(0x1cb)](a0_0x22c7d6(0x201)),self[a0_0x22c7d6(0x1e6)]=function(){};var class_stats={'hero':{'lvl':0x7,'vig':0xe,'min':0x9,'end':0xc,'str':0x10,'dex':0x9,'int':0x7,'fai':0x8,'arc':0xb},'bandit':{'lvl':0x5,'vig':0xa,'min':0xb,'end':0xa,'str':0x9,'dex':0xd,'int':0x9,'fai':0x8,'arc':0xe},'astrologer':{'lvl':0x6,'vig':0x9,'min':0xf,'end':0x9,'str':0x8,'dex':0xc,'int':0x10,'fai':0x7,'arc':0x9},'warrior':{'lvl':0x8,'vig':0xb,'min':0xc,'end':0xb,'str':0xa,'dex':0x10,'int':0xa,'fai':0x8,'arc':0x9},'prisoner':{'lvl':0x9,'vig':0xb,'min':0xc,'end':0xb,'str':0xb,'dex':0xe,'int':0xe,'fai':0x6,'arc':0x9},'confessor':{'lvl':0xa,'vig':0xa,'min':0xd,'end':0xa,'str':0xc,'dex':0xc,'int':0x9,'fai':0xe,'arc':0x9},'wretch':{'lvl':0x1,'vig':0xa,'min':0xa,'end':0xa,'str':0xa,'dex':0xa,'int':0xa,'fai':0xa,'arc':0xa},'vagabond':{'lvl':0x9,'vig':0xf,'min':0xa,'end':0xb,'str':0xe,'dex':0xd,'int':0x9,'fai':0x9,'arc':0x7},'prophet':{'lvl':0x7,'vig':0xa,'min':0xe,'end':0x8,'str':0xb,'dex':0xa,'int':0x7,'fai':0x10,'arc':0xa},'samurai':{'lvl':0x9,'vig':0xc,'min':0xb,'end':0xd,'str':0xc,'dex':0xf,'int':0x9,'fai':0x8,'arc':0x8}},attack_types=[a0_0x22c7d6(0x1ec),a0_0x22c7d6(0x1b2),a0_0x22c7d6(0x1f0),'lightning',a0_0x22c7d6(0x1f8)],attack_sources=[a0_0x22c7d6(0x1fb),a0_0x22c7d6(0x1e9),a0_0x22c7d6(0x1d0),a0_0x22c7d6(0x1cc),a0_0x22c7d6(0x1ed)];function IF(_0x526187,_0x3d6230,_0x1d5027){return _0x526187?_0x3d6230:_0x1d5027;}function ADD(_0x6657c6,_0x502070){return _0x6657c6+_0x502070;}function MINUS(_0xedae9f,_0x4fc370){return _0xedae9f-_0x4fc370;}function a0_0x4979(){var _0x50c898=['value','reduce','attrs','toUpperCase','weight','Your\x20target\x20level\x20is\x20too\x20low.','name','slice','get_damage_pretty','required_int','status_update','length','max_str_scaling','dex','required_str','constructor','physical','arc','_element_scaling','5170896jEjPiZ','fire','max','1GPiwmB','399754RpGmKj','max_base_','min','next','filter','holy','log','required_','str','max_base_bleed','dual_wieldable','weapon_type','1398712mTsHMO','_damage_calculation_id','Q29kZSB3cml0dGVuIGJ5IENocmlzdGlhbiBXZW5kbGFuZHQuIEFsbCByaWdodHMgcmVzZXJ2ZWQu','max_base_poison','forEach','magic','assign','max_dex_scaling','floor','push','max_base_sleep','_scaling','954820KHpZeV','entries','366200UmTOvI','No\x20weapon\x20selected.','optimize_weapon_and_attributes','optimize_class_weapon_and_attributes','base_weapon_name','attack_element_scaling_id','iterator','139833mrnKzF','ceil','stringify','(((.+)+)+)+$','max_fai_scaling','done','required_arc','physical_damage_types','max_','atob','fai','weapon','1590504xplQwF','keys','int','max_base_scarlet_rot','max_arc_scaling','No\x20weapons\x20found.','toString','required_fai','values','required_dex','_attack_power','toFixed','map','every'];a0_0x4979=function(){return _0x50c898;};return a0_0x4979();}function MULTIPLY(_0x264120,_0x3807eb){return _0x264120*_0x3807eb;}function DIVIDE(_0x311471,_0x357146){return _0x311471/_0x357146;}function POW(_0xb4ad16,_0x4c9bcb){return _0xb4ad16**_0x4c9bcb;}var attribute_curves={0x0:function(_0xec54e6){return IF(0x50<_0xec54e6,ADD(0x5a,MULTIPLY(0x14,DIVIDE(_0xec54e6-0x50,0x46))),IF(0x3c<_0xec54e6,ADD(0x4b,MULTIPLY(0xf,DIVIDE(_0xec54e6-0x3c,0x14))),IF(0x12<_0xec54e6,ADD(0x19,MULTIPLY(0x32,MINUS(0x1,POW(MINUS(0x1,DIVIDE(_0xec54e6-0x12,0x2a)),1.2)))),MULTIPLY(0x19,POW(DIVIDE(_0xec54e6-0x1,0x11),1.2)))));},0x1:function(_0x142253){return IF(0x50<_0x142253,ADD(0x5a,MULTIPLY(0x14,DIVIDE(_0x142253-0x50,0x46))),IF(0x3c<_0x142253,ADD(0x4b,MULTIPLY(0xf,DIVIDE(_0x142253-0x3c,0x14))),IF(0x14<_0x142253,ADD(0x23,MULTIPLY(0x28,MINUS(0x1,POW(MINUS(0x1,DIVIDE(_0x142253-0x14,0x28)),1.2)))),MULTIPLY(0x23,POW(DIVIDE(_0x142253-0x1,0x13),1.2)))));},0x2:function(_0x539d01){return IF(0x50<_0x539d01,ADD(0x5a,MULTIPLY(0x14,DIVIDE(_0x539d01-0x50,0x46))),IF(0x3c<_0x539d01,ADD(0x4b,MULTIPLY(0xf,DIVIDE(_0x539d01-0x3c,0x14))),IF(0x14<_0x539d01,ADD(0x23,MULTIPLY(0x28,MINUS(0x1,POW(MINUS(0x1,DIVIDE(_0x539d01-0x14,0x28)),1.2)))),MULTIPLY(0x23,POW(DIVIDE(_0x539d01-0x1,0x13),1.2)))));},0x4:function(_0x10d49f){return IF(0x50<_0x10d49f,ADD(0x5f,MULTIPLY(0x5,DIVIDE(_0x10d49f-0x50,0x13))),IF(0x32<_0x10d49f,ADD(0x50,MULTIPLY(0xf,DIVIDE(_0x10d49f-0x32,0x1e))),IF(0x14<_0x10d49f,ADD(0x28,MULTIPLY(0x28,DIVIDE(_0x10d49f-0x14,0x1e))),MULTIPLY(0x28,DIVIDE(_0x10d49f-0x1,0x13)))));},0x7:function(_0x4d94ca){return IF(0x50<_0x4d94ca,ADD(0x5a,MULTIPLY(0x14,DIVIDE(_0x4d94ca-0x50,0x46))),IF(0x3c<_0x4d94ca,ADD(0x4b,MULTIPLY(0xf,DIVIDE(_0x4d94ca-0x3c,0x14))),IF(0x14<_0x4d94ca,ADD(0x23,MULTIPLY(0x28,MINUS(0x1,POW(MINUS(0x1,DIVIDE(_0x4d94ca-0x14,0x28)),1.2)))),MULTIPLY(0x23,POW(DIVIDE(_0x4d94ca-0x1,0x13),1.2)))));},0x8:function(_0x317635){return IF(0x50<_0x317635,ADD(0x5a,MULTIPLY(0x14,DIVIDE(_0x317635-0x50,0x46))),IF(0x3c<_0x317635,ADD(0x4b,MULTIPLY(0xf,DIVIDE(_0x317635-0x3c,0x14))),IF(0x10<_0x317635,ADD(0x19,MULTIPLY(0x32,MINUS(0x1,POW(MINUS(0x1,DIVIDE(_0x317635-0x10,0x2c)),1.2)))),MULTIPLY(0x19,POW(DIVIDE(_0x317635-0x1,0xf),1.2)))));},0xc:function(_0x322717){return IF(0x2d<_0x322717,ADD(0x4b,MULTIPLY(0x19,DIVIDE(_0x322717-0x2d,0x36))),IF(0x1e<_0x322717,ADD(0x37,MULTIPLY(0x14,DIVIDE(_0x322717-0x1e,0xf))),IF(0xf<_0x322717,ADD(0xa,MULTIPLY(0x2d,DIVIDE(_0x322717-0xf,0xf))),MULTIPLY(0xa,DIVIDE(_0x322717-0x1,0xe)))));},0xe:function(_0x155612){return IF(0x50<_0x155612,ADD(0x55,MULTIPLY(0xf,DIVIDE(_0x155612-0x50,0x13))),IF(0x28<_0x155612,ADD(0x3c,MULTIPLY(0x19,DIVIDE(_0x155612-0x28,0x28))),IF(0x14<_0x155612,ADD(0x28,MULTIPLY(0x14,DIVIDE(_0x155612-0x14,0x14))),MULTIPLY(0x28,DIVIDE(_0x155612-0x1,0x13)))));},0xf:function(_0x36d372){return IF(0x50<_0x36d372,ADD(0x5f,MULTIPLY(0x5,DIVIDE(_0x36d372-0x50,0x13))),IF(0x3c<_0x36d372,ADD(0x41,MULTIPLY(0x1e,DIVIDE(_0x36d372-0x3c,0x14))),IF(0x19<_0x36d372,ADD(0x19,MULTIPLY(0x28,DIVIDE(_0x36d372-0x19,0x23))),MULTIPLY(0x19,DIVIDE(_0x36d372-0x1,0x18)))));},0x10:function(_0x4df5cf){return IF(0x50<_0x4df5cf,ADD(0x5a,MULTIPLY(0xa,DIVIDE(_0x4df5cf-0x50,0x13))),IF(0x3c<_0x4df5cf,ADD(0x4b,MULTIPLY(0xf,DIVIDE(_0x4df5cf-0x3c,0x14))),IF(0x12<_0x4df5cf,ADD(0x14,MULTIPLY(0x37,DIVIDE(_0x4df5cf-0x12,0x2a))),MULTIPLY(0x14,DIVIDE(_0x4df5cf-0x1,0x11)))));}};function DAMAGE_FORMULA(_0x380cf6,_0x46d5e1,_0x588cbc){return(_0x46d5e1>0x8*_0x380cf6?0.1*_0x380cf6:_0x46d5e1>_0x380cf6?_0x380cf6*(19.2/0x31*(_0x380cf6/_0x46d5e1-0.125)**0x2+0.1):_0x46d5e1>0.4*_0x380cf6?_0x380cf6*(-0.4/0x3*(_0x380cf6/_0x46d5e1-2.5)**0x2+0.7):_0x46d5e1>0.125*_0x380cf6?_0x380cf6*(-0.8/0x79*(_0x380cf6/_0x46d5e1-0x8)**0x2+0.9):0.9*_0x380cf6)*_0x588cbc;}self[a0_0x22c7d6(0x1be)]=function(_0x486526,_0x218f32,_0x5cf1de){var _0x217287=a0_0x22c7d6,_0x4bc24f=weapons[_0x217287(0x1f7)](_0x322756=>_0x5cf1de[_0x217287(0x1db)](_0x22bbd8=>_0x22bbd8(_0x322756))),_0x1dba1a=0x0,_0x4203b8=0x0,_0x2e95f0,_0x2d18fe;for([_0x2e95f0,_0x2d18fe]of Object['entries'](class_stats)){var _0x2459c4={},_0x4677b0=_0x218f32+0x4f,_0x4b994d,_0x42d8d7;for([_0x4b994d,_0x42d8d7]of Object[_0x217287(0x1ba)](_0x486526))_0x2459c4[_0x4b994d]=Math[_0x217287(0x1f1)](_0x42d8d7,_0x2d18fe[_0x4b994d]),_0x4677b0-=_0x2459c4[_0x4b994d];if(0x0<=_0x4677b0){var _0x44342c=!0x1,_0xd4f6ae;for(_0xd4f6ae of _0x4bc24f){var _0x36c8ae=get_locked_attribute_distribution(_0xd4f6ae,_0x2459c4,_0x4677b0);if(_0x36c8ae){var _0x3ef763=get_initial_attribute_distribution(_0x36c8ae,_0x4677b0+get_attack_attribute_sum(_0x2459c4)-get_attack_attribute_sum(_0x36c8ae));[_0x36c8ae,_0x3ef763]=CSPSolver(damage_objective,{'weapon':_0xd4f6ae,'attrs':_0x3ef763},attr_generator,get_attr_contraints(_0x36c8ae));}else{if(must_have_required_attributes)continue;if(!_0x44342c){var _0x3aee53=get_attribute_combinations(_0x2459c4,_0x4677b0);_0x44342c=!0x0;}_0x36c8ae=get_weapon_attribute_states(_0xd4f6ae,_0x3aee53),[_0x36c8ae,_0x3ef763]=brute_solver(damage_objective,_0x36c8ae);}self[_0x217287(0x1e6)](++_0x1dba1a/(_0x4bc24f[_0x217287(0x1e7)]*Object[_0x217287(0x1cf)](class_stats)[_0x217287(0x1e7)]));if(_0x36c8ae>_0x4203b8){_0x4203b8=_0x36c8ae;var _0x1fcf69=_0x3ef763,_0x446e7f=_0x2e95f0;}}}else _0x1dba1a+=_0x4bc24f[_0x217287(0x1e7)],self[_0x217287(0x1e6)](_0x1dba1a/(_0x4bc24f[_0x217287(0x1e7)]*Object['keys'](class_stats)[_0x217287(0x1e7)]));}return 0x0==_0x4203b8?_0x4bc24f[_0x217287(0x1e7)]?{'error':_0x217287(0x1e1)}:{'error':'No\x20weapons\x20found.'}:{'weapon':beautify_weapon_stats(_0x1fcf69[_0x217287(0x1cd)],_0x1fcf69[_0x217287(0x1de)],_0x4203b8),'class':{'class_name':_0x446e7f,'attack_attributes':_0x1fcf69[_0x217287(0x1de)]}};},self[a0_0x22c7d6(0x1bd)]=function(_0x5111c1,_0x426af0,_0x42b92e){var _0x336a98=a0_0x22c7d6,_0x5aaa73=weapons[_0x336a98(0x1f7)](_0x3ce9f6=>_0x42b92e[_0x336a98(0x1db)](_0x4d3d4d=>_0x4d3d4d(_0x3ce9f6))),_0x52f04a=!0x1,_0x5f2bf8=0x0,_0x507f4e=0x0,_0x11766e;for(_0x11766e of _0x5aaa73){var _0x201626=get_locked_attribute_distribution(_0x11766e,_0x5111c1,_0x426af0);if(_0x201626){var _0x2a9dba=get_initial_attribute_distribution(_0x201626,_0x426af0+get_attack_attribute_sum(_0x5111c1)-get_attack_attribute_sum(_0x201626));[_0x201626,_0x2a9dba]=CSPSolver(damage_objective,{'weapon':_0x11766e,'attrs':_0x2a9dba},attr_generator,get_attr_contraints(_0x201626));}else{if(must_have_required_attributes)continue;if(!_0x52f04a){var _0x5bc7b1=get_attribute_combinations(_0x5111c1,_0x426af0);_0x52f04a=!0x0;}_0x201626=get_weapon_attribute_states(_0x11766e,_0x5bc7b1),[_0x201626,_0x2a9dba]=brute_solver(damage_objective,_0x201626);}self[_0x336a98(0x1e6)](++_0x5f2bf8/_0x5aaa73[_0x336a98(0x1e7)]);if(_0x201626>_0x507f4e){_0x507f4e=_0x201626;var _0x3b3fda=_0x2a9dba;}}return 0x0==_0x507f4e?{'error':_0x336a98(0x1d3)}:{'weapon':beautify_weapon_stats(_0x3b3fda['weapon'],_0x3b3fda[_0x336a98(0x1de)],_0x507f4e),'attributes':_0x3b3fda['attrs']};};function get_locked_attribute_distribution(_0x46d31e,_0x40eb94,_0x1919fe){var _0x789136=a0_0x22c7d6,_0x37c99c={},_0x293425=Math[_0x789136(0x1f1)]((is_two_handing?Math[_0x789136(0x1c3)](parseInt(_0x46d31e[_0x789136(0x1ea)])/1.5):parseInt(_0x46d31e[_0x789136(0x1ea)]))-_0x40eb94['str'],0x0);return _0x37c99c[_0x789136(0x1fb)]=_0x40eb94[_0x789136(0x1fb)]+_0x293425,_0x1919fe-=_0x293425,attack_sources[_0x789136(0x1e3)](0x1)['forEach'](_0x3da327=>{_0x293425=Math['max'](parseInt(_0x46d31e['required_'+_0x3da327])-_0x40eb94[_0x3da327],0x0),_0x37c99c[_0x3da327]=_0x40eb94[_0x3da327]+_0x293425,_0x1919fe-=_0x293425;}),0x0<=_0x1919fe?_0x37c99c:null;}function beautify_weapon_stats(_0x15f987,_0x466af5,_0x52700a){var _0x13e079=a0_0x22c7d6;_0x466af5=getAttackPower(_0x15f987,_0x466af5);var _0x357d00=attack_types[_0x13e079(0x1da)](_0x2e4b2f=>({[_0x2e4b2f]:parseFloat(_0x15f987[_0x13e079(0x1f4)+_0x2e4b2f+'_attack_power'])}))[_0x13e079(0x1dd)]((_0x1d5506,_0x5b0501)=>Object[_0x13e079(0x1b3)](_0x1d5506,_0x5b0501),{}),_0x5b773b=Object['entries'](_0x466af5)[_0x13e079(0x1da)](([_0x4846bb,_0x1a9b10])=>({[_0x4846bb]:_0x1a9b10-_0x357d00[_0x4846bb]}))[_0x13e079(0x1dd)]((_0x3c8aef,_0x42fd0f)=>Object[_0x13e079(0x1b3)](_0x3c8aef,_0x42fd0f),{});return{'name':_0x15f987[_0x13e079(0x1e2)],'base_weapon_name':_0x15f987[_0x13e079(0x1bf)],'affinity':_0x15f987['affinity'],'weight':_0x15f987[_0x13e079(0x1e0)],'weapon_type':_0x15f987[_0x13e079(0x1fe)],'dual_wieldable':_0x15f987[_0x13e079(0x1fd)],'required_str':_0x15f987[_0x13e079(0x1ea)],'required_dex':_0x15f987[_0x13e079(0x1d7)],'required_int':_0x15f987[_0x13e079(0x1e5)],'required_fai':_0x15f987[_0x13e079(0x1d5)],'required_arc':_0x15f987[_0x13e079(0x1c8)],'str_scaling_grade':getScalingGrade(_0x15f987[_0x13e079(0x1e8)]),'dex_scaling_grade':getScalingGrade(_0x15f987[_0x13e079(0x1b4)]),'int_scaling_grade':getScalingGrade(_0x15f987['max_int_scaling']),'fai_scaling_grade':getScalingGrade(_0x15f987[_0x13e079(0x1c6)]),'arc_scaling_grade':getScalingGrade(_0x15f987[_0x13e079(0x1d2)]),'physical_damage_types':_0x15f987['physical_damage_types'],'base_attack_power':Object[_0x13e079(0x1ba)](_0x357d00)[_0x13e079(0x1da)](([_0x41186a,_0x61bd2b])=>({[_0x41186a]:apFormat(_0x61bd2b)}))[_0x13e079(0x1dd)]((_0x2f9b49,_0x393039)=>Object[_0x13e079(0x1b3)](_0x2f9b49,_0x393039),{}),'bonus_attack_power':Object[_0x13e079(0x1ba)](_0x5b773b)[_0x13e079(0x1da)](([_0x1d918a,_0x36b33e])=>({[_0x1d918a]:apFormat(_0x36b33e)}))[_0x13e079(0x1dd)]((_0x12d75d,_0x236d2b)=>Object['assign'](_0x12d75d,_0x236d2b),{}),'attack_power':Object[_0x13e079(0x1ba)](_0x466af5)[_0x13e079(0x1da)](([_0x31ae3b,_0x523de6])=>({[_0x31ae3b]:apFormat(_0x523de6)}))['reduce']((_0x3f2ac2,_0x21ab19)=>Object['assign'](_0x3f2ac2,_0x21ab19),{}),'scarlet_rot':parseInt(_0x15f987[_0x13e079(0x1d1)]),'madness':parseInt(_0x15f987['max_base_madness']),'sleep':parseInt(_0x15f987[_0x13e079(0x1b7)]),'frostbite':parseInt(_0x15f987['max_base_frostbite']),'poison':parseInt(_0x15f987[_0x13e079(0x202)]),'bleed':parseInt(_0x15f987[_0x13e079(0x1fc)]),'damage':Math[_0x13e079(0x1b5)](_0x52700a)};}function apFormat(_0x2d5b46){var _0x3e657c=a0_0x22c7d6;return parseInt(_0x2d5b46[_0x3e657c(0x1d9)](0x0));}function getScalingGrade(_0x1b1a97){return _0x1b1a97=parseFloat(_0x1b1a97),1.75<_0x1b1a97?'S':1.4<=_0x1b1a97?'A':0.9<=_0x1b1a97?'B':0.6<=_0x1b1a97?'C':0.25<=_0x1b1a97?'D':0x0<_0x1b1a97?'E':'-';}function get_attributes_needed_to_wield(_0x26820d,_0x56e52f){var _0x136f6d=a0_0x22c7d6,_0x2c02b5=0x0+Math[_0x136f6d(0x1f1)]((is_two_handing?Math[_0x136f6d(0x1c3)](parseInt(_0x26820d['required_str'])/1.5):parseInt(_0x26820d[_0x136f6d(0x1ea)]))-_0x56e52f[_0x136f6d(0x1fb)],0x0);for(var _0x5e2377 in _0x56e52f[_0x136f6d(0x1e3)](0x1))_0x2c02b5+=Math[_0x136f6d(0x1f1)](parseInt(_0x26820d['required_'+_0x5e2377])-_0x56e52f[_0x5e2377],0x0);return _0x2c02b5;}function get_initial_attribute_distribution(_0x4b6301,_0x55b0c2){var _0x3cddc7=a0_0x22c7d6,_0x682e60={};return attack_sources[_0x3cddc7(0x1b1)](_0x522579=>{var _0x1aca78=Math['min'](0x63-_0x4b6301[_0x522579],_0x55b0c2);_0x682e60[_0x522579]=_0x4b6301[_0x522579]+_0x1aca78,_0x55b0c2-=_0x1aca78;}),_0x682e60;}function get_weapon_attribute_states(_0x4cd471,_0xbd2df){var _0x233113=a0_0x22c7d6,_0x14eb36={'weapon':_0x4cd471,'attrs':_0xbd2df};return _0x14eb36[Symbol[_0x233113(0x1c1)]]=function(){var _0x3b12da=_0x233113,_0x34e0a6=_0x14eb36[_0x3b12da(0x1de)][Symbol[_0x3b12da(0x1c1)]]();return{'next':function(){var _0x57ee38=_0x3b12da,_0x129e6c=_0x34e0a6[_0x57ee38(0x1f6)]();return{'done':_0x129e6c[_0x57ee38(0x1c7)],'value':{'weapon':_0x4cd471,'attrs':_0x129e6c[_0x57ee38(0x1dc)]}};}};},_0x14eb36;}function print_damage_weapon_attributes(_0x47f5d7,_0x1ca807){var _0x4a184d=a0_0x22c7d6;console[_0x4a184d(0x1f9)](_0x47f5d7,_0x1ca807[_0x4a184d(0x1cd)][_0x4a184d(0x1e2)],JSON[_0x4a184d(0x1c4)](_0x1ca807[_0x4a184d(0x1de)]));}function damage_objective(_0x38b92c){var _0x207864=a0_0x22c7d6;return Object[_0x207864(0x1d6)](get_damage(_0x38b92c[_0x207864(0x1cd)],_0x38b92c[_0x207864(0x1de)],enemy,_0x38b92c['weapon'][_0x207864(0x1c9)][0x0]))[_0x207864(0x1dd)]((_0x20b789,_0x5735b3)=>_0x20b789+_0x5735b3);}self[a0_0x22c7d6(0x1e4)]=function(_0x56d166,_0x532688){var _0x37ebc2=a0_0x22c7d6;try{_0x56d166={'weapon':_0x56d166,'attrs':_0x532688};var _0x2896c8=damage_objective(_0x56d166);return{'weapon':beautify_weapon_stats(_0x56d166[_0x37ebc2(0x1cd)],_0x56d166['attrs'],_0x2896c8)};}catch(_0x5842d7){return{'error':_0x37ebc2(0x1bc)};}};function attr_generator(_0x216769){var _0x12dc5b=a0_0x22c7d6,_0x214a87=[0x14,0x1],_0x1f7322=[],_0x3167e8;for(_0x3167e8 of attack_sources)for(var _0x21c4b9 of attack_sources)if(_0x21c4b9!=_0x3167e8)for(var _0x5de6c0 of _0x214a87){var _0x1f9a58={'str':_0x216769[_0x12dc5b(0x1de)][_0x12dc5b(0x1fb)],'dex':_0x216769[_0x12dc5b(0x1de)]['dex'],'int':_0x216769[_0x12dc5b(0x1de)][_0x12dc5b(0x1d0)],'fai':_0x216769[_0x12dc5b(0x1de)]['fai'],'arc':_0x216769[_0x12dc5b(0x1de)][_0x12dc5b(0x1ed)]};_0x1f9a58[_0x3167e8]-=_0x5de6c0,_0x1f9a58[_0x21c4b9]+=_0x5de6c0,_0x1f7322[_0x12dc5b(0x1b6)]({'weapon':_0x216769['weapon'],'attrs':_0x1f9a58});}return _0x1f7322;}function get_attr_contraints(_0x4338a8){var _0x437282=a0_0x22c7d6;return[_0x4b928b=>0x63>=_0x4b928b['attrs'][_0x437282(0x1fb)],_0x3215fb=>0x63>=_0x3215fb[_0x437282(0x1de)][_0x437282(0x1e9)],_0xbd7341=>0x63>=_0xbd7341[_0x437282(0x1de)][_0x437282(0x1d0)],_0x4df124=>0x63>=_0x4df124[_0x437282(0x1de)][_0x437282(0x1cc)],_0x16a779=>0x63>=_0x16a779[_0x437282(0x1de)][_0x437282(0x1ed)],_0x540688=>_0x540688['attrs'][_0x437282(0x1fb)]>=_0x4338a8[_0x437282(0x1fb)],_0x23d347=>_0x23d347[_0x437282(0x1de)][_0x437282(0x1e9)]>=_0x4338a8['dex'],_0x2a690c=>_0x2a690c[_0x437282(0x1de)]['int']>=_0x4338a8['int'],_0x44c336=>_0x44c336['attrs'][_0x437282(0x1cc)]>=_0x4338a8[_0x437282(0x1cc)],_0x11c551=>_0x11c551[_0x437282(0x1de)][_0x437282(0x1ed)]>=_0x4338a8[_0x437282(0x1ed)]];}function CSPSolver(_0x300517,_0x5189fc,_0x32de37,_0x2c4a53){var _0xe9f24=_0x5189fc,_0x474973=_0x300517(_0x5189fc);do{_0x5189fc=_0xe9f24,_0xe9f24=null;for(var _0x12f17a of _0x32de37(_0x5189fc))if(_0x2c4a53['every'](_0x1e06f1=>_0x1e06f1(_0x12f17a))){var _0x1e818d=_0x300517(_0x12f17a);_0x1e818d>_0x474973&&(_0x474973=_0x1e818d,_0xe9f24=_0x12f17a);}}while(_0xe9f24);return[_0x474973,_0x5189fc];}function brute_solver(_0x1cc93f,_0x277a16){var _0x1c7573=a0_0x22c7d6,_0x591b9f=_0x277a16[Symbol['iterator']]()[_0x1c7573(0x1f6)]()[_0x1c7573(0x1dc)],_0x40277b=_0x1cc93f(_0x591b9f),_0x535dc5;for(_0x535dc5 of _0x277a16)_0x277a16=_0x1cc93f(_0x535dc5),_0x277a16>_0x40277b&&(_0x40277b=_0x277a16,_0x591b9f=_0x535dc5);return[_0x40277b,_0x591b9f];}function get_damage(_0x1b4e42,_0xf14f3d,_0x5260ac,_0x6a16cf){var _0x55197d=a0_0x22c7d6;return _0x1b4e42=getAttackPower(_0x1b4e42,_0xf14f3d),Object[_0x55197d(0x1ba)](_0x1b4e42)['map'](([_0x34d19a,_0x1a6b7c])=>({[_0x34d19a]:getTypeDamage(_0x34d19a,_0x1a6b7c,_0x6a16cf,_0x5260ac)}))[_0x55197d(0x1dd)]((_0x49c774,_0xa6ea0)=>Object[_0x55197d(0x1b3)](_0x49c774,_0xa6ea0),{});}function getTypeDamage(_0x4b5436,_0x65d413,_0x1a051e,_0x2c3d06){var _0x22b641=a0_0x22c7d6,_0x182b2c=0x64*parseFloat(_0x2c3d06[capitalize(_0x4b5436)+'\x20Defense']);return _0x4b5436=parseFloat(_0x22b641(0x1ec)==_0x4b5436?_0x2c3d06[capitalize(_0x1a051e)]:_0x2c3d06[capitalize(_0x4b5436)]),DAMAGE_FORMULA(_0x65d413,_0x182b2c,_0x4b5436);}function capitalize(_0x24a291){var _0x113b3d=a0_0x22c7d6;return _0x24a291['charAt'](0x0)[_0x113b3d(0x1df)]()+_0x24a291[_0x113b3d(0x1e3)](0x1);}function sum(_0x4fe79b,_0x3a56f8){return _0x4fe79b+_0x3a56f8;}function getAttackPower(_0x35e9d9,_0x1ada9f){var _0x254489=a0_0x22c7d6,_0x2db989={};return attack_types[_0x254489(0x1b1)](_0x20e03d=>_0x2db989[_0x20e03d]=parseFloat(_0x35e9d9['max_base_'+_0x20e03d+'_attack_power'])+getMaxBonusAttackPower(_0x35e9d9,_0x20e03d,_0x1ada9f)),_0x2db989;}function getMaxBonusAttackPower(_0x5efb95,_0x2bc75d,_0x46deee){var _0x587069=a0_0x22c7d6;return attack_sources[_0x587069(0x1db)](_0xa49dd4=>meetsRequirement(_0x5efb95,_0x2bc75d,_0x46deee,_0xa49dd4))?attack_sources[_0x587069(0x1da)](_0x32eb01=>getAttackPowerPerSource(_0x5efb95,_0x2bc75d,_0x46deee,_0x32eb01))[_0x587069(0x1dd)]((_0x3e9c7d,_0x309db9)=>_0x3e9c7d+_0x309db9):-0.4*parseFloat(_0x5efb95[_0x587069(0x1f4)+_0x2bc75d+'_attack_power']);}function meetsRequirement(_0x283e63,_0x24b17d,_0x5803e9,_0x971cb8){var _0x333818=a0_0x22c7d6;return _0x333818(0x1fb)==_0x971cb8?!canScale(_0x283e63,_0x24b17d,_0x971cb8)||_0x5803e9[_0x971cb8]>=(is_two_handing?Math[_0x333818(0x1c3)](parseInt(_0x283e63['required_str'])/1.5):parseInt(_0x283e63[_0x333818(0x1ea)])):!canScale(_0x283e63,_0x24b17d,_0x971cb8)||_0x5803e9[_0x971cb8]>=parseInt(_0x283e63[_0x333818(0x1fa)+_0x971cb8]);}function getAttackPowerPerSource(_0x534fbc,_0x3111eb,_0x100536,_0x152dd0){var _0x2e2285=a0_0x22c7d6;if(!canScale(_0x534fbc,_0x3111eb,_0x152dd0))return 0x0;var _0x51df05=_0x100536[_0x152dd0];return is_two_handing&&_0x2e2285(0x1fb)==_0x152dd0&&(_0x51df05*=1.5),_0x100536=parseFloat(_0x534fbc[_0x2e2285(0x1f4)+_0x3111eb+_0x2e2285(0x1d8)]),_0x152dd0=parseFloat(_0x534fbc[_0x2e2285(0x1ca)+_0x152dd0+_0x2e2285(0x1b8)]),_0x534fbc=parseInt(_0x534fbc[_0x3111eb+_0x2e2285(0x200)]),_0x534fbc=parseFloat(attribute_curves[_0x534fbc](_0x51df05))/0x64,_0x100536*_0x152dd0*_0x534fbc;}function canScale(_0x2038ac,_0x1cb447,_0x397ba3){var _0x4364bd=a0_0x22c7d6;return attack_element_scaling[_0x2038ac[_0x4364bd(0x1c0)]][_0x1cb447+'_'+_0x397ba3+_0x4364bd(0x1ee)];}function get_attribute_combinations(_0x97781e,_0x3960ac){var _0x4d9054=a0_0x22c7d6;for(var _0x21cf20=[],_0x3e44a2=_0x97781e['str'];_0x3e44a2<=Math[_0x4d9054(0x1f5)](0x63,_0x97781e[_0x4d9054(0x1fb)]+_0x3960ac);_0x3e44a2++)for(var _0x492840=_0x97781e['dex'];_0x492840<=Math['min'](0x63,_0x97781e[_0x4d9054(0x1e9)]+_0x3960ac);_0x492840++)for(var _0x302385=_0x97781e[_0x4d9054(0x1d0)];_0x302385<=Math[_0x4d9054(0x1f5)](0x63,_0x97781e['int']+_0x3960ac);_0x302385++)for(var _0x379dbe=_0x97781e[_0x4d9054(0x1cc)];_0x379dbe<=Math['min'](0x63,_0x97781e['fai']+_0x3960ac);_0x379dbe++)for(var _0x93083e=_0x97781e[_0x4d9054(0x1ed)];_0x93083e<=Math[_0x4d9054(0x1f5)](0x63,_0x97781e[_0x4d9054(0x1ed)]+_0x3960ac);_0x93083e++)_0x3e44a2+_0x492840+_0x302385+_0x379dbe+_0x93083e==_0x3960ac+get_attack_attribute_sum(_0x97781e)&&_0x21cf20[_0x4d9054(0x1b6)]({'str':_0x3e44a2,'dex':_0x492840,'int':_0x302385,'fai':_0x379dbe,'arc':_0x93083e});return _0x21cf20;}function a0_0x5938(_0x2121b9,_0x2f36f0){var _0x2ad72c=a0_0x4979();return a0_0x5938=function(_0x1fb09e,_0x1a3bf5){_0x1fb09e=_0x1fb09e-0x1b1;var _0x4979ad=_0x2ad72c[_0x1fb09e];return _0x4979ad;},a0_0x5938(_0x2121b9,_0x2f36f0);}function get_attack_attribute_sum(_0x492e1f){var _0x5b7230=a0_0x22c7d6;return _0x492e1f['str']+_0x492e1f[_0x5b7230(0x1e9)]+_0x492e1f['int']+_0x492e1f['fai']+_0x492e1f['arc'];};
+//window[window.btoa('signature')]()
+self['c2lnbmF0dXJl'] = function(){return window.atob('Q29kZSB3cml0dGVuIGJ5IENocmlzdGlhbiBXZW5kbGFuZHQuIEFsbCByaWdodHMgcmVzZXJ2ZWQu');};
+
+self['status_update'] = function(){console.log('No status_update function defined.')};
+
+self['optimize'] = function(objective_statement, minimum_attributes, optimize_class, optimize_free_points, class_level, free_points, weapons, enemy, modifiers, options) {
+    progress_count = 0;
+    progress_total = weapons.length * Object.keys(class_stats).length;
+    
+    var objective = get_damage_objective(enemy); //TODO should depend on objective_statement
+    
+    if(optimize_class) {
+        if(optimize_free_points)
+            return optimize_class_with_class_level(objective, minimum_attributes, class_level, weapons, modifiers, options);
+        return optimize_class_with_minimum_attributes(objective, minimum_attributes, weapons, modifiers, options);
+    }
+    if(!optimize_free_points)
+        free_points = 0;
+    return optimize_weapons(objective, minimum_attributes, free_points, weapons, modifiers, options)
+}
+
+function optimize_class_with_class_level(objective, minimum_attributes, class_level, weapons, modifiers, options) {
+    var highest_value = 0;
+    var best_weapon_and_attributes;
+    var best_class;
+    
+    for(var [class_name, class_stats] of Object.entries(class_stats)) {
+        var minimum_class_attributes = {};
+        var free_points = class_level + 79;
+        for(var [attr_name, attr_value] of Object.entries(minimum_attributes)) {
+            minimum_class_attributes[attr_name] = Math.max(attr_value, class_stats[attr_name]);
+            free_points -= minimum_class_attributes[attr_name];
+        }
+        if(free_points < 0) {
+            progress(weapons.length);
+            continue;
+        }
+        
+        var [value, weapon_and_attributes] = optimize_weapons(objective, minimum_class_attributes, free_points, weapons, modifiers, options);
+        if(value > highest_value) {
+            highest_value = value;
+            best_weapon_and_attributes = weapon_and_attributes;
+            best_class = {name: class_name, stats: class_stats};
+        }
+        progress();
+    }
+    
+    return [highest_value, best_weapon_and_attributes, best_class];
+}
+
+function optimize_class_with_minimum_attributes(objective, minimum_attributes, weapons, modifiers, options) {
+    var highest_value = 0;
+    var lowest_level = Number.MAX_VALUE;
+    var best_weapon_and_attributes;
+    var best_class;
+    
+    for(var [class_name, class_stats] of Object.entries(class_stats)) {
+        var minimum_class_attributes = {};
+        var class_level = -79;
+        for(var [attr_name, attr_value] of Object.entries(minimum_attributes)) {
+            minimum_class_attributes[attr_name] = Math.max(attr_value, class_stats[attr_name]);
+            class_level += minimum_class_attributes[attr_name];
+        }
+        
+        var [value, weapon_and_attributes] = optimize_weapons(objective, minimum_class_attributes, 0, weapons, modifiers, options);
+        if(value > highest_value || (value == highest_value && class_level < lowest_level)) {
+            highest_value = value;
+            lowest_level = class_level;
+            best_weapon_and_attributes = weapon_and_attributes;
+            best_class = {name: class_name, stats: class_stats};
+        }
+        progress();
+    }
+    
+    return [highest_value, best_weapon_and_attributes, best_class];
+}
+
+function optimize_weapons(objective, minimum_attributes, free_points, weapons, modifiers, options) {
+    var highest_value = 0;
+    var best_weapon_and_attributes;
+    
+    for(var weapon of weapons) {
+        var [value, weapon_and_attributes] = optimize_attributes(objective, minimum_attributes, free_points, weapon, modifiers, options);
+        if(value > highest_value) {
+            highest_value = value;
+            best_weapon_and_attributes = weapon_and_attributes;
+        }
+        progress();
+    }
+    
+    return [highest_value, best_weapon_and_attributes];
+}
+
+function optimize_attributes(objective, minimum_attributes, free_points, weapon, modifiers, options) {
+    var minimum_weapon_attributes = get_minimum_weapon_attributes(weapon, minimum_attributes, free_points, options);
+    
+    if(minimum_weapon_attributes) {
+        var free_points_for_weapon = free_points + get_attack_attribute_sum(minimum_attributes) - get_attack_attribute_sum(minimum_weapon_attributes);
+        var initial_attribute_distribution = get_initial_attribute_distribution(minimum_weapon_attributes, free_points_for_weapon);
+        return ascent_solver(objective, {'weapon':weapon,'attrs':initial_attribute_distribution}, attr_generator, get_attr_contraints(minimum_weapon_attributes));
+    }
+    
+    if(options['must_have_required_attributes'])
+        return [-1, null];
+    
+    var attribute_combinations = get_attack_attribute_combinations(minimum_attributes, free_points);
+    var weapon_attribute_states = get_weapon_attribute_states(weapon, attribute_combinations);
+    return brute_solver(objective, weapon_attribute_states);
+}
+
+var class_stats = {
+    hero : {'lvl':7,'vig':14,'min':9,'end':12,'str':16,'dex':9,'int':7,'fai':8,'arc':11},
+    bandit : {'lvl':5,'vig':10,'min':11,'end':10,'str':9,'dex':13,'int':9,'fai':8,'arc':14},
+    astrologer : {'lvl':6,'vig':9,'min':15,'end':9,'str':8,'dex':12,'int':16,'fai':7,'arc':9},
+    warrior : {'lvl':8,'vig':11,'min':12,'end':11,'str':10,'dex':16,'int':10,'fai':8,'arc':9},
+    prisoner : {'lvl':9,'vig':11,'min':12,'end':11,'str':11,'dex':14,'int':14,'fai':6,'arc':9},
+    confessor : {'lvl':10,'vig':10,'min':13,'end':10,'str':12,'dex':12,'int':9,'fai':14,'arc':9},
+    wretch : {'lvl':1,'vig':10,'min':10,'end':10,'str':10,'dex':10,'int':10,'fai':10,'arc':10},
+    vagabond : {'lvl':9,'vig':15,'min':10,'end':11,'str':14,'dex':13,'int':9,'fai':9,'arc':7},
+    prophet : {'lvl':7,'vig':10,'min':14,'end':8,'str':11,'dex':10,'int':7,'fai':16,'arc':10},
+    samurai : {'lvl':9,'vig':12,'min':11,'end':13,'str':12,'dex':15,'int':9,'fai':8,'arc':8},
+};
+
+var attack_types = [
+    'physical',
+    'magic',
+    'fire',
+    'lightning',
+    'holy',
+];
+
+var attack_sources = [
+    'str',
+    'dex',
+    'int',
+    'fai',
+    'arc',
+];
+
+function IF(a, b, c) {return a ? b : c;}
+function ADD(a, b) {return a + b;}
+function MINUS(a, b) {return a - b;}
+function MULTIPLY(a, b) {return a * b;}
+function DIVIDE(a, b) {return a / b;}
+function POW(a, b) {return a ** b;}
+var attribute_curves = {
+    0:function(attribute){
+            return IF(attribute>80,ADD(90,MULTIPLY(20,DIVIDE(attribute-80,70))),
+            IF(attribute>60,ADD(75,MULTIPLY(15,DIVIDE(attribute-60,20))),
+            IF(attribute>18,ADD(25,MULTIPLY(50,MINUS(1,POW(MINUS(1,DIVIDE(attribute-18,42)),1.2)))),
+            MULTIPLY(25,POW(DIVIDE(attribute-1,17),1.2)) )))
+    },
+    1:function(attribute){
+            return IF(attribute>80,ADD(90,MULTIPLY(20,DIVIDE(attribute-80,70))),
+            IF(attribute>60,ADD(75,MULTIPLY(15,DIVIDE(attribute-60,20))),
+            IF(attribute>20,ADD(35,MULTIPLY(40,MINUS(1,POW(MINUS(1,DIVIDE(attribute-20,40)),1.2)))),
+            MULTIPLY(35,POW(DIVIDE(attribute-1,19),1.2)) )))
+    },
+    2:function(attribute){
+            return IF(attribute>80,ADD(90,MULTIPLY(20,DIVIDE(attribute-80,70))),
+            IF(attribute>60,ADD(75,MULTIPLY(15,DIVIDE(attribute-60,20))),
+            IF(attribute>20,ADD(35,MULTIPLY(40,MINUS(1,POW(MINUS(1,DIVIDE(attribute-20,40)),1.2)))),
+            MULTIPLY(35,POW(DIVIDE(attribute-1,19),1.2)) )))
+    },
+    4:function(attribute){
+            return IF(attribute>80,ADD(95,MULTIPLY(5,DIVIDE(attribute-80,19))),
+            IF(attribute>50,ADD(80,MULTIPLY(15,DIVIDE(attribute-50,30))),
+            IF(attribute>20,ADD(40,MULTIPLY(40,DIVIDE(attribute-20,30))),
+            MULTIPLY(40,DIVIDE(attribute-1,19)) )))
+    },
+    7:function(attribute){
+            return IF(attribute>80,ADD(90,MULTIPLY(20,DIVIDE(attribute-80,70))),
+            IF(attribute>60,ADD(75,MULTIPLY(15,DIVIDE(attribute-60,20))),
+            IF(attribute>20,ADD(35,MULTIPLY(40,MINUS(1,POW(MINUS(1,DIVIDE(attribute-20,40)),1.2)))),
+            MULTIPLY(35,POW(DIVIDE(attribute-1,19),1.2)) )))
+    },
+    8:function(attribute){
+            return IF(attribute>80,ADD(90,MULTIPLY(20,DIVIDE(attribute-80,70))),
+            IF(attribute>60,ADD(75,MULTIPLY(15,DIVIDE(attribute-60,20))),
+            IF(attribute>16,ADD(25,MULTIPLY(50,MINUS(1,POW(MINUS(1,DIVIDE(attribute-16,44)),1.2)))),
+            MULTIPLY(25,POW(DIVIDE(attribute-1,15),1.2)) )))
+    },
+    12:function(attribute){
+            return IF(attribute>45,ADD(75,MULTIPLY(25,DIVIDE(attribute-45,54))),
+            IF(attribute>30,ADD(55,MULTIPLY(20,DIVIDE(attribute-30,15))),
+            IF(attribute>15,ADD(10,MULTIPLY(45,DIVIDE(attribute-15,15))),
+            MULTIPLY(10,DIVIDE(attribute-1,14)) )))
+    },
+    14:function(attribute){
+            return IF(attribute>80,ADD(85,MULTIPLY(15,DIVIDE(attribute-80,19))),
+            IF(attribute>40,ADD(60,MULTIPLY(25,DIVIDE(attribute-40,40))),
+            IF(attribute>20,ADD(40,MULTIPLY(20,DIVIDE(attribute-20,20))),
+            MULTIPLY(40,DIVIDE(attribute-1,19)) )))
+    },
+    15:function(attribute){
+            return IF(attribute>80,ADD(95,MULTIPLY(5,DIVIDE(attribute-80,19))),
+            IF(attribute>60,ADD(65,MULTIPLY(30,DIVIDE(attribute-60,20))),
+            IF(attribute>25,ADD(25,MULTIPLY(40,DIVIDE(attribute-25,35))),
+            MULTIPLY(25,DIVIDE(attribute-1,24)) )))
+    },
+    16:function(attribute){
+            return IF(attribute>80,ADD(90,MULTIPLY(10,DIVIDE(attribute-80,19))),
+            IF(attribute>60,ADD(75,MULTIPLY(15,DIVIDE(attribute-60,20))),
+            IF(attribute>18,ADD(20,MULTIPLY(55,DIVIDE(attribute-18,42))),
+            MULTIPLY(20,DIVIDE(attribute-1,17)) )))
+    },
+}
+
+function DAMAGE_FORMULA(attack_power, defense, resistance, movement_value) {
+    var damage;
+    if(defense > attack_power * 8)
+        damage = 0.1 * attack_power;
+    else if(defense > attack_power)
+        damage = attack_power * (19.2 / 49 * (attack_power / defense - 0.125) ** 2 + 0.1);
+    else if(defense > attack_power * 0.4)
+        damage = attack_power * (-0.4 / 3 * (attack_power / defense - 2.5) ** 2 + 0.7);
+    else if(defense > attack_power * 0.125)
+        damage = attack_power * (-0.8 / 121 * (attack_power / defense - 8) ** 2 + 0.9);
+    else
+        damage = attack_power * 0.9;
+    return damage * resistance * movement_value;
+}
+
+var progress_count = 0;
+var progress_total = 100;
+function progress(units = 1) {
+    progress_count += units;
+    self['status_update'](progress_count / progress_total);
+}
+
+function get_minimum_weapon_attributes(weapon, minimum_attributes, free_attributes, options) {
+    var locked_attribute_distribution = {};
+    var attributes_needed = Math.max((options['is_two_handing'] ? Math.ceil(parseInt(weapon['required_str']) / 1.5) : parseInt(weapon['required_str'])) - minimum_attributes['str'], 0);
+    locked_attribute_distribution['str'] = minimum_attributes['str'] + attributes_needed;
+    free_attributes -= attributes_needed;
+    attack_sources.slice(1).forEach(attack_source => {
+        attributes_needed = Math.max(parseInt(weapon['required_' + attack_source]) - minimum_attributes[attack_source], 0);
+        locked_attribute_distribution[attack_source] = minimum_attributes[attack_source] + attributes_needed;
+        free_attributes -= attributes_needed;
+    });
+    return free_attributes >= 0 ? locked_attribute_distribution : null;
+}
+
+function beautify_weapon_stats(weapon, attributes, damage) {
+    var attack_power = get_attack_power(weapon, attributes);
+    var base_attack_power = attack_types.map(
+            attack_type => ({[attack_type]: parseFloat(weapon['max_base_' + attack_type + '_attack_power'])})
+        ).reduce(
+            (a,b) => Object.assign(a,b),
+            {}
+        );
+    var bonus_attack_power = Object.entries(attack_power).map(([attack_type, ap]) => ({[attack_type]: ap-base_attack_power[attack_type]})
+            ).reduce(
+                (a,b) => Object.assign(a,b),
+                {}
+            )
+    return {
+        name: weapon['name'],
+        base_weapon_name : weapon['base_weapon_name'],
+        affinity: weapon['affinity'],
+        weight: weapon['weight'],
+        weapon_type: weapon['weapon_type'],
+        dual_wieldable: weapon['dual_wieldable'],
+        required_str: weapon['required_str'],
+        required_dex: weapon['required_dex'],
+        required_int: weapon['required_int'],
+        required_fai: weapon['required_fai'],
+        required_arc: weapon['required_arc'],
+        str_scaling_grade: get_scaling_grade(weapon['max_str_scaling']),
+        dex_scaling_grade: get_scaling_grade(weapon['max_dex_scaling']),
+        int_scaling_grade: get_scaling_grade(weapon['max_int_scaling']),
+        fai_scaling_grade: get_scaling_grade(weapon['max_fai_scaling']),
+        arc_scaling_grade: get_scaling_grade(weapon['max_arc_scaling']),
+        physical_damage_types: weapon['physical_damage_types'],
+        base_attack_power: Object.entries(base_attack_power).map(([attack_type, ap]) => ({[attack_type]: ap_format(ap)})
+            ).reduce(
+                (a,b) => Object.assign(a,b),
+                {}
+            ),
+        bonus_attack_power: Object.entries(bonus_attack_power).map(([attack_type, ap]) => ({[attack_type]: ap_format(ap)})
+            ).reduce(
+                (a,b) => Object.assign(a,b),
+                {}
+            ),
+        attack_power: Object.entries(attack_power).map(([attack_type, ap]) => ({[attack_type]: ap_format(ap)})
+            ).reduce(
+                (a,b) => Object.assign(a,b),
+                {}
+            ),
+        scarlet_rot: parseInt(weapon['max_base_scarlet_rot']),
+        madness: parseInt(weapon['max_base_madness']),
+        sleep: parseInt(weapon['max_base_sleep']),
+        frostbite: parseInt(weapon['max_base_frostbite']),
+        poison: parseInt(weapon['max_base_poison']),
+        bleed: parseInt(weapon['max_base_bleed']),
+        damage: Math.floor(damage),
+    };
+}
+
+function ap_format(ap) {
+    return parseInt(ap.toFixed(0));
+}
+
+function get_scaling_grade(scaling) {
+    scaling = parseFloat(scaling);
+    if(scaling > 1.75)
+        return 'S';
+    if(scaling >= 1.4)
+        return 'A';
+    if(scaling >= 0.9)
+        return 'B';
+    if(scaling >= 0.6)
+        return 'C';
+    if(scaling >= 0.25)
+        return 'D';
+    if(scaling > 0)
+        return 'E';
+    return '-';
+}
+
+function get_attributes_needed_to_wield(weapon, attributes) {
+    var needed = 0;
+    needed += Math.max((is_two_handing ? Math.ceil(parseInt(weapon['required_str']) / 1.5) : parseInt(weapon['required_str'])) - attributes['str'], 0);
+    for(var source in attributes.slice(1)) {
+        needed += Math.max(parseInt(weapon['required_' + source]) - attributes[source], 0);
+    }
+    return needed;
+}
+
+function get_initial_attribute_distribution(locked_attribute_distribution, free_attributes) {
+    var initial_attribute_distribution = {};
+    attack_sources.forEach(attack_source => {
+        var attributes_needed = Math.min(99 - locked_attribute_distribution[attack_source], free_attributes);
+        initial_attribute_distribution[attack_source] = locked_attribute_distribution[attack_source] + attributes_needed;
+        free_attributes -= attributes_needed;
+    });
+    return initial_attribute_distribution;
+}
+
+function get_weapon_attribute_states(weapon, attribute_combinations) {
+    var weapon_attribute_states = {'weapon':weapon,'attrs':attribute_combinations};
+    weapon_attribute_states[Symbol.iterator] = function(){
+        var old_iterator = weapon_attribute_states.attrs[Symbol.iterator]();
+        return { next: function() {
+            var next_object = old_iterator.next();
+            return {
+                done: next_object.done,
+                value: {'weapon':weapon, 'attrs':next_object.value}
+            };
+        }};
+    };
+    return weapon_attribute_states;
+}
+
+function print_damage_weapon_attributes(damage, weapon_and_attributes) {
+    console.log(damage, weapon_and_attributes.weapon.name, JSON.stringify(weapon_and_attributes.attrs));
+}
+
+function get_damage_objective(enemy) {
+    return function(weapon_and_attrs) {
+        return get_damage(weapon_and_attrs.weapon, weapon_and_attrs.attrs, enemy, weapon_and_attrs.weapon.physical_damage_types[0], 1);
+    };
+}
+
+function attr_generator(weapon_and_attrs) {
+    var speeds = [20, 1];
+    var new_states = [];
+    for(var source of attack_sources) {
+        for(var otherSource of attack_sources) {
+            if(otherSource != source) {
+                for(var speed of speeds) {
+                    var attrs = {
+                        'str':weapon_and_attrs.attrs['str'],
+                        'dex':weapon_and_attrs.attrs['dex'],
+                        'int':weapon_and_attrs.attrs['int'],
+                        'fai':weapon_and_attrs.attrs['fai'],
+                        'arc':weapon_and_attrs.attrs['arc'],
+                    };
+                    attrs[source] -= speed;
+                    attrs[otherSource] += speed;
+                    new_states.push({'weapon':weapon_and_attrs.weapon,'attrs':attrs});
+                }
+            }
+        }
+    }
+    return new_states;
+}
+
+function get_attr_contraints(min_attrs) {
+    return [
+        x => x.attrs['str'] <= 99,
+        x => x.attrs['dex'] <= 99,
+        x => x.attrs['int'] <= 99,
+        x => x.attrs['fai'] <= 99,
+        x => x.attrs['arc'] <= 99,
+        x => x.attrs['str'] >= min_attrs['str'],
+        x => x.attrs['dex'] >= min_attrs['dex'],
+        x => x.attrs['int'] >= min_attrs['int'],
+        x => x.attrs['fai'] >= min_attrs['fai'],
+        x => x.attrs['arc'] >= min_attrs['arc'],
+    ]
+}
+
+function ascent_solver(objective, initial_state, state_generator, constraints) {
+    var highest_value = objective(initial_state);
+    var next_state = initial_state;
+    do {
+        state = next_state;
+        next_state = null;
+        for(var candidate_state of state_generator(state)) {
+            if(constraints.every(constraint => constraint(candidate_state))) {
+                var value = objective(candidate_state);
+                if(value > highest_value) {
+                    highest_value = value;
+                    next_state = candidate_state;
+                }
+            }
+        }
+    }while(next_state);
+    return [highest_value, state];
+}
+
+function brute_solver(objective, state_space) {
+    var optimal_state = state_space[Symbol.iterator]().next().value;
+    var highest_value = objective(optimal_state);
+    for(var state of state_space) {
+        var value = objective(state);
+        if(value > highest_value) {
+            highest_value = value;
+            optimal_state = state;
+        }
+    }
+    return [highest_value, optimal_state];
+}
+
+function get_damage(weapon, attributes, target, swing_type, movement_value) {
+    var attack_powers = get_attack_powers(weapon, attributes);
+    return Object.entries(attack_powers).map(([attack_type, attack_power]) => get_type_damage(attack_type, attack_power, target, swing_type, movement_value)).reduce(sum);
+}
+
+function get_type_damage(attack_type, attack_power, target, swing_type, movement_value) {
+    var defense = parseFloat(target[capitalize(attack_type) + ' Defense']) * 100;
+    var resistance = parseFloat(attack_type == 'physical' ? target[capitalize(swing_type)] : target[capitalize(attack_type)]);
+    return DAMAGE_FORMULA(attack_power, defense, resistance, movement_value);
+}
+
+function capitalize(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function sum(a, b) {
+    return a + b;
+}
+
+function get_attack_powers(weapon, attributes) {
+    var attack_powers = {};
+    attack_types.forEach( attack_type =>
+        attack_powers[attack_type] = parseFloat(weapon['max_base_' + attack_type + '_attack_power']) + get_max_bonus_attack_power(weapon, attack_type, attributes)
+    );
+    return attack_powers;
+}
+
+function get_max_bonus_attack_power(weapon, attack_type, attributes) {
+    var source_attack_power;
+    if(attack_sources.every( source => meets_requirement(weapon, attack_type, attributes, source))) {
+        var source_attack_powers = attack_sources.map( source => get_attack_power_per_source(weapon, attack_type, attributes, source));
+        source_attack_power = source_attack_powers.reduce((a, b) => a + b);
+    }
+    else {
+        source_attack_power = parseFloat(weapon['max_base_' + attack_type + '_attack_power']) * -0.4;
+    }
+    return source_attack_power;
+}
+
+function meets_requirement(weapon, attack_type, attributes, source) {
+    if(source == 'str')
+        return !can_scale(weapon, attack_type, source) || attributes[source] >= (is_two_handing ? Math.ceil(parseInt(weapon['required_str']) / 1.5) : parseInt(weapon['required_str']));
+    return !can_scale(weapon, attack_type, source) || attributes[source] >= parseInt(weapon['required_' + source]);
+}
+
+function get_attack_power_per_source(weapon, attack_type, attributes, source) {
+    if(!can_scale(weapon, attack_type, source))
+        return 0;
+    var attribute = attributes[source];
+    if(is_two_handing && source == 'str')
+        attribute *= 1.5;
+    var base_attack_power = parseFloat(weapon['max_base_' + attack_type + '_attack_power']);
+    var bonus_attack_power_scaling = parseFloat(weapon['max_' + source +'_scaling']);
+    var calculation_id = parseInt(weapon[attack_type + '_damage_calculation_id'])
+    var attribute_correction = parseFloat(attribute_curves[calculation_id](attribute)) / 100;
+    var bonus_attack_power = base_attack_power * bonus_attack_power_scaling * attribute_correction;
+    return bonus_attack_power;
+}
+
+function can_scale(weapon, attack_type, source) {
+    return weapon[attack_type + '_' + source + '_element_scaling'];
+}
+
+var minimum_attributes_catch = null;
+var attack_attribute_combinations_catch;
+function get_attack_attribute_combinations(minimum_attributes, free_attributes) {
+    if(
+        minimum_attributes_catch != null
+        && minimum_attributes_catch['str'] == minimum_attributes['str']
+        && minimum_attributes_catch['dex'] == minimum_attributes['dex']
+        && minimum_attributes_catch['int'] == minimum_attributes['int']
+        && minimum_attributes_catch['fai'] == minimum_attributes['fai']
+        && minimum_attributes_catch['arc'] == minimum_attributes['arc']
+        && minimum_attributes_catch['free_attributes'] == free_attributes
+    ) return attack_attribute_combinations_catch;
+    
+    var attribute_combinations = [];
+    for(var str = minimum_attributes['str']; str <= Math.min(99, minimum_attributes['str'] + free_attributes); str++) {
+        for(var dex = minimum_attributes['dex']; dex <= Math.min(99, minimum_attributes['dex'] + free_attributes); dex++) {
+            for(var i = minimum_attributes['int']; i <= Math.min(99, minimum_attributes['int'] + free_attributes); i++) {
+                for(var fai = minimum_attributes['fai']; fai <= Math.min(99, minimum_attributes['fai'] + free_attributes); fai++) {
+                    for(var arc = minimum_attributes['arc']; arc <= Math.min(99, minimum_attributes['arc'] + free_attributes); arc++) {
+                        if(str + dex + i + fai + arc == free_attributes + get_attack_attribute_sum(minimum_attributes)) {
+                            attribute_combinations.push({'str':str,'dex':dex,'int':i,'fai':fai,'arc':arc});
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    minimum_attributes_catch = Object.create(minimum_attributes);
+    minimum_attributes_catch['free_attributes'] = free_attributes;
+    attack_attribute_combinations_catch = Object.create(attribute_combinations);
+    return attribute_combinations;
+}
+
+function get_attack_attribute_sum(attributes) {
+    return attributes['str'] + attributes['dex'] + attributes['int'] + attributes['fai'] + attributes['arc'];
+}

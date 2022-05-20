@@ -1,7 +1,6 @@
 var classWeaponAttributeInputForm = {
     props: {
         args: Object,
-        target_attributes: Object,
     },
     methods: {
         disjunction(a, b) {

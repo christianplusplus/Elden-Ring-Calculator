@@ -9,32 +9,51 @@ var Main = {
                 must_have_required_attributes: true,
                 is_two_handing: false,
                 is_dual_wieldable: false,
+                lock_class: true,
+                lock_weapon: true,
+                lock_attributes: true,
                 weapons: {},
                 weapon_types: [],
                 weapon_types_selected: [],
                 affinities: [],
                 affinities_selected: [],
+                modifiers: [],
+                options: {},
                 bosses: {},
                 enemy: {},
                 attack_element_scaling: {},
                 difficulty_scaling: {},
                 clazz: {},
                 class_stats: {
-                    hero : {'vig':14,'min':9,'end':12,'str':16,'dex':9,'int':7,'fai':8,'arc':11},
-                    bandit : {'vig':10,'min':11,'end':10,'str':9,'dex':13,'int':9,'fai':8,'arc':14},
-                    astrologer : {'vig':9,'min':15,'end':9,'str':8,'dex':12,'int':16,'fai':7,'arc':9},
-                    warrior : {'vig':11,'min':12,'end':11,'str':10,'dex':16,'int':10,'fai':8,'arc':9},
-                    prisoner : {'vig':11,'min':12,'end':11,'str':11,'dex':14,'int':14,'fai':6,'arc':9},
-                    confessor : {'vig':10,'min':13,'end':10,'str':12,'dex':12,'int':9,'fai':14,'arc':9},
-                    wretch : {'vig':10,'min':10,'end':10,'str':10,'dex':10,'int':10,'fai':10,'arc':10},
-                    vagabond : {'vig':15,'min':10,'end':11,'str':14,'dex':13,'int':9,'fai':9,'arc':7},
-                    prophet : {'vig':10,'min':14,'end':8,'str':11,'dex':10,'int':7,'fai':16,'arc':10},
-                    samurai : {'vig':12,'min':11,'end':13,'str':12,'dex':15,'int':9,'fai':8,'arc':8},
+                    hero: {'vig':14,'min':9,'end':12,'str':16,'dex':9,'int':7,'fai':8,'arc':11},
+                    bandit: {'vig':10,'min':11,'end':10,'str':9,'dex':13,'int':9,'fai':8,'arc':14},
+                    astrologer: {'vig':9,'min':15,'end':9,'str':8,'dex':12,'int':16,'fai':7,'arc':9},
+                    warrior: {'vig':11,'min':12,'end':11,'str':10,'dex':16,'int':10,'fai':8,'arc':9},
+                    prisoner: {'vig':11,'min':12,'end':11,'str':11,'dex':14,'int':14,'fai':6,'arc':9},
+                    confessor: {'vig':10,'min':13,'end':10,'str':12,'dex':12,'int':9,'fai':14,'arc':9},
+                    wretch: {'vig':10,'min':10,'end':10,'str':10,'dex':10,'int':10,'fai':10,'arc':10},
+                    vagabond: {'vig':15,'min':10,'end':11,'str':14,'dex':13,'int':9,'fai':9,'arc':7},
+                    prophet: {'vig':10,'min':14,'end':8,'str':11,'dex':10,'int':7,'fai':16,'arc':10},
+                    samurai: {'vig':12,'min':11,'end':13,'str':12,'dex':15,'int':9,'fai':8,'arc':8},
                 },
+                attack_types: [
+                    'physical',
+                    'magic',
+                    'fire',
+                    'lightning',
+                    'holy',
+                ],
+                attack_sources: [
+                    'str',
+                    'dex',
+                    'int',
+                    'fai',
+                    'arc',
+                ],
+                weapon_name: '',
             },
             result: {},
             progress: 0,
-            input_state: 'weapon_attribute',
             output_state: '',
             worker: new Worker('worker.js'),
         }
@@ -72,26 +91,13 @@ var Main = {
             this.args.attributes.fai = 0;
             this.args.attributes.arc = 0;
         },
-        get_attack_attributes(clazz) { return {
-            str: clazz.str,
-            dex: clazz.dex,
-            'int': clazz.int,
-            fai: clazz.fai,
-            arc: clazz.arc,
-        };},
         quick_run(runnable, ...args) {
-            for(var [key, value] of Object.entries(this.globals))
-                window[key] = value;
             this.result = self[runnable](...args);
             this.output_state = 'output';
         },
         run(runnable, ...args) {
             this.setup();
             this.async(runnable, this.update, this.print, args);
-        },
-        run_with_predicates(runnable, predicates, ...args) {
-            this.setup();
-            this.async(runnable, this.update, this.print, args, predicates);
         },
         async(runnable, update, callback, args, predicates) {
             this.worker.onmessage = function(e) {
@@ -104,8 +110,6 @@ var Main = {
             this.worker.postMessage({
                 runnable: runnable,
                 args: JSON.stringify(args),
-                predicates: predicates,
-                globals: JSON.stringify(this.globals),
             });
         },
         setup() {
@@ -154,6 +158,7 @@ var Main = {
         this.load_class();
     },
     template:`
+<!--
 <div class="elden_sheet sidebar" id="navigation">
     <ul>
         <li><a :style="input_state=='class_weapon_attribute'?{color: 'RoyalBlue'}:{}" @click="input_state='class_weapon_attribute'">Class/Weapon/Attributes Optimizer</a></li>
@@ -161,15 +166,13 @@ var Main = {
         <li><a :style="input_state=='damage_calc'?{color: 'RoyalBlue'}:{}" @click="input_state='damage_calc'">Damage Calculator</a></li>
     </ul>
 </div>
+-->
+<div class="filler"></div>
 <div id="content">
     <inputForm
     :args="args"
-    :result="result"
-    :attack_attributes="attack_attributes"
-    :state="input_state"
     @run="run"
     @quick_run="quick_run"
-    @run_with_predicates="run_with_predicates"
     @load_class="load_class"
     @blank_slate="blank_slate"
     />
@@ -180,7 +183,10 @@ var Main = {
         :state="output_state"
     />
 </div>
+<!--
 <div class="elden_sheet sidebar">
 </div>
+-->
+<div class="filler"></div>
 `,
 };
