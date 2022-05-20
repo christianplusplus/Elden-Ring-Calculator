@@ -13,6 +13,9 @@
     <!--<script src="https://unpkg.com/vue@3"></script>-->
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="views/input_form.js"></script>
+    <script src="views/class_weapon_attribute_input_form.js"></script>
+    <script src="views/weapon_attribute_input_form.js"></script>
+    <script src="views/weapon_attribute_damage_input_form.js"></script>
     <script src="views/result_form.js"></script>
     <script src="views/error_result_form.js"></script>
     <script src="views/weapon_result_form.js"></script>
@@ -37,30 +40,29 @@
     </div>
     <div id="band">
     </div>
-    <!--
     <div class="ad">
         <div id="amzn-assoc-ad-9d676aa2-8e24-40b9-b970-16334474924e">
         </div><script async src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=9d676aa2-8e24-40b9-b970-16334474924e"></script>
     </div>
-    -->
     <div id="footer">
         <small>&copy; Copyright 2022, All rights reserved. Patch 1.04</small>
-        <a href="mailto:elden.ring.dc@gmail.com">Send a Suggestion or Report a Bug</a>
+        <a href="mailto:elden.ring.dc@gmail.com">Send a Suggestion (I read these)</a>
         <a href="https://twitter.com/VadimTheNatilus">"Gideon's Portrait" by Vladim</a>
     </div>
 </div>
 <script>
-var main = Vue.createApp(Main)
-    .component('inputForm', inputForm)
-    .component('resultForm', resultForm)
-    .component('errorResultForm', errorResultForm)
-    .component('weaponResultForm', weaponResultForm)
-    .component('attributeResultForm', attributeResultForm)
-    .component('classResultForm', classResultForm)
-    .component('progressBar', progressBar)
-    .mount("#band")
-;
-self['status_update'] = function(){};
+var main = Vue.createApp(Main);
+main.component('inputForm', inputForm);
+main.component('classWeaponAttributeInputForm', classWeaponAttributeInputForm);
+main.component('weaponAttributeInputForm', weaponAttributeInputForm);
+main.component('weaponAttributeDamageInputForm', weaponAttributeDamageInputForm);
+main.component('resultForm', resultForm);
+main.component('errorResultForm', errorResultForm);
+main.component('weaponResultForm', weaponResultForm);
+main.component('attributeResultForm', attributeResultForm);
+main.component('classResultForm', classResultForm);
+main.component('progressBar', progressBar);
+main.mount("#band");
 </script>
 </body>
 </html>

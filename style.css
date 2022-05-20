@@ -208,10 +208,6 @@ select {
     flex: 1;
 }
 
-.class_result > img {
-    height: 484px;
-}
-
 .error_result {
     align-self: center;
     text-align: center;
