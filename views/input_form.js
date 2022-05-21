@@ -45,6 +45,9 @@ var inputForm = {
             
             return weapons;
         },
+        extended_enemy() {
+            return Object.assign({}, this.args.enemy, this.args.difficulty_scaling[this.args.enemy['SpEffect ID']]);
+        },
     },
     computed: {
         constraints() {
@@ -87,7 +90,7 @@ var inputForm = {
         formEvent: {
             handler() {
                 if(!(this.args.optimize_class || this.args.optimize_attributes || this.args.optimize_weapon) && !this.args.disabled && this.args.weapon)
-                    this.$emit('quick_run', 'optimize', 'damage', this.args.attributes, this.args.optimize_class, this.args.optimize_attributes, this.args.target_level, this.args.floatingPoints, this.extended_weapons(), this.args.enemy, this.args.modifiers, this.args.options);
+                    this.$emit('quick_run', 'optimize', 'damage', this.args.attributes, this.args.optimize_class, this.args.optimize_attributes, this.args.target_level, this.args.floatingPoints, this.extended_weapons(), this.extended_enemy(), this.args.modifiers, this.args.options);
             },
             deep: true,
             flush: 'post',
@@ -251,6 +254,6 @@ var inputForm = {
             </select>
         </div>
     </div>
-    <button v-if="(args.optimize_class || args.optimize_attributes || args.optimize_weapon) && (args.optimize_weapon || args.weapon)" :disabled="args.disabled" @click="$emit('run', 'optimize', 'damage', args.attributes, args.optimize_class, args.optimize_attributes, args.target_level, args.floatingPoints, extended_weapons(), args.enemy, args.modifiers, args.options)">Calculate!</button>
+    <button v-if="(args.optimize_class || args.optimize_attributes || args.optimize_weapon) && (args.optimize_weapon || args.weapon)" :disabled="args.disabled" @click="$emit('run', 'optimize', 'damage', args.attributes, args.optimize_class, args.optimize_attributes, args.target_level, args.floatingPoints, extended_weapons(), extended_enemy(), args.modifiers, args.options)">Calculate!</button>
 </div>`,
 };
