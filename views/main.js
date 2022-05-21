@@ -157,8 +157,7 @@ var Main = {
                 this.args.difficulty_scaling = data;
             });
         
-        this.args.clazz = this.args.class_stats['hero'];
-        this.load_class();
+        this.blank_slate();
     },
     template:`
 <!--
