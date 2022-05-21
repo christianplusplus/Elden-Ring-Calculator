@@ -1,9 +1,10 @@
 # TODO
 ## BETA
 * Moveset data pipeline.
-* Moveset data in calcuations.
+* Moveset data calcuations.
 * Rename "None" affinity. Separate "Somber" and "N/A" affinity.
-* Ranged weapon ammo data.
+* Ranged weapon ammo data pipeline.
+* Ranged weapon ammo data calcuations.
 * Add selectable optimization objectives. (first/last/average/total light/heavy/charged/roll/jump)
 * Write an FAQ.
 ## RELEASE
