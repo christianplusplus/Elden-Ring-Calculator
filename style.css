@@ -147,6 +147,13 @@ select {
     gap: 30px;
 }
 
+.select_header {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
 .elden_sheet {
     background-image: linear-gradient(black, #1d1b0c, #505050);
     opacity: 0.8;

@@ -115,15 +115,19 @@ var inputForm = {
     </div>
     <div>
         <div>
-            <label for="weaponTypes">Weapon Types</label>
-            <br>
+            <div class="select_header">
+                <label for="weaponTypes">Weapon Types</label>
+                <img src="assets/cancel.png" height="16" width="16" @click="args.weapon_types_selected=[]" :style="args.weapon_types_selected.length?{visibility:'visible',cursor:'pointer'}:{visibility:'hidden',cursor:'auto'}">
+            </div>
             <select size="14" name="weaponTypes" v-model="args.weapon_types_selected" multiple>
                 <option v-for="weapon_type in args.weapon_types">{{ weapon_type }}</option>
             </select>
         </div>
         <div>
-            <label for="affinities">Affinities</label>
-            <br>
+            <div class="select_header">
+                <label for="affinities">Affinities</label>
+                <img src="assets/cancel.png" height="16" width="16" @click="args.affinities_selected=[]" :style="args.affinities_selected.length?{visibility:'visible',cursor:'pointer'}:{visibility:'hidden',cursor:'auto'}">
+            </div>
             <select class="selectNoScroll" size="14" name="affinities" v-model="args.affinities_selected" multiple>
                 <option v-for="affinity in args.affinities">{{ affinity }}</option>
             </select>
