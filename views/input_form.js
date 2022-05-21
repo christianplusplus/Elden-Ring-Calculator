@@ -141,6 +141,7 @@ var inputForm = {
         <div>
             <button type="button" @click="$emit('blank_slate')">Blank Slate</button>
             <br>
+            <br>
             <button type="button" @click="$emit('load_class')">Load Class</button>
             <br>
             <select v-model="args.clazz">
@@ -148,8 +149,23 @@ var inputForm = {
                     {{ class_name[0].toUpperCase() + class_name.slice(1) }}
                 </option>
             </select>
+            <div v-if="args.optimize_class && args.optimize_attributes">
+                <br>
+                <label for="lvl">Target Level</label>
+                <br>
+                <input type="number" v-model.number="args.target_level" min="1" max="713" style="width:40px">
+            </div>
+            <div v-if="!args.optimize_class && args.optimize_attributes">
+                <br>
+                <label for="floatingPoints">Float Points</label>
+                <br>
+                <input type="number" v-model.number="args.floatingPoints" min="0" max="445" style="width:40px"> 
+            </div>
         </div>
         <div>
+            <div style="font-size:12px">
+                <span v-if="args.optimize_attributes || args.optimize_class">Min. </span>Attributes
+            </div>
             <table>
                 <tr v-if="args.optimize_class">
                     <td>
@@ -213,22 +229,6 @@ var inputForm = {
                     </td>
                     <td>
                         <label for="arc">ARC</label>
-                    </td>
-                </tr>
-                <tr v-if="args.optimize_class && args.optimize_attributes">
-                    <td>
-                        <input type="number" v-model.number="args.target_level" min="1" max="713">
-                    </td>
-                    <td>
-                        <label for="lvl">Target Level</label>
-                    </td>
-                </tr>
-                <tr v-if="!args.optimize_class && args.optimize_attributes">
-                    <td>
-                        <input type="number" v-model.number="args.floatingPoints" min="0" max="445">
-                    </td>
-                    <td>
-                        <label for="floatingPoints">Float Points</label>
                     </td>
                 </tr>
             </table>
