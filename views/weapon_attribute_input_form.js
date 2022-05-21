@@ -3,6 +3,11 @@ var weaponAttributeInputForm = {
         args: Object,
         attack_attributes: Object,
     },
+    data() {
+        return {
+            optimize_weapon_and_attributes: optimize_weapon_and_attributes,
+        }
+    },
     methods: {
         disjunction(a, b) {
             return function(x) { return a(x) || b(x) };
@@ -119,7 +124,7 @@ var weaponAttributeInputForm = {
             </select>
         </div>
     </div>
-    <button :disabled="args.disabled" @click="$emit('run_with_predicates', 'optimize_weapon_and_attributes', text_constraints, attack_attributes, args.floatingPoints)">Calculate!</button>
+    <button :disabled="args.disabled" @click="$emit('run_with_predicates', optimize_weapon_and_attributes, text_constraints, attack_attributes, args.floatingPoints)">Calculate!</button>
 </div>`,
 };
 
