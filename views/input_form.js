@@ -1,9 +1,6 @@
 var inputForm = {
     props: {
         args: Object,
-        result: Object,
-        attack_attributes: Object,
-        state: String,
     },
     data() { 
         return {

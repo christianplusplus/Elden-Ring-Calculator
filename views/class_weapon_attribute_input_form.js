@@ -1,12 +1,6 @@
 var classWeaponAttributeInputForm = {
     props: {
         args: Object,
-        target_attributes: Object,
-    },
-    data() {
-        return {
-            optimize_class_weapon_and_attributes: optimize_class_weapon_and_attributes,
-        }
     },
     methods: {
         disjunction(a, b) {
