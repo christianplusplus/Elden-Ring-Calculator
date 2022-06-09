@@ -373,13 +373,9 @@ function attr_generator(weapon_and_attrs) {
         for(var otherSource of attack_sources) {
             if(otherSource != source) {
                 for(var speed of speeds) {
-                    var attrs = {
-                        'str':weapon_and_attrs.attrs['str'],
-                        'dex':weapon_and_attrs.attrs['dex'],
-                        'int':weapon_and_attrs.attrs['int'],
-                        'fai':weapon_and_attrs.attrs['fai'],
-                        'arc':weapon_and_attrs.attrs['arc'],
-                    };
+                    var attrs = {};
+                    for(var source_name of attack_sources)
+                        attrs[source_name] = weapon_and_attrs.attrs[source_name];
                     attrs[source] -= speed;
                     attrs[otherSource] += speed;
                     new_states.push({'weapon':weapon_and_attrs.weapon,'attrs':attrs});
@@ -391,18 +387,12 @@ function attr_generator(weapon_and_attrs) {
 }
 
 function get_attr_contraints(min_attrs) {
-    return [
-        x => x.attrs['str'] <= 99,
-        x => x.attrs['dex'] <= 99,
-        x => x.attrs['int'] <= 99,
-        x => x.attrs['fai'] <= 99,
-        x => x.attrs['arc'] <= 99,
-        x => x.attrs['str'] >= min_attrs['str'],
-        x => x.attrs['dex'] >= min_attrs['dex'],
-        x => x.attrs['int'] >= min_attrs['int'],
-        x => x.attrs['fai'] >= min_attrs['fai'],
-        x => x.attrs['arc'] >= min_attrs['arc'],
-    ]
+    var constraints = [];
+    for(var source of attack_sources) {
+        constraints.push((s => x => x.attrs[s] <= 99)(source));
+        constraints.push((s => x => x.attrs[s] >= min_attrs[s])(source));
+    }
+    return constraints;
 }
 
 function ascent_solver(objective, initial_state, state_generator, constraints) {
@@ -500,40 +490,72 @@ function can_scale(weapon, attack_type, source) {
     return weapon[attack_type + '_' + source + '_element_scaling'];
 }
 
-var minimum_attributes_catch = null;
-var attack_attribute_combinations_catch;
-function get_attack_attribute_combinations(minimum_attributes, free_attributes) {
-    if(
-        minimum_attributes_catch != null
-        && minimum_attributes_catch['str'] == minimum_attributes['str']
-        && minimum_attributes_catch['dex'] == minimum_attributes['dex']
-        && minimum_attributes_catch['int'] == minimum_attributes['int']
-        && minimum_attributes_catch['fai'] == minimum_attributes['fai']
-        && minimum_attributes_catch['arc'] == minimum_attributes['arc']
-        && minimum_attributes_catch['free_attributes'] == free_attributes
-    ) return attack_attribute_combinations_catch;
-    
-    var attribute_combinations = [];
-    for(var str = minimum_attributes['str']; str <= Math.min(99, minimum_attributes['str'] + free_attributes); str++) {
-        for(var dex = minimum_attributes['dex']; dex <= Math.min(99, minimum_attributes['dex'] + free_attributes); dex++) {
-            for(var i = minimum_attributes['int']; i <= Math.min(99, minimum_attributes['int'] + free_attributes); i++) {
-                for(var fai = minimum_attributes['fai']; fai <= Math.min(99, minimum_attributes['fai'] + free_attributes); fai++) {
-                    for(var arc = minimum_attributes['arc']; arc <= Math.min(99, minimum_attributes['arc'] + free_attributes); arc++) {
-                        if(str + dex + i + fai + arc == free_attributes + get_attack_attribute_sum(minimum_attributes)) {
-                            attribute_combinations.push({'str':str,'dex':dex,'int':i,'fai':fai,'arc':arc});
-                        }
-                    }
-                }
-            }
+function mapObject(object, func) {
+    return Object.keys(object).reduce(function(result, key) {
+        result[key] = func(object[key]);
+        return result;
+    }, {});
+}
+
+function* inclusiveRange(start, end = null, step = 1) {
+    if (end === null) {
+        end = start;
+        start = 0;
+    }
+    var current = start;
+    while (current <= end) {
+        yield current;
+        current += step;
+    }
+}
+
+function* permutateKeys(objects) {
+    var iterators = mapObject(objects, l => l.values());
+    var permutation = mapObject(iterators, i => i.next().value);
+    yield Object.assign({}, permutation);
+
+    var keys = Object.keys(objects);
+    var index = 0;
+    while(index < keys.length) {
+        var key = keys[index];
+        var next = iterators[key].next();
+        if(next.done) {
+            iterators[key] = objects[key].values();
+            permutation[key] = iterators[key].next().value;
+            index++;
+        }
+        else {
+            permutation[key] = next.value;
+            index = 0;
+            yield Object.assign({}, permutation);
         }
     }
+}
+
+var minimum_attributes_cache = null;
+var attack_attribute_combinations_cache;
+function get_attack_attribute_combinations(minimum_attributes, free_attributes) {
+    if(
+        minimum_attributes_cache != null
+        && attack_sources.every(source => minimum_attributes_cache[source] == minimum_attributes[source])
+        && minimum_attributes_cache['free_attributes'] == free_attributes
+    ) return attack_attribute_combinations_cache;
     
-    minimum_attributes_catch = Object.assign({}, minimum_attributes);
-    minimum_attributes_catch['free_attributes'] = free_attributes;
-    attack_attribute_combinations_catch = attribute_combinations;
+    var attribute_ranges = {};
+    for(var source of attack_sources)
+        attribute_ranges[source] = [...inclusiveRange(minimum_attributes[source], Math.min(99, minimum_attributes[source] + free_attributes))];
+    
+    var attribute_combinations = [];
+    for(var permutation of permutateKeys(attribute_ranges))
+        if(get_attack_attribute_sum(permutation) == free_attributes + get_attack_attribute_sum(minimum_attributes))
+            attribute_combinations.push(permutation);
+    
+    minimum_attributes_cache = Object.assign({}, minimum_attributes);
+    minimum_attributes_cache['free_attributes'] = free_attributes;
+    attack_attribute_combinations_cache = attribute_combinations;
     return attribute_combinations;
 }
 
 function get_attack_attribute_sum(attributes) {
-    return attributes['str'] + attributes['dex'] + attributes['int'] + attributes['fai'] + attributes['arc'];
+    return attack_sources.map(source => attributes[source]).reduce(sum);
 }
