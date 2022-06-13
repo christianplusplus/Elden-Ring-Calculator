@@ -2,16 +2,6 @@ import groovy.json.*
 
 def sourceDirectory = '../src_data'
 def targetDirectory = '../data'
-def fileNames = [
-    'Extra_Data',
-    'Attack',
-    'CalcCorrectGraph_ID',
-    'SpEffectParam',
-    'Passive',
-    'Scaling',
-    'AttackElementCorrectParam',
-    //'Boss_Data',
-]
 
 def csvSplitterExpression = /,(?=(?:[^"]*"[^"]*")*[^"]*$)/
 def csvOuterQuoteExpression = /^"|"$/
@@ -25,9 +15,29 @@ def csvToObject = { String fileName ->
     def object = lines[1..-1].collect{
         getLineList(it)
     }.collectEntries{
+    
         //fixes epee
         it[0] = it[0].replaceAll('epee', 'Epee')
+        
+        
         [it[0], [columns, it].transpose().collectEntries()]
+    }
+}
+
+def motionCsvToObject = { String fileName ->
+    def lines = new File(sourceDirectory, fileName + ".csv").readLines()
+    def columns = getLineList(lines[0])
+    def object = lines[1..-1].collect{
+        getLineList(it)
+    }.findAll{
+        it[0].length() > 0
+    }.collectEntries{
+        
+        //fixes epee
+        it[1] = it[1].replaceAll('Épée', 'Epee')
+        
+        
+        [it[1], [columns, it].transpose().collectEntries()]
     }
 }
 
@@ -41,13 +51,40 @@ def csvToArray = { String fileName ->
     }
 }
 
-fileNames.each{
-    binding.setProperty(it, csvToObject(it))
-}
+//regular files to objects
+def fileNames = [
+    'Extra_Data',
+    'Attack',
+    'CalcCorrectGraph_ID',
+    'SpEffectParam',
+    'Passive',
+    'Scaling',
+    'AttackElementCorrectParam',
+]
+fileNames.each{binding.setProperty(it, csvToObject(it))}
 
+//boss data to array
 Boss_Data = csvToArray('Boss_Data')
-
 new File(targetDirectory, 'boss_data.json').write(JsonOutput.toJson(Boss_Data))
+
+//motion values to object
+motion_values = motionCsvToObject('motion_values').collectEntries{ key, entry ->
+    try{
+        [key,
+            [
+                'base_weapon_name': entry['Weapon'],
+                '1h_standing_r1': [entry['1h R1 1'], entry['1h R1 2'], entry['1h R1 3'], entry['1h R1 4'], entry['1h R1 5'], entry['1h R1 6']].findAll(),
+                '1h_standing_r2': [entry['1h R1 1'], entry['1h R1 2']].findAll(),
+            ]
+        ]
+    }catch(e){
+        println key
+        println entry
+        println e
+        throw e
+    }
+}
+new File(targetDirectory, 'motion_values.json').write(JsonOutput.toJson(motion_values))
 
 AttackElementCorrectParam = AttackElementCorrectParam.collectEntries{ key, entry ->
     try{
