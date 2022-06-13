@@ -30,7 +30,7 @@ def motionCsvToObject = { String fileName ->
     def object = lines[1..-1].collect{
         getLineList(it)
     }.findAll{
-        it[0].length() > 0
+        it[0] && it[0].length() > 0
     }.collectEntries{
         
         //fixes epee
@@ -72,10 +72,41 @@ motion_values = motionCsvToObject('motion_values').collectEntries{ key, entry ->
     try{
         [key,
             [
-                'base_weapon_name': entry['Weapon'],
-                '1h_standing_r1': [entry['1h R1 1'], entry['1h R1 2'], entry['1h R1 3'], entry['1h R1 4'], entry['1h R1 5'], entry['1h R1 6']].findAll(),
-                '1h_standing_r2': [entry['1h R1 1'], entry['1h R1 2']].findAll(),
-            ]
+                '1h_light': [entry['1h R1 1'], entry['1h R1 2'], entry['1h R1 3'], entry['1h R1 4'], entry['1h R1 5'], entry['1h R1 6']],
+                '1h_heavy': [entry['1h R2 1'], entry['1h R2 2']],
+                '1h_running_light': [],
+                '1h_running_heavy': [],
+                '1h_jumping_light': [],
+                '1h_jumping_heavy': [],
+                '1h_charged': [],
+                '1h_charged_feint': [],
+                '1h_rolling': [],
+                '1h_backstep': [],
+                '1h_guard_counter': [],
+                '2h_standing_light': [],
+                '2h_standing_heavy': [],
+                '2h_running_light': [],
+                '2h_running_heavy': [],
+                '2h_jumping_light': [],
+                '2h_jumping_heavy': [],
+                '2h_charged': [],
+                '2h_charged_feint': [],
+                '2h_rolling': [],
+                '2h_backstep': [],
+                '2h_guard_counter': [],
+                'offhand': [],
+                'backstab': [],
+                'riposte': [],
+                'shieldpoke': [],
+                'paired_light': [],
+                'paired_running': [],
+                'paired_rolling': [],
+                'paired_backstep': [],
+                'paired_jumping': [],
+                'mounted_light': [],
+                'mounted_heavy': [],
+                'mounted_charged:' [],
+            ].collectEntries{weapon, moves -> [weapon, moves.findAll().collect{move -> (move =~ /\d+/).collect{hit -> hit as int}}]}
         ]
     }catch(e){
         println key
