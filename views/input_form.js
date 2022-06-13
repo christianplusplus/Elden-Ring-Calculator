@@ -85,6 +85,29 @@ var inputForm = {
                 this.args.disabled,
             ];
         },
+        has_moveset_modifiers() {
+            return 'modifiers' in this.args.movesets[this.args.moveset_category];
+        },
+        moveset_modifiers() {
+            if(this.has_moveset_modifiers)
+                return this.args.movesets[this.args.moveset_category].modifiers;
+            return {};
+        },
+        has_valid_moveset_modifier() {
+            return this.args.moveset_modifier in this.moveset_modifiers;
+        },
+        moveset_is_two_handable() {
+            if(this.has_valid_moveset_modifier)
+                return this.args.movesets[this.args.moveset_category].modifiers[this.args.moveset_modifier].is_two_handable;
+            if('is_two_handable' in this.args.movesets[this.args.moveset_category])
+                return this.args.movesets[this.args.moveset_category].is_two_handable;
+            return false;
+        },
+        moveset() {
+            var formatted_moveset_modifer = this.has_valid_moveset_modifier ? '_' + this.args.moveset_modifier : '';
+            var formatted_handedness = this.moveset_is_two_handable ? (this.args.is_two_handing ? '_2h' : '_1h') : '';
+            return {moveset_aggregate: this.args.moveset_aggregate, moveset: this.args.moveset_category + formatted_moveset_modifer + formatted_handedness, hit_aggregate: this.args.hit_aggregate};
+        },
     },
     watch: {
         formEvent: {
@@ -135,9 +158,6 @@ var inputForm = {
         <div>
             <input type="checkbox" name="isDualWieldable" v-model="args.options.is_dual_wieldable" :true-value=true :false-value=false>
             <label for="isDualWieldable"> Dual Wieldable</label>
-            <br>
-            <input type="checkbox" name="isTwoHanding" v-model="args.options.is_two_handing" :true-value=true :false-value=false>
-            <label for="isTwoHanding"> Two Handing</label>
             <br>
             <input type="checkbox" name="meetsAttributeRequirements" v-model="args.options.must_have_required_attributes" :true-value=true :false-value=false>
             <label for="meetsAttributeRequirements"> Required Attributes</label>
@@ -257,6 +277,51 @@ var inputForm = {
                 </option>
             </select>
         </div>
+    </div>
+    <div>
+        <div>
+            <label for="aggregate">Aggregate </label><br>
+            <select name="aggregate" v-model="args.moveset_aggregate">
+                <option v-for="aggregate in args.aggregates" :value="aggregate">
+                    {{ aggregate.charAt(0).toUpperCase() + aggregate.slice(1) }}
+                </option>
+            </select>
+        </div>
+        <div>
+            <label for="moveset">Moveset </label><br>
+            <select name="moveset" v-model="args.moveset_category">
+                <option v-for="move in Object.keys(args.movesets)" :value="move">
+                    {{ args.movesets[move].display_name }}
+                </option>
+            </select>
+        </div>
+        <div v-if="has_moveset_modifiers">
+            <label for="input">Input </label><br>
+            <select name="input" v-model="args.moveset_modifier">
+                <option v-for="modifier in Object.keys(moveset_modifiers)" :value="modifier">
+                    {{ modifier.charAt(0).toUpperCase() + modifier.slice(1) }}
+                </option>
+            </select>
+        </div>
+        <div v-if="moveset_is_two_handable">
+            <label for="grip">Grip </label><br>
+            <select name="grip" v-model="args.is_two_handing">
+                <option v-for="is_two_handing in [false, true]" :value="is_two_handing">
+                    {{ (is_two_handing ? 'Two Handing' : 'One Handing') }}
+                </option>
+            </select>
+        </div>
+        <div>
+            <label for="hit">Multi-Hits </label><br>
+            <select name="hit" v-model="args.hit_aggregate">
+                <option v-for="aggregate in args.aggregates" :value="aggregate">
+                    {{ aggregate.charAt(0).toUpperCase() + aggregate.slice(1) }}
+                </option>
+            </select>
+        </div>
+    </div>
+    <div>
+        {{ moveset }}
     </div>
     <button v-if="(args.optimize_class || args.optimize_attributes || args.optimize_weapon) && (args.optimize_weapon || args.weapon)" :disabled="args.disabled" @click="$emit('run', 'optimize', 'damage', args.attributes, args.optimize_class, args.optimize_attributes, args.target_level, args.floatingPoints, extended_weapons(), extended_enemy(), args.modifiers, args.options)">Calculate!</button>
 </div>`,

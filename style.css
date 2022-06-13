@@ -32,7 +32,7 @@ button {
 }
 
 select {
-    width: 100%;
+    width: auto;
 }
 
 #master-band {
