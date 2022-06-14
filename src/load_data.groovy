@@ -79,6 +79,7 @@ fileNames.each{binding.setProperty(it, csvToObject(it))}
 
 //boss data to array
 Boss_Data = csvToArray('Boss_Data')
+Boss_Data << [['NPC ID','SpEffect ID','Name','HP','Standard','Slash','Strike','Pierce','Magic','Fire','Lightning','Holy','Poison','Rot','Blood','Frost','Sleep','Madness','Death Blight','Poise'],['76543210','0','Target Dummy (No Resistances, Weaknesses, or Difficulty Scaling)','60000.0','1','1','1','1','1','1','1','1','306.096','306.096','306.096','306.096','306.096','306.096','306.096','120']].transpose().collectEntries()
 new File(targetDirectory, 'boss_data.json').write(JsonOutput.toJson(Boss_Data))
 
 //swing values to Object
