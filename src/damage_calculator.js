@@ -366,6 +366,15 @@ function get_damage_objective(enemy, modifiers, options) {
     };
 }
 
+//TODO
+function get_damage_comparator(enemy, moveset_aggregate, hit_aggregate, modifiers, options) {
+    return function(enemy, moveset_aggregate, hit_aggregate, modifiers, options) {
+        function(a, b){
+            get_damage(weapon_and_attrs.weapon, weapon_and_attrs.attrs, enemy, weapon_and_attrs.weapon.physical_damage_types[0], 1, modifiers, options)
+        }
+    }(enemy, moveset_aggregate, hit_aggregate, modifiers, options)
+}
+
 function attr_generator(weapon_and_attrs) {
     var speeds = [20, 1];
     var new_states = [];
