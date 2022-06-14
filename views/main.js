@@ -110,6 +110,7 @@ var Main = {
                 enemy: {},
                 attack_element_scaling: {},
                 difficulty_scaling: {},
+                motion_values: {},
                 clazz: {},
                 class_stats: {
                     hero: {'vig':14,'min':9,'end':12,'str':16,'dex':9,'int':7,'fai':8,'arc':11},
@@ -229,6 +230,12 @@ var Main = {
             .then(response => response.json())
             .then(data => {
                 this.args.difficulty_scaling = data;
+            });
+        
+        fetch('data/motion_values.json')
+            .then(response => response.json())
+            .then(data => {
+                this.args.motion_values = data;
             });
         
         this.blank_slate();

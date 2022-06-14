@@ -9,6 +9,15 @@ def getLineList = { String line ->
     line.split(csvSplitterExpression).collect{it.replaceAll(csvOuterQuoteExpression, '')}
 }
 
+List.metaClass.collectWithIndex = { yield ->
+    def collected = []
+    delegate.eachWithIndex { listItem, index ->
+        collected << yield(listItem, index)
+    }
+    
+    return collected 
+}
+
 def csvToObject = { String fileName ->
     def lines = new File(sourceDirectory, fileName + ".csv").readLines()
     def columns = getLineList(lines[0])
@@ -16,9 +25,12 @@ def csvToObject = { String fileName ->
         getLineList(it)
     }.collectEntries{
     
-        //fixes epee
+        //fixes
         it[0] = it[0].replaceAll('epee', 'Epee')
-        
+        it[1] = it[1].replaceAll("Man-serpent's Shield", "Man-Serpent's Shield")
+        it[1] = it[1].replaceAll("^Celebrant's Cleaver\$", "Celebrant's Cleaver Blades")
+        it[1] = it[1].replaceAll("Relic Sword", "Sacred Relic Sword")
+        it[1] = it[1].replaceAll("Mohgwyn's Spear", "Mohgwyn's Sacred Spear")
         
         [it[0], [columns, it].transpose().collectEntries()]
     }
@@ -33,9 +45,11 @@ def motionCsvToObject = { String fileName ->
         it[0] && it[0].length() > 0
     }.collectEntries{
         
-        //fixes epee
+        //fixes
         it[1] = it[1].replaceAll('Épée', 'Epee')
-        
+        it[1] = it[1].replaceAll('Miséricorde', 'Misericorde')
+        it[1] = it[1].replaceAll("Varré's Bouquet", "Varre's Bouquet")
+        it[1] = it[1].replaceAll("Celebrant's Cleaver", "Celebrant's Cleaver Blades")
         
         [it[1], [columns, it].transpose().collectEntries()]
     }
@@ -66,6 +80,67 @@ fileNames.each{binding.setProperty(it, csvToObject(it))}
 //boss data to array
 Boss_Data = csvToArray('Boss_Data')
 new File(targetDirectory, 'boss_data.json').write(JsonOutput.toJson(Boss_Data))
+
+//swing values to Object
+swing_values = motionCsvToObject('weapon_swing_types').collectEntries{ key, entry ->
+    try{
+        [key,
+            [
+                normal_light_1h: [entry['1h R1 1'], entry['1h R1 2'], entry['1h R1 3'], entry['1h R1 4'], entry['1h R1 5'], entry['1h R1 6']],
+                normal_light_2h: [entry['2h R1 1'], entry['2h R1 2'], entry['2h R1 3'], entry['2h R1 4'], entry['2h R1 5'], entry['2h R1 6']],
+                normal_offhand: [entry['Offhand R1 1'], entry['Offhand R1 2'], entry['Offhand R1 3'], entry['Offhand R1 4'], entry['Offhand R1 5'], entry['Offhand R1 6']],
+                normal_paired: [entry['Paired L1 1'], entry['Paired L1 2'], entry['Paired L1 3'], entry['Paired L1 4'], entry['Paired L1 5'], entry['Paired L1 6']],
+                normal_heavy_1h: [entry['1h R2 1'], entry['1h R2 2']],
+                normal_heavy_2h: [entry['2h R2 1'], entry['2h R2 2']],
+                normal_charged_1h: [entry['1h Charged R2 1'], entry['1h Charged R2 2']],
+                normal_charged_2h: [entry['2h Charged R2 1'], entry['2h Charged R2 2']],
+                
+                running_light_1h: [entry['1h Running R1']],
+                running_light_2h: [entry['2h Running R1']],
+                running_heavy_1h: [entry['1h Running R2']],
+                running_heavy_2h: [entry['2h Running R2']],
+                running_paired: [entry['Paired Running L1']],
+                
+                rolling_light_1h: [entry['1h Rolling R1']],
+                rolling_light_2h: [entry['2h Rolling R1']],
+                rolling_paired: [entry['Paired Rolling L1']],
+                
+                jumping_light_1h: [entry['1h Jumping R1']],
+                jumping_light_2h: [entry['2h Jumping R1']],
+                jumping_heavy_1h: [entry['1h Jumping R2']],
+                jumping_heavy_2h: [entry['2h Jumping R2']],
+                jumping_paired: [entry['Paired Jumping L1']],
+                
+                chargefeint_1h: [entry['1h Charged R2 1 Feint']],
+                chargefeint_2h: [entry['2h Charged R2 1 Feint']],
+                
+                chargedchargefeint_1h: [entry['1h Charged R2 1'], entry['1h Charged R2 2 Feint']],
+                chargedchargefeint_2h: [entry['2h Charged R2 1'], entry['2h Charged R2 2 Feint']],
+                
+                backstep_light_1h: [entry['1h Backstep R1']],
+                backstep_light_2h: [entry['2h Backstep R1']],
+                backstep_paired: [entry['Paired Backstep L1']],
+                
+                guardcounter_1h: [entry['1h Guard Counter']],
+                guardcounter_2h: [entry['2h Guard Counter']],
+                
+                mounted_light: [entry['Mounted R1 1'], entry['Mounted R1 2'], entry['Mounted R1 3']],
+                mounted_heavy: [entry['Mounted R2']],
+                mounted_charging: [entry['Mounted R2 Charging']],
+                mounted_charged: [entry['Mounted Charged R2']],
+                
+                backstab: [entry['Backstab']],
+                riposte: [entry['Riposte']],
+                shieldpoke: [entry['Shieldpoke']],
+            ].collectEntries{weapon, moves -> [weapon, moves.findAll().collect{move -> (move =~ /Standard|Slash|Pierce|Strike/).collect{it}}]}
+        ]
+    }catch(e){
+        println key
+        println entry
+        println e
+        throw e
+    }
+}
 
 //motion values to object
 motion_values = motionCsvToObject('motion_values').collectEntries{ key, entry ->
@@ -118,7 +193,7 @@ motion_values = motionCsvToObject('motion_values').collectEntries{ key, entry ->
                 backstab: [entry['Backstab']],
                 riposte: [entry['Riposte']],
                 shieldpoke: [entry['Shieldpoke']],
-            ].collectEntries{weapon, moves -> [weapon, moves.findAll().collect{move -> (move =~ /\d+/).collect{hit -> hit as int}}]}
+            ].collectEntries{weapon, moves -> [weapon, moves.findAll().collect{move -> (move =~ /\d+(?:\.\d+)?/).collect{hit -> hit as double}}]}
         ]
     }catch(e){
         println key
@@ -127,6 +202,11 @@ motion_values = motionCsvToObject('motion_values').collectEntries{ key, entry ->
         throw e
     }
 }
+
+motion_values = motion_values.collectEntries{ weapon, entry ->
+    [weapon, entry.collectEntries{moveName, moveSet -> [moveName, moveSet.collectWithIndex{move, moveIndex -> move.collectWithIndex{hit, hitIndex -> [hit, swing_values[weapon][moveName][moveIndex][hitIndex]]}}]}]
+}
+
 new File(targetDirectory, 'motion_values.json').write(JsonOutput.toJson(motion_values))
 
 AttackElementCorrectParam = AttackElementCorrectParam.collectEntries{ key, entry ->
