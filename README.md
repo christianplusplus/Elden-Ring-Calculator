@@ -1,13 +1,11 @@
 # TODO
 ## BETA
-* Moveset data pipeline.
-* Moveset data calcuations.
 * Rename "None" affinity. Separate "Somber" and "N/A" affinity.
 * Ranged weapon ammo data pipeline.
 * Ranged weapon ammo data calcuations.
-* Add selectable optimization objectives. (first/last/average/total light/heavy/charged/roll/jump)
 * Write an FAQ.
 ## RELEASE
+* Movesets with multiple moves rounding error bug. Combos may be listed at 1 or 2 damage points higher than actual. Fixing this means lots of changes to the algorithm.
 * Value modifiers.
 * Save/Load Profile/Cookie.
 * Custom weapon filters.
