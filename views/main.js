@@ -6,8 +6,6 @@ var Main = {
                 attributes: {},
                 floatingPoints:10,
                 target_level: 150,
-                is_two_handing: false,
-                is_dual_wieldable: false,
                 optimize_class: true,
                 optimize_weapon: true,
                 optimize_attributes: true,
@@ -20,13 +18,99 @@ var Main = {
                 modifiers: [],
                 options: {
                     must_have_required_attributes: true,
-                    is_two_handing: false,
                     is_dual_wieldable: false,
                 },
+                movesets: {
+                    normal: {
+                        display_name: 'Normal',
+                        modifiers: {
+                            light:{is_two_handable: true},
+                            heavy:{is_two_handable: true},
+                            charged:{is_two_handable: true},
+                            offhand:{is_two_handable: false},
+                            paired:{is_two_handable: false},
+                        }
+                    },
+                    running: {
+                        display_name: 'Running',
+                        modifiers: {
+                            light:{is_two_handable: true},
+                            heavy:{is_two_handable: true},
+                            paired:{is_two_handable: false},
+                        }
+                    },
+                    rolling: {
+                        display_name: 'Rolling',
+                        modifiers: {
+                            light:{is_two_handable: true},
+                            paired:{is_two_handable: false},
+                        }
+                    },
+                    jumping: {
+                        display_name: 'Jumping',
+                        modifiers: {
+                            light:{is_two_handable: true},
+                            heavy:{is_two_handable: true},
+                            paired:{is_two_handable: false},
+                        }
+                    },
+                    chargefeint: {
+                        display_name: 'Charge Feint',
+                        is_two_handable: true,
+                    },
+                    chargedchargefeint: {
+                        display_name: '2nd Charge Feint',
+                        is_two_handable: true,
+                    },
+                    backstep: {
+                        display_name: 'Backstep',
+                        modifiers: {
+                            light:{is_two_handable: true},
+                            paired:{is_two_handable: false},
+                        }
+                    },
+                    guardcounter: {
+                        display_name: 'Guard Counter',
+                        is_two_handable: true,
+                    },
+                    mounted: {
+                        display_name: 'Mounted',
+                        modifiers: {
+                            light:{is_two_handable: false},
+                            heavy:{is_two_handable: false},
+                            charging:{is_two_handable: false},
+                            charged:{is_two_handable: false},
+                        }
+                    },
+                    backstab: {
+                        display_name: 'Backstab',
+                        is_two_handable: false,
+                    },
+                    riposte: {
+                        display_name: 'Riposte',
+                        is_two_handable: false,
+                    },
+                    shieldpoke: {
+                        display_name: 'Shield Poke',
+                        is_two_handable: false,
+                    },
+                },
+                aggregates: [
+                    'first',
+                    'last',
+                    'total',
+                    'average',
+                ],
+                moveset_aggregate: 'first',
+                moveset_category: 'normal',
+                moveset_modifier: 'light',
+                is_two_handing: false,
+                hit_aggregate: 'last',
                 bosses: {},
                 enemy: {},
                 attack_element_scaling: {},
                 difficulty_scaling: {},
+                motion_values: {},
                 clazz: {},
                 class_stats: {
                     hero: {'vig':14,'min':9,'end':12,'str':16,'dex':9,'int':7,'fai':8,'arc':11},
@@ -63,21 +147,12 @@ var Main = {
     },
     computed: {
         attack_attributes() { return {
-            str: this.args.attributes.str,
-            dex: this.args.attributes.dex,
+            'str': this.args.attributes.str,
+            'dex': this.args.attributes.dex,
             'int': this.args.attributes.int,
-            fai: this.args.attributes.fai,
-            arc: this.args.attributes.arc,
+            'fai': this.args.attributes.fai,
+            'arc': this.args.attributes.arc,
         };},
-        globals() { 
-            return {
-                must_have_required_attributes: this.args.must_have_required_attributes,
-                is_two_handing: this.args.is_two_handing,
-                enemy: Object.assign({}, this.args.enemy, this.args.difficulty_scaling[this.args.enemy['SpEffect ID']]),
-                weapons: this.args.weapons,
-                attack_element_scaling: this.args.attack_element_scaling,
-            };
-        },
     },
     methods: {
         load_class() {
@@ -157,6 +232,12 @@ var Main = {
                 this.args.difficulty_scaling = data;
             });
         
+        fetch('data/motion_values.json')
+            .then(response => response.json())
+            .then(data => {
+                this.args.motion_values = data;
+            });
+        
         this.blank_slate();
     },
     template:`
@@ -172,11 +253,11 @@ var Main = {
 <div class="filler"></div>
 <div id="content">
     <inputForm
-    :args="args"
-    @run="run"
-    @quick_run="quick_run"
-    @load_class="load_class"
-    @blank_slate="blank_slate"
+        :args="args"
+        @run="run"
+        @quick_run="quick_run"
+        @load_class="load_class"
+        @blank_slate="blank_slate"
     />
     <resultForm
         :args="args"

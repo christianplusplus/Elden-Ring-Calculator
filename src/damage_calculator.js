@@ -3,11 +3,11 @@ self['c2lnbmF0dXJl'] = function(){return window.atob('Q29kZSB3cml0dGVuIGJ5IENocm
 
 self['status_update'] = function(){console.log('No status_update function defined.')};
 
-self['optimize'] = function(objective_statement, minimum_attributes, optimize_class, optimize_free_points, class_level, free_points, weapons, enemy, modifiers, options) {
+self['optimize'] = function(objective_statement, minimum_attributes, optimize_class, optimize_free_points, class_level, free_points, weapons, enemy, moveset_aggregate_name, hit_aggregate_name, modifiers, options) {
     progress_count = 0;
     progress_total = optimize_class ? weapons.length * Object.keys(class_stats).length : weapons.length;
     
-    var objective = get_damage_objective(enemy, modifiers, options); //TODO should depend on objective_statement
+    var objective = get_damage_objective(enemy, moveset_aggregate_name, hit_aggregate_name, modifiers, options); //TODO should depend on objective_statement
     var result = {};
     var resultArray;
     try {
@@ -231,7 +231,7 @@ function DAMAGE_FORMULA(attack_power, defense, resistance, movement_value) {
         damage = attack_power * (-0.8 / 121 * (attack_power / defense - 8) ** 2 + 0.9);
     else
         damage = attack_power * 0.9;
-    return damage * resistance * movement_value;
+    return damage * resistance * movement_value / 100;
 }
 
 var progress_count = 0;
@@ -360,9 +360,39 @@ function print_damage_weapon_attributes(damage, weapon_and_attributes) {
     console.log(damage, weapon_and_attributes.weapon.name, JSON.stringify(weapon_and_attributes.attrs));
 }
 
-function get_damage_objective(enemy, modifiers, options) {
+function get_damage_objective(enemy, moveset_aggregate_name, hit_aggregate_name, modifiers, options) {
     return function(weapon_and_attrs) {
-        return get_damage(weapon_and_attrs.weapon, weapon_and_attrs.attrs, enemy, weapon_and_attrs.weapon.physical_damage_types[0], 1, modifiers, options);
+        return get_aggregate_attack_damage(weapon_and_attrs.weapon, weapon_and_attrs.attrs, modifiers, options, enemy, aggregators[moveset_aggregate_name], aggregators[hit_aggregate_name]);
+    };
+}
+
+//TODO
+/*
+function get_damage_comparator(enemy, moveset_aggregate, hit_aggregate, modifiers, options) {
+    return function(enemy, moveset_aggregate, hit_aggregate, modifiers, options) {
+        function(a, b){
+            get_attack_damage(weapon_and_attrs.weapon, weapon_and_attrs.attrs, enemy, weapon_and_attrs.weapon.physical_damage_types[0], 1, modifiers, options)
+        }
+    }(enemy, moveset_aggregate, hit_aggregate, modifiers, options)
+}*/
+
+var aggregators = {
+    first: (arr, func) => arr.length > 0 ? func(arr[0]) : 0,
+    last: (arr, func) => arr.length > 0 ? func(arr[arr.length - 1]) : 0,
+    total: (arr, func) => arr.map(func).reduce(sum),
+    average: (arr, func) => arr.map(func).reduce(sum) / arr.length,
+}
+
+var floor_aggregators = {
+    first: (arr, func) => arr.length > 0 ? make_floored(func)(arr[0]) : 0,
+    last: (arr, func) => arr.length > 0 ? make_floored(func)(arr[arr.length - 1]) : 0,
+    total: (arr, func) => arr.map(make_floored(func)).reduce(sum),
+    average: (arr, func) => arr.map(make_floored(func)).reduce(sum) / arr.length,
+}
+
+function make_floored(func) {
+    return function(...args){
+        return Math.floor(func(...args));
     };
 }
 
@@ -427,12 +457,24 @@ function brute_solver(objective, state_space) {
     return [highest_value, optimal_state];
 }
 
-function get_damage(weapon, attributes, target, swing_type, movement_value, modifiers, options) {
+function get_attack_damage(weapon, attributes, target, swing_type, movement_value, modifiers, options) {
     var attack_powers = get_attack_powers(weapon, attributes, modifiers, options);
-    return Object.entries(attack_powers).map(([attack_type, attack_power]) => get_type_damage(attack_type, attack_power, target, swing_type, movement_value)).reduce(sum);
+    var damage = get_movement_damage(attack_powers, target, swing_type, movement_value);
+    return get_movement_damage(attack_powers, target, swing_type, movement_value);
 }
 
-function get_type_damage(attack_type, attack_power, target, swing_type, movement_value) {
+function get_aggregate_attack_damage(weapon, attributes, modifiers, options, target, moveset_aggregate, hit_aggregate) {
+    var attack_powers = get_attack_powers(weapon, attributes, modifiers, options);
+    var damage = moveset_aggregate(weapon.moveset, move => hit_aggregate(move, hit => get_movement_damage(attack_powers, target, hit[0], hit[1])));
+    return damage;
+}
+
+function get_movement_damage(attack_powers, target, movement_value, swing_type) {
+    var damage = Object.entries(attack_powers).map(([attack_type, attack_power]) => get_type_damage(attack_type, attack_power, target, movement_value, swing_type)).reduce(sum);
+    return damage;
+}
+
+function get_type_damage(attack_type, attack_power, target, movement_value, swing_type) {
     var defense = parseFloat(target[capitalize(attack_type) + ' Defense']) * 100;
     var resistance = parseFloat(attack_type == 'physical' ? target[capitalize(swing_type)] : target[capitalize(attack_type)]);
     return DAMAGE_FORMULA(attack_power, defense, resistance, movement_value);
