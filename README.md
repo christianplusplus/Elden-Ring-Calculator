@@ -1,10 +1,14 @@
 # TODO
 ## BETA
+* Add some combo/hit max length in args data so that uneeded aggregates can be hidden.
 * Moveset testing!!! Especially charged feign 2.
+* Non-maxxed weapon data for when not optimizing weapon.
 * Ranged weapon ammo data pipeline.
 * Ranged weapon ammo data calcuations.
-* Movesets with multiple moves rounding error bug. Combos may be listed at 1 or 2 damage points higher than actual. Fixing this means lots of changes to the algorithm.
 * Write an FAQ.
+* "Tweek this result" button.
+* Movesets with multiple moves rounding error bug. Combos may be listed at 1 or 2 damage points higher than actual. (Fixing this means lots of changes to the algorithm.)
+* Re-source and automate data pipelines.
 ## RELEASE
 * Value modifiers.
 * Save/Load Profile/Cookie.
@@ -12,4 +16,3 @@
 * Custom enemy maker. (for pvp)
 * Spell Damage Calculator.
 * Character Planner (weapons, items, spells)
-* "Tweek this result" button. 
