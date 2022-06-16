@@ -107,7 +107,12 @@ var inputForm = {
             return {};
         },
         has_valid_moveset_modifier() {
-            return this.args.moveset_modifier in this.moveset_modifiers;
+            if(this.has_moveset_modifiers) {
+                if(!(this.args.moveset_modifier in this.moveset_modifiers))
+                    this.args.moveset_modifier = Object.keys(this.moveset_modifiers)[0];
+                return true;
+            }
+            return false;
         },
         moveset_is_two_handable() {
             if(this.has_valid_moveset_modifier)
@@ -300,14 +305,6 @@ var inputForm = {
     </div>
     <div>
         <div>
-            <label for="aggregate">Moves</label><br>
-            <select name="aggregate" v-model="args.moveset_aggregate">
-                <option v-for="aggregate in args.aggregates" :value="aggregate">
-                    {{ aggregate.charAt(0).toUpperCase() + aggregate.slice(1) }}
-                </option>
-            </select>
-        </div>
-        <div>
             <label for="moveset">Motion</label><br>
             <select name="moveset" v-model="args.moveset_category">
                 <option v-for="move in Object.keys(args.movesets)" :value="move">
@@ -316,7 +313,7 @@ var inputForm = {
             </select>
         </div>
         <div v-if="has_moveset_modifiers">
-            <label for="input">Input</label><br>
+            <label for="input">Input Type</label><br>
             <select name="input" v-model="args.moveset_modifier">
                 <option v-for="modifier in Object.keys(moveset_modifiers)" :value="modifier">
                     {{ modifier.charAt(0).toUpperCase() + modifier.slice(1) }}
@@ -332,7 +329,15 @@ var inputForm = {
             </select>
         </div>
         <div>
-            <label for="hit">Multi-Hits</label><br>
+            <label for="aggregate">Input Aggregate</label><br>
+            <select name="aggregate" v-model="args.moveset_aggregate">
+                <option v-for="aggregate in args.aggregates" :value="aggregate">
+                    {{ aggregate.charAt(0).toUpperCase() + aggregate.slice(1) }}
+                </option>
+            </select>
+        </div>
+        <div>
+            <label for="hit">Hit Aggregate</label><br>
             <select name="hit" v-model="args.hit_aggregate">
                 <option v-for="aggregate in args.aggregates" :value="aggregate">
                     {{ aggregate.charAt(0).toUpperCase() + aggregate.slice(1) }}
