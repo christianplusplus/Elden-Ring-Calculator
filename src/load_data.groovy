@@ -258,7 +258,7 @@ def weapons = Extra_Data.collect{ key, entry ->
         [
             'name': key,
             'base_weapon_name': entry['Weapon Name'],
-            'affinity': entry['Affinity'] == '-' ? 'Somber' : entry['Affinity'],
+            'affinity': entry['Affinity'] == 'None' ? 'Standard' : entry['Affinity'] == '-' ? 'N/A' : entry['Affinity'],
             'max_upgrade_level': max_upgrade_level,
             'weight': entry['Weight'],
             //'poise': entry['Poise'],  got removed?
