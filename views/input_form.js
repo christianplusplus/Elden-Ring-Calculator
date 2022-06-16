@@ -134,6 +134,11 @@ var inputForm = {
             }
             return {moveset_aggregate: this.args.moveset_aggregate, moveset_name: this.args.moveset_category + formatted_moveset_modifer + formatted_handedness, hit_aggregate: this.args.hit_aggregate};
         },
+        has_multi_movesets() {
+            if(this.has_moveset_modifiers)
+                return this.args.movesets[this.args.moveset_category].modifiers[this.args.moveset_modifier].has_multiple_inputs;
+            return this.args.movesets[this.args.moveset_category].has_multiple_inputs;
+        },
     },
     watch: {
         formEvent: {
@@ -328,7 +333,7 @@ var inputForm = {
                 </option>
             </select>
         </div>
-        <div>
+        <div v-if="has_multi_movesets">
             <label for="aggregate">Input Aggregate</label><br>
             <select name="aggregate" v-model="args.moveset_aggregate">
                 <option v-for="aggregate in args.aggregates" :value="aggregate">

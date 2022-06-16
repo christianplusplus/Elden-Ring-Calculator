@@ -1,6 +1,5 @@
 # TODO
 ## BETA
-* Add some combo/hit max length in args data so that uneeded aggregates can be hidden.
 * Moveset testing!!! Especially charged feign 2.
 * Non-maxxed weapon data for when not optimizing weapon.
 * Ranged weapon ammo data pipeline.

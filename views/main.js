@@ -24,75 +24,81 @@ var Main = {
                     normal: {
                         display_name: 'Normal',
                         modifiers: {
-                            light:{is_two_handable: true},
-                            heavy:{is_two_handable: true},
-                            charged:{is_two_handable: true},
-                            offhand:{is_two_handable: false},
-                            paired:{is_two_handable: false},
+                            light:{is_two_handable: true, has_multiple_inputs: true},
+                            heavy:{is_two_handable: true, has_multiple_inputs: true},
+                            charged:{is_two_handable: true, has_multiple_inputs: true},
+                            offhand:{is_two_handable: false, has_multiple_inputs: true},
+                            paired:{is_two_handable: false, has_multiple_inputs: true},
                         }
                     },
                     running: {
                         display_name: 'Running',
                         modifiers: {
-                            light:{is_two_handable: true},
-                            heavy:{is_two_handable: true},
-                            paired:{is_two_handable: false},
+                            light:{is_two_handable: true, has_multiple_inputs: false},
+                            heavy:{is_two_handable: true, has_multiple_inputs: false},
+                            paired:{is_two_handable: false, has_multiple_inputs: false},
                         }
                     },
                     rolling: {
                         display_name: 'Rolling',
                         modifiers: {
-                            light:{is_two_handable: true},
-                            paired:{is_two_handable: false},
+                            light:{is_two_handable: true, has_multiple_inputs: false},
+                            paired:{is_two_handable: false, has_multiple_inputs: false},
                         }
                     },
                     jumping: {
                         display_name: 'Jumping',
                         modifiers: {
-                            light:{is_two_handable: true},
-                            heavy:{is_two_handable: true},
-                            paired:{is_two_handable: false},
+                            light:{is_two_handable: true, has_multiple_inputs: false},
+                            heavy:{is_two_handable: true, has_multiple_inputs: false},
+                            paired:{is_two_handable: false, has_multiple_inputs: false},
                         }
                     },
                     chargefeint: {
                         display_name: 'Charge Feint',
                         is_two_handable: true,
+                        has_multiple_inputs: false,
                     },
                     chargedchargefeint: {
                         display_name: '2nd Charge Feint',
                         is_two_handable: true,
+                        has_multiple_inputs: true,
                     },
                     backstep: {
                         display_name: 'Backstep',
                         modifiers: {
-                            light:{is_two_handable: true},
-                            paired:{is_two_handable: false},
+                            light:{is_two_handable: true, has_multiple_inputs: false},
+                            paired:{is_two_handable: false, has_multiple_inputs: false},
                         }
                     },
                     guardcounter: {
                         display_name: 'Guard Counter',
                         is_two_handable: true,
+                        has_multiple_inputs: false,
                     },
                     mounted: {
                         display_name: 'Mounted',
                         modifiers: {
-                            light:{is_two_handable: false},
-                            heavy:{is_two_handable: false},
-                            charging:{is_two_handable: false},
-                            charged:{is_two_handable: false},
+                            light:{is_two_handable: false, has_multiple_inputs: true},
+                            heavy:{is_two_handable: false, has_multiple_inputs: false},
+                            charging:{is_two_handable: false, has_multiple_inputs: false},
+                            charged:{is_two_handable: false, has_multiple_inputs: false},
                         }
                     },
                     backstab: {
                         display_name: 'Backstab',
                         is_two_handable: false,
+                        has_multiple_inputs: false,
                     },
                     riposte: {
                         display_name: 'Riposte',
                         is_two_handable: false,
+                        has_multiple_inputs: false
                     },
                     shieldpoke: {
                         display_name: 'Shield Poke',
                         is_two_handable: false,
+                        has_multiple_inputs: false
                     },
                 },
                 aggregates: [
