@@ -12,6 +12,8 @@ var progressBar = {
                 "assets/rykards-rune.png",
                 "assets/mohgs-rune.png",
                 "assets/malenias-rune.png",
+                "assets/mending-rune-of-death.png",
+                "assets/mending-rune-of-perfect-order.png",
             ],
         };
     },
