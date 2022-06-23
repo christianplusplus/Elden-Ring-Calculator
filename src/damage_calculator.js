@@ -399,8 +399,9 @@ function make_floored(func) {
 function attr_generator(weapon_and_attrs) {
     var speeds = [20, 1];
     var new_states = [];
+    var scalable_sources = attack_sources.filter(s => weapon_and_attrs.weapon['max_' + s + '_scaling'] != '0');
     for(var source of attack_sources) {
-        for(var otherSource of attack_sources) {
+        for(var otherSource of scalable_sources) {
             if(otherSource != source) {
                 for(var speed of speeds) {
                     var attrs = {};
