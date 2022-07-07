@@ -1,6 +1,5 @@
 # TODO
 ## BETA
-* Moveset testing!!! Especially charged feign 2.
 * Ranged weapon ammo data pipeline.
 * Ranged weapon ammo data calcuations.
 * Write an FAQ.

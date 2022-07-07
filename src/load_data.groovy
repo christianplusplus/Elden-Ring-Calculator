@@ -185,8 +185,8 @@ motion_values = motionCsvToObject('motion_values').collectEntries{ key, entry ->
                 chargefeint_1h: [entry['1h Charged R2 1 Feint']],
                 chargefeint_2h: [entry['2h Charged R2 1 Feint']],
                 
-                chargedchargefeint_1h: [entry['1h Charged R2 1'], entry['1h Charged R2 2 Feint']],
-                chargedchargefeint_2h: [entry['2h Charged R2 1'], entry['2h Charged R2 2 Feint']],
+                chargedchargefeint_1h: [entry['1h Charged R2 2 Feint']],
+                chargedchargefeint_2h: [entry['2h Charged R2 2 Feint']],
                 
                 backstep_light_1h: [entry['1h Backstep R1']],
                 backstep_light_2h: [entry['2h Backstep R1']],
