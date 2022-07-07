@@ -257,7 +257,7 @@ function get_minimum_weapon_attributes(weapon, minimum_attributes, free_attribut
 function beautify_weapon_stats(weapon, attributes, damage, modifiers, options) {
     var attack_power = get_attack_powers(weapon, attributes, modifiers, options);
     var base_attack_power = attack_types.map(
-            attack_type => ({[attack_type]: parseFloat(weapon['max_base_' + attack_type + '_attack_power'])})
+            attack_type => ({[attack_type]: parseFloat(weapon['base_' + attack_type + '_attack_power'])})
         ).reduce(
             (a,b) => Object.assign(a,b),
             {}
@@ -279,11 +279,11 @@ function beautify_weapon_stats(weapon, attributes, damage, modifiers, options) {
         required_int: weapon['required_int'],
         required_fai: weapon['required_fai'],
         required_arc: weapon['required_arc'],
-        str_scaling_grade: get_scaling_grade(weapon['max_str_scaling']),
-        dex_scaling_grade: get_scaling_grade(weapon['max_dex_scaling']),
-        int_scaling_grade: get_scaling_grade(weapon['max_int_scaling']),
-        fai_scaling_grade: get_scaling_grade(weapon['max_fai_scaling']),
-        arc_scaling_grade: get_scaling_grade(weapon['max_arc_scaling']),
+        str_scaling_grade: get_scaling_grade(weapon['str_scaling']),
+        dex_scaling_grade: get_scaling_grade(weapon['dex_scaling']),
+        int_scaling_grade: get_scaling_grade(weapon['int_scaling']),
+        fai_scaling_grade: get_scaling_grade(weapon['fai_scaling']),
+        arc_scaling_grade: get_scaling_grade(weapon['arc_scaling']),
         physical_damage_types: weapon['physical_damage_types'],
         base_attack_power: Object.entries(base_attack_power).map(([attack_type, ap]) => ({[attack_type]: ap_format(ap)})
             ).reduce(
@@ -300,12 +300,12 @@ function beautify_weapon_stats(weapon, attributes, damage, modifiers, options) {
                 (a,b) => Object.assign(a,b),
                 {}
             ),
-        scarlet_rot: parseInt(weapon['max_base_scarlet_rot']),
-        madness: parseInt(weapon['max_base_madness']),
-        sleep: parseInt(weapon['max_base_sleep']),
-        frostbite: parseInt(weapon['max_base_frostbite']),
-        poison: parseInt(weapon['max_base_poison']),
-        bleed: parseInt(weapon['max_base_bleed']),
+        scarlet_rot: parseInt(weapon['scarlet_rot']),
+        madness: parseInt(weapon['madness']),
+        sleep: parseInt(weapon['sleep']),
+        frostbite: parseInt(weapon['frostbite']),
+        poison: parseInt(weapon['poison']),
+        bleed: parseInt(weapon['bleed']),
         damage: Math.floor(damage),
     };
 }
@@ -399,7 +399,7 @@ function make_floored(func) {
 function attr_generator(weapon_and_attrs) {
     var speeds = [20, 1];
     var new_states = [];
-    var scalable_sources = attack_sources.filter(s => weapon_and_attrs.weapon['max_' + s + '_scaling'] != '0');
+    var scalable_sources = attack_sources.filter(s => weapon_and_attrs.weapon[s + '_scaling'] != '0');
     for(var source of attack_sources) {
         for(var otherSource of scalable_sources) {
             if(otherSource != source) {
@@ -492,7 +492,7 @@ function sum(a, b) {
 function get_attack_powers(weapon, attributes, modifiers, options) {
     var attack_powers = {};
     attack_types.forEach( attack_type =>
-        attack_powers[attack_type] = parseFloat(weapon['max_base_' + attack_type + '_attack_power']) + get_max_bonus_attack_power(weapon, attack_type, attributes, modifiers, options)
+        attack_powers[attack_type] = parseFloat(weapon['base_' + attack_type + '_attack_power']) + get_max_bonus_attack_power(weapon, attack_type, attributes, modifiers, options)
     );
     return attack_powers;
 }
@@ -504,7 +504,7 @@ function get_max_bonus_attack_power(weapon, attack_type, attributes, modifiers, 
         source_attack_power = source_attack_powers.reduce((a, b) => a + b);
     }
     else {
-        source_attack_power = parseFloat(weapon['max_base_' + attack_type + '_attack_power']) * -0.4;
+        source_attack_power = parseFloat(weapon['base_' + attack_type + '_attack_power']) * -0.4;
     }
     return source_attack_power;
 }
@@ -521,8 +521,8 @@ function get_attack_power_per_source(weapon, attack_type, attributes, source, mo
     var attribute = attributes[source];
     if(options['is_two_handing'] && source == 'str')
         attribute *= 1.5;
-    var base_attack_power = parseFloat(weapon['max_base_' + attack_type + '_attack_power']);
-    var bonus_attack_power_scaling = parseFloat(weapon['max_' + source +'_scaling']);
+    var base_attack_power = parseFloat(weapon['base_' + attack_type + '_attack_power']);
+    var bonus_attack_power_scaling = parseFloat(weapon[source +'_scaling']);
     var calculation_id = parseInt(weapon[attack_type + '_damage_calculation_id'])
     var attribute_correction = parseFloat(attribute_curves[calculation_id](attribute)) / 100;
     var bonus_attack_power = base_attack_power * bonus_attack_power_scaling * attribute_correction;

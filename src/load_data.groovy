@@ -77,6 +77,15 @@ def fileNames = [
 ]
 fileNames.each{binding.setProperty(it, csvToObject(it))}
 
+//base attack power data
+new File(targetDirectory, 'weapon_base_attacks.json').write(JsonOutput.toJson(Attack))
+
+//scaling attack power data
+new File(targetDirectory, 'weapon_source_scaling.json').write(JsonOutput.toJson(Scaling))
+
+//passive data
+new File(targetDirectory, 'weapon_passives.json').write(JsonOutput.toJson(Passive))
+
 //boss data to array
 Boss_Data = csvToArray('Boss_Data')
 Boss_Data << [['NPC ID','SpEffect ID','Name','HP','Standard','Slash','Strike','Pierce','Magic','Fire','Lightning','Holy','Poison','Rot','Blood','Frost','Sleep','Madness','Death Blight','Poise'],['76543210','0','Target Dummy (No Resistances, Weaknesses, or Difficulty Scaling)','60000.0','1','1','1','1','1','1','1','1','306.096','306.096','306.096','306.096','306.096','306.096','306.096','120']].transpose().collectEntries()
@@ -269,24 +278,7 @@ def weapons = Extra_Data.collect{ key, entry ->
             'required_int': entry['Required (Int)'],
             'required_fai': entry['Required (Fai)'],
             'required_arc': entry['Required (Arc)'],
-            'max_str_scaling': Scaling[(key)]["Str +$max_upgrade_level"],
-            'max_dex_scaling': Scaling[(key)]["Dex +$max_upgrade_level"],
-            'max_int_scaling': Scaling[(key)]["Int +$max_upgrade_level"],
-            'max_fai_scaling': Scaling[(key)]["Fai +$max_upgrade_level"],
-            'max_arc_scaling': Scaling[(key)]["Arc +$max_upgrade_level"],
             'physical_damage_types': entry['Physical Damage Type'].split('/'),
-            'max_base_physical_attack_power': Attack[(key)]["Phys +$max_upgrade_level"],
-            'max_base_magic_attack_power': Attack[(key)]["Mag +$max_upgrade_level"],
-            'max_base_fire_attack_power': Attack[(key)]["Fire +$max_upgrade_level"],
-            'max_base_lightning_attack_power': Attack[(key)]["Ligh +$max_upgrade_level"],
-            'max_base_holy_attack_power': Attack[(key)]["Holy +$max_upgrade_level"],
-            'max_base_stamina_attack_power': Attack[(key)]["Stam +$max_upgrade_level"],
-            'max_base_scarlet_rot': Passive[(key)]['Scarlet Rot +0'],
-            'max_base_madness': Passive[(key)]['Madness +0'],
-            'max_base_sleep': Passive[(key)]['Sleep +0'],
-            'max_base_frostbite': Passive[(key)]["Frost +$max_upgrade_level"],
-            'max_base_poison': Passive[(key)]["Poison +$max_upgrade_level"],
-            'max_base_bleed': Passive[(key)]["Blood +$max_upgrade_level"],
             'physical_damage_calculation_id': CalcCorrectGraph_ID[(key)]['Physical'],
             'magic_damage_calculation_id': CalcCorrectGraph_ID[(key)]['Magic'],
             'fire_damage_calculation_id': CalcCorrectGraph_ID[(key)]['Fire'],

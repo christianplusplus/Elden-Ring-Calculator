@@ -30,10 +30,33 @@ var inputForm = {
                 this.args.optimize_weapon ?
                     this.filtered_weapons :
                     [this.args.weapon]
-                    
             ));
             
-            //add element scaling
+            //add upgradable stats
+            for(var weapon of weapons) {
+                var upgrade_level = this.args.optimize_weapon ? weapon['max_upgrade_level'] : this.args.upgrade_level;
+                
+                weapon['base_physical_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['Phys +' + upgrade_level];
+                weapon['base_magic_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['Mag +' + upgrade_level];
+                weapon['base_fire_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['Fire +' + upgrade_level];
+                weapon['base_lightning_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['Ligh +' + upgrade_level];
+                weapon['base_holy_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['Holy +' + upgrade_level];
+                
+                weapon['str_scaling'] = this.args.weapon_source_scaling[weapon['name']]['Str +' + upgrade_level];
+                weapon['dex_scaling'] = this.args.weapon_source_scaling[weapon['name']]['Dex +' + upgrade_level];
+                weapon['int_scaling'] = this.args.weapon_source_scaling[weapon['name']]['Int +' + upgrade_level];
+                weapon['fai_scaling'] = this.args.weapon_source_scaling[weapon['name']]['Fai +' + upgrade_level];
+                weapon['arc_scaling'] = this.args.weapon_source_scaling[weapon['name']]['Arc +' + upgrade_level];
+                
+                weapon['scarlet_rot'] = this.args.weapon_passives[weapon['name']]['Scarlet Rot +0'];
+                weapon['madness'] = this.args.weapon_passives[weapon['name']]['Madness +0'];
+                weapon['sleep'] = this.args.weapon_passives[weapon['name']]['Sleep +0'];
+                weapon['frostbite'] = this.args.weapon_passives[weapon['name']]['Frost +' + upgrade_level];
+                weapon['poison'] = this.args.weapon_passives[weapon['name']]['Poison +' + upgrade_level];
+                weapon['bleed'] = this.args.weapon_passives[weapon['name']]['Blood +' + upgrade_level];
+            }
+            
+            //add element scaling data
             for(var weapon of weapons) {
                 for(var attack_type of this.args.attack_types) {
                     for(var attack_source of this.args.attack_sources) {
@@ -96,6 +119,7 @@ var inputForm = {
                 this.args.moveset_modifier,
                 this.args.is_two_handing,
                 this.args.hit_aggregate,
+                this.args.upgrade_level,
             ];
         },
         has_moveset_modifiers() {
@@ -143,7 +167,7 @@ var inputForm = {
     watch: {
         formEvent: {
             handler() {
-                if(!(this.args.optimize_class || this.args.optimize_attributes || this.args.optimize_weapon) && !this.args.disabled && this.args.weapon)
+                if(!(this.args.optimize_class || this.args.optimize_attributes || this.args.optimize_weapon) && !this.args.disabled && this.args.weapon && this.args.upgrade_level <= parseInt(this.args.weapon.max_upgrade_level))
                     this.$emit('quick_run', 'optimize', 'damage', this.args.attributes, this.args.optimize_class, this.args.optimize_attributes, this.args.target_level, this.args.floatingPoints, this.extended_weapons(), this.extended_enemy(), this.moveset.moveset_aggregate, this.moveset.hit_aggregate, this.args.modifiers, this.args.options);
             },
             deep: true,
@@ -297,6 +321,10 @@ var inputForm = {
                 </option>
             </select>
         </div>
+        <div v-if="args.weapon">
+            <label for="upgrade_level">Upgrade Level </label>
+            <input type="number" v-model.number="args.upgrade_level" min="0" :max="args.weapon.max_upgrade_level">
+        </div>
     </div>
     <div>
         <div>
@@ -350,6 +378,6 @@ var inputForm = {
             </select>
         </div>
     </div>
-    <button v-if="(args.optimize_class || args.optimize_attributes || args.optimize_weapon) && (args.optimize_weapon || args.weapon)" :disabled="args.disabled" @click="$emit('run', 'optimize', 'damage', args.attributes, args.optimize_class, args.optimize_attributes, args.target_level, args.floatingPoints, extended_weapons(), extended_enemy(), moveset.moveset_aggregate, moveset.hit_aggregate, args.modifiers, args.options)">Calculate!</button>
+    <button v-if="(args.optimize_class || args.optimize_attributes || args.optimize_weapon) && (args.optimize_weapon || (args.weapon && args.upgrade_level <= parseInt(args.weapon.max_upgrade_level)))" :disabled="args.disabled" @click="$emit('run', 'optimize', 'damage', args.attributes, args.optimize_class, args.optimize_attributes, args.target_level, args.floatingPoints, extended_weapons(), extended_enemy(), moveset.moveset_aggregate, moveset.hit_aggregate, args.modifiers, args.options)">Calculate!</button>
 </div>`,
 };

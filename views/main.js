@@ -115,7 +115,11 @@ var Main = {
                 bosses: {},
                 enemy: {},
                 attack_element_scaling: {},
+                weapon_base_attacks: {},
+                weapon_source_scaling: {},
+                weapon_passives: {},
                 difficulty_scaling: {},
+                upgrade_level: 0,
                 motion_values: {},
                 clazz: {},
                 class_stats: {
@@ -223,6 +227,24 @@ var Main = {
             .then(response => response.json())
             .then(data => {
                 this.args.attack_element_scaling = data;
+            });
+            
+        fetch('data/weapon_base_attacks.json')
+            .then(response => response.json())
+            .then(data => {
+                this.args.weapon_base_attacks = data;
+            });
+            
+        fetch('data/weapon_source_scaling.json')
+            .then(response => response.json())
+            .then(data => {
+                this.args.weapon_source_scaling = data;
+            });
+        
+        fetch('data/weapon_passives.json')
+            .then(response => response.json())
+            .then(data => {
+                this.args.weapon_passives = data;
             });
         
         fetch('data/boss_data.json')
