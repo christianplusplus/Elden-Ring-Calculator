@@ -295,7 +295,7 @@ function beautify_weapon_stats(weapon, attributes, damage, modifiers, options) {
                 (a,b) => Object.assign(a,b),
                 {}
             ),
-        attack_power: Object.entries(attack_power).map(([attack_type, ap]) => ({[attack_type]: ap_format(ap)})
+        attack_power: Object.entries(attack_power).map(([attack_type, ap]) => ({[attack_type]: ap_format(base_attack_power[attack_type]) + ap_format(bonus_attack_power[attack_type])})
             ).reduce(
                 (a,b) => Object.assign(a,b),
                 {}
@@ -311,7 +311,7 @@ function beautify_weapon_stats(weapon, attributes, damage, modifiers, options) {
 }
 
 function ap_format(ap) {
-    return parseInt(ap.toFixed(0));
+    return parseInt(ap);
 }
 
 function get_scaling_grade(scaling) {
