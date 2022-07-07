@@ -221,6 +221,7 @@ var attribute_curves = {
 
 function DAMAGE_FORMULA(attack_power, defense, resistance, movement_value) {
     var damage;
+    attack_power *= movement_value / 100;
     if(defense > attack_power * 8)
         damage = 0.1 * attack_power;
     else if(defense > attack_power)
@@ -231,7 +232,7 @@ function DAMAGE_FORMULA(attack_power, defense, resistance, movement_value) {
         damage = attack_power * (-0.8 / 121 * (attack_power / defense - 8) ** 2 + 0.9);
     else
         damage = attack_power * 0.9;
-    return damage * resistance * movement_value / 100;
+    return damage * resistance;
 }
 
 var progress_count = 0;
@@ -458,11 +459,13 @@ function brute_solver(objective, state_space) {
     return [highest_value, optimal_state];
 }
 
+/*
 function get_attack_damage(weapon, attributes, target, swing_type, movement_value, modifiers, options) {
     var attack_powers = get_attack_powers(weapon, attributes, modifiers, options);
     var damage = get_movement_damage(attack_powers, target, swing_type, movement_value);
     return get_movement_damage(attack_powers, target, swing_type, movement_value);
 }
+*/
 
 function get_aggregate_attack_damage(weapon, attributes, modifiers, options, target, moveset_aggregate, hit_aggregate) {
     var attack_powers = get_attack_powers(weapon, attributes, modifiers, options);
