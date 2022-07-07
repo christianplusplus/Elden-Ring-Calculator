@@ -8,6 +8,7 @@ self['optimize'] = function(objective_statement, minimum_attributes, optimize_cl
     progress_total = optimize_class ? weapons.length * Object.keys(class_stats).length : weapons.length;
     
     var objective = get_damage_objective(enemy, moveset_aggregate_name, hit_aggregate_name, modifiers, options); //TODO should depend on objective_statement
+    var result_objective = get_result_objective(enemy, moveset_aggregate_name, hit_aggregate_name, modifiers, options);
     var result = {};
     var resultArray;
     try {
@@ -28,7 +29,7 @@ self['optimize'] = function(objective_statement, minimum_attributes, optimize_cl
     } catch(e) {
         return {error: "No Results"};
     }
-    result['weapon'] = beautify_weapon_stats(resultArray[1].weapon, resultArray[1].attrs, resultArray[0], modifiers, options);
+    result['weapon'] = beautify_weapon_stats(resultArray[1], result_objective, modifiers, options);
     return result;
 }
 
@@ -255,10 +256,10 @@ function get_minimum_weapon_attributes(weapon, minimum_attributes, free_attribut
     return free_attributes >= 0 ? locked_attribute_distribution : null;
 }
 
-function beautify_weapon_stats(weapon, attributes, damage, modifiers, options) {
-    var attack_power = get_attack_powers(weapon, attributes, modifiers, options);
+function beautify_weapon_stats(result, result_objective, modifiers, options) {
+    var attack_power = get_attack_powers(result.weapon, result.attrs, modifiers, options);
     var base_attack_power = attack_types.map(
-            attack_type => ({[attack_type]: parseFloat(weapon['base_' + attack_type + '_attack_power'])})
+            attack_type => ({[attack_type]: parseFloat(result.weapon['base_' + attack_type + '_attack_power'])})
         ).reduce(
             (a,b) => Object.assign(a,b),
             {}
@@ -269,23 +270,23 @@ function beautify_weapon_stats(weapon, attributes, damage, modifiers, options) {
                 {}
             )
     return {
-        name: weapon['name'],
-        base_weapon_name : weapon['base_weapon_name'],
-        affinity: weapon['affinity'],
-        weight: weapon['weight'],
-        weapon_type: weapon['weapon_type'],
-        dual_wieldable: weapon['dual_wieldable'],
-        required_str: weapon['required_str'],
-        required_dex: weapon['required_dex'],
-        required_int: weapon['required_int'],
-        required_fai: weapon['required_fai'],
-        required_arc: weapon['required_arc'],
-        str_scaling_grade: get_scaling_grade(weapon['str_scaling']),
-        dex_scaling_grade: get_scaling_grade(weapon['dex_scaling']),
-        int_scaling_grade: get_scaling_grade(weapon['int_scaling']),
-        fai_scaling_grade: get_scaling_grade(weapon['fai_scaling']),
-        arc_scaling_grade: get_scaling_grade(weapon['arc_scaling']),
-        physical_damage_types: weapon['physical_damage_types'],
+        name: result.weapon['name'],
+        base_weapon_name : result.weapon['base_weapon_name'],
+        affinity: result.weapon['affinity'],
+        weight: result.weapon['weight'],
+        weapon_type: result.weapon['weapon_type'],
+        dual_wieldable: result.weapon['dual_wieldable'],
+        required_str: result.weapon['required_str'],
+        required_dex: result.weapon['required_dex'],
+        required_int: result.weapon['required_int'],
+        required_fai: result.weapon['required_fai'],
+        required_arc: result.weapon['required_arc'],
+        str_scaling_grade: get_scaling_grade(result.weapon['str_scaling']),
+        dex_scaling_grade: get_scaling_grade(result.weapon['dex_scaling']),
+        int_scaling_grade: get_scaling_grade(result.weapon['int_scaling']),
+        fai_scaling_grade: get_scaling_grade(result.weapon['fai_scaling']),
+        arc_scaling_grade: get_scaling_grade(result.weapon['arc_scaling']),
+        physical_damage_types: result.weapon['physical_damage_types'],
         base_attack_power: Object.entries(base_attack_power).map(([attack_type, ap]) => ({[attack_type]: ap_format(ap)})
             ).reduce(
                 (a,b) => Object.assign(a,b),
@@ -301,13 +302,13 @@ function beautify_weapon_stats(weapon, attributes, damage, modifiers, options) {
                 (a,b) => Object.assign(a,b),
                 {}
             ),
-        scarlet_rot: parseInt(weapon['scarlet_rot']),
-        madness: parseInt(weapon['madness']),
-        sleep: parseInt(weapon['sleep']),
-        frostbite: parseInt(weapon['frostbite']),
-        poison: parseInt(weapon['poison']),
-        bleed: parseInt(weapon['bleed']),
-        damage: Math.floor(damage),
+        scarlet_rot: parseInt(result.weapon['scarlet_rot']),
+        madness: parseInt(result.weapon['madness']),
+        sleep: parseInt(result.weapon['sleep']),
+        frostbite: parseInt(result.weapon['frostbite']),
+        poison: parseInt(result.weapon['poison']),
+        bleed: parseInt(result.weapon['bleed']),
+        damage: result_objective(result),
     };
 }
 
@@ -367,6 +368,12 @@ function get_damage_objective(enemy, moveset_aggregate_name, hit_aggregate_name,
     };
 }
 
+function get_result_objective(enemy, moveset_aggregate_name, hit_aggregate_name, modifiers, options) {
+    return function(weapon_and_attrs) {
+        return get_aggregate_attack_damage(weapon_and_attrs.weapon, weapon_and_attrs.attrs, modifiers, options, enemy, floor_aggregators[moveset_aggregate_name], floor_aggregators[hit_aggregate_name]);
+    };
+}
+
 //TODO
 /*
 function get_damage_comparator(enemy, moveset_aggregate, hit_aggregate, modifiers, options) {
@@ -388,7 +395,7 @@ var floor_aggregators = {
     first: (arr, func) => arr.length > 0 ? make_floored(func)(arr[0]) : 0,
     last: (arr, func) => arr.length > 0 ? make_floored(func)(arr[arr.length - 1]) : 0,
     total: (arr, func) => arr.map(make_floored(func)).reduce(sum),
-    average: (arr, func) => arr.map(make_floored(func)).reduce(sum) / arr.length,
+    average: (arr, func) => parseFloat((arr.map(make_floored(func)).reduce(sum) / arr.length).toFixed(1)),
 }
 
 function make_floored(func) {
