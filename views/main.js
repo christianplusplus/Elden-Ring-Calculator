@@ -120,6 +120,8 @@ var Main = {
                 weapon_passives: {},
                 difficulty_scaling: {},
                 upgrade_level: 0,
+                upgrade_cap: 25,
+                somber_upgrade_cap: 10,
                 motion_values: {},
                 clazz: {},
                 class_stats: {

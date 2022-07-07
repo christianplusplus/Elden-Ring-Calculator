@@ -34,7 +34,9 @@ var inputForm = {
             
             //add upgradable stats
             for(var weapon of weapons) {
-                var upgrade_level = this.args.optimize_weapon ? weapon['max_upgrade_level'] : this.args.upgrade_level;
+                var upgrade_level = this.args.optimize_weapon ?
+                        (weapon['max_upgrade_level'] == '25' ? this.args.upgrade_cap : this.args.somber_upgrade_cap ) :
+                        this.args.upgrade_level;
                 
                 weapon['base_physical_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['Phys +' + upgrade_level];
                 weapon['base_magic_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['Mag +' + upgrade_level];
@@ -312,7 +314,17 @@ var inputForm = {
             </table>
         </div>
     </div>
-    <div v-if="!args.optimize_weapon">
+    <div v-if="args.optimize_weapon">
+        <div v-if="args.upgrade_cap">
+            <label for="upgrade_cap">Upgrade Cap </label>
+            <input type="number" v-model.number="args.upgrade_cap" min="0" max="25">
+        </div>
+        <div v-if="args.somber_upgrade_cap">
+            <label for="somber_upgrade_cap">Somber Upgrade Cap </label>
+            <input type="number" v-model.number="args.somber_upgrade_cap" min="0" max="10">
+        </div>
+    </div>
+    <div v-else>
         <div>
             <label for="weapon">Weapon </label>
             <select name="weapon" v-model="args.weapon">
