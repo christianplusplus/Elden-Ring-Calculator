@@ -220,7 +220,7 @@ var attribute_curves = {
     },
 }
 
-function DAMAGE_FORMULA(attack_power, defense, resistance) {
+function DAMAGE_FORMULA(attack_power, defense) {
     var damage;
     if(defense > attack_power * 8)
         damage = 0.1 * attack_power;
@@ -232,7 +232,7 @@ function DAMAGE_FORMULA(attack_power, defense, resistance) {
         damage = attack_power * (-0.8 / 121 * (attack_power / defense - 8) ** 2 + 0.9);
     else
         damage = attack_power * 0.9;
-    return damage * resistance;
+    return damage;
 }
 
 var progress_count = 0;
@@ -488,7 +488,7 @@ function get_type_damage(attack_type, attack_power, target, movement_value, swin
     attack_power *= movement_value / 100;
     var defense = parseFloat(target[capitalize(attack_type) + ' Defense']) * 100;
     var resistance = parseFloat(attack_type == 'physical' ? target[capitalize(swing_type)] : target[capitalize(attack_type)]);
-    return DAMAGE_FORMULA(attack_power, defense, resistance);
+    return DAMAGE_FORMULA(attack_power, defense) * resistance;
 }
 
 function capitalize(string) {
