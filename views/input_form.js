@@ -315,11 +315,11 @@ var inputForm = {
         </div>
     </div>
     <div v-if="args.optimize_weapon">
-        <div v-if="args.upgrade_cap">
+        <div>
             <label for="upgrade_cap">Upgrade Cap </label>
             <input type="number" v-model.number="args.upgrade_cap" min="0" max="25">
         </div>
-        <div v-if="args.somber_upgrade_cap">
+        <div>
             <label for="somber_upgrade_cap">Somber Upgrade Cap </label>
             <input type="number" v-model.number="args.somber_upgrade_cap" min="0" max="10">
         </div>
