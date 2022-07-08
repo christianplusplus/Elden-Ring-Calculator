@@ -15,6 +15,8 @@ var Main = {
                 weapon_types_selected: [],
                 affinities: [],
                 affinities_selected: [],
+                ammo_types: [],
+                ammo_types_selected: [],
                 modifiers: [],
                 options: {
                     must_have_required_attributes: true,
@@ -222,6 +224,7 @@ var Main = {
             .then(data => {
                 this.args.weapons = Object.values(data);
                 this.args.weapon_types = [...new Set(this.args.weapons.map(w=>w.weapon_type))];
+                this.args.ammo_types = [...new Set(this.args.weapons.map(w=>w.ammo))];
                 this.args.affinities = [...new Set(this.args.weapons.map(w=>w.affinity))];
             });
 

@@ -89,6 +89,8 @@ var inputForm = {
                 constraints.push(this.args.weapon_types_selected.map(weapon_type => (weapon => weapon.weapon_type == weapon_type)).reduce(this.disjunction));
             if(this.args.affinities_selected.length && this.args.affinities_selected.length < this.args.affinities.length)
                 constraints.push(this.args.affinities_selected.map(affinity => (weapon => weapon.affinity == affinity)).reduce(this.disjunction));
+            if(this.args.ammo_types_selected.length && this.args.ammo_types_selected.length < this.args.ammo_types.length)
+                constraints.push(this.args.ammo_types_selected.map(ammo => (weapon => weapon.ammo == ammo)).reduce(this.disjunction));
             if(this.args.is_dual_wieldable)
                 constraints.push(weapon => weapon.dual_wieldable);
             if(this.args.options.must_have_required_attributes && !this.args.optimize_attributes) {
@@ -212,23 +214,15 @@ var inputForm = {
             </select>
         </div>
         <div>
-            <input type="checkbox" name="isDualWieldable" v-model="args.options.is_dual_wieldable" :true-value=true :false-value=false>
-            <label for="isDualWieldable"> Dual Wieldable</label>
-            <br>
-            <input type="checkbox" name="meetsAttributeRequirements" v-model="args.options.must_have_required_attributes" :true-value=true :false-value=false>
-            <label for="meetsAttributeRequirements"> Required Attributes</label>
+            <div class="select_header">
+                <label for="ammo">Ammunition</label>
+                <img src="assets/cancel.png" height="16" width="16" @click="args.ammo_types_selected=[]" :style="args.ammo_types_selected.length?{visibility:'visible',cursor:'pointer'}:{visibility:'hidden',cursor:'auto'}">
+            </div>
+            <select size="14" name="ammo" v-model="args.ammo_types_selected" multiple>
+                <option v-for="ammo in args.ammo_types">{{ ammo }}</option>
+            </select>
         </div>
         <div>
-            <button type="button" @click="$emit('blank_slate')">Blank Slate</button>
-            <br>
-            <br>
-            <button type="button" @click="$emit('load_class')">Load Class</button>
-            <br>
-            <select v-model="args.clazz">
-                <option v-for="[class_name, clazz] in Object.entries(args.class_stats)" :value="clazz">
-                    {{ class_name[0].toUpperCase() + class_name.slice(1) }}
-                </option>
-            </select>
             <div v-if="args.optimize_class && args.optimize_attributes">
                 <br>
                 <label for="lvl">Target Level</label>
@@ -241,6 +235,16 @@ var inputForm = {
                 <br>
                 <input type="number" v-model.number="args.floatingPoints" min="0" max="445" style="width:40px"> 
             </div>
+            <button type="button" @click="$emit('blank_slate')">Blank Slate</button>
+            <br>
+            <br>
+            <button type="button" @click="$emit('load_class')">Load Class</button>
+            <br>
+            <select v-model="args.clazz">
+                <option v-for="[class_name, clazz] in Object.entries(args.class_stats)" :value="clazz">
+                    {{ class_name[0].toUpperCase() + class_name.slice(1) }}
+                </option>
+            </select>
         </div>
         <div>
             <div style="font-size:12px">
@@ -312,6 +316,16 @@ var inputForm = {
                     </td>
                 </tr>
             </table>
+        </div>
+    </div>
+    <div>
+        <div>
+            <input type="checkbox" name="isDualWieldable" v-model="args.options.is_dual_wieldable" :true-value=true :false-value=false>
+            <label for="isDualWieldable"> Dual Wieldable</label>
+        </div>
+        <div>
+            <input type="checkbox" name="meetsAttributeRequirements" v-model="args.options.must_have_required_attributes" :true-value=true :false-value=false>
+            <label for="meetsAttributeRequirements"> Required Attributes</label>
         </div>
     </div>
     <div v-if="args.optimize_weapon">
