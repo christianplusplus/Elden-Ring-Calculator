@@ -1,6 +1,5 @@
 # TODO
 ## BETA
-* Minimize json files.
 * Write an FAQ.
 * "Tweek this result" button.
 * Re-source and automate data pipelines.
