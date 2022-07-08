@@ -38,24 +38,24 @@ var inputForm = {
                         (weapon['max_upgrade_level'] == '25' ? this.args.upgrade_cap : this.args.somber_upgrade_cap ) :
                         this.args.upgrade_level;
                 
-                weapon['base_physical_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['p' + upgrade_level];
-                weapon['base_magic_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['m' + upgrade_level];
-                weapon['base_fire_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['f' + upgrade_level];
-                weapon['base_lightning_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['l' + upgrade_level];
-                weapon['base_holy_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['h' + upgrade_level];
+                weapon['base_physical_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['p' + upgrade_level] || 0;
+                weapon['base_magic_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['m' + upgrade_level] || 0;
+                weapon['base_fire_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['f' + upgrade_level] || 0;
+                weapon['base_lightning_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['l' + upgrade_level] || 0;
+                weapon['base_holy_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['h' + upgrade_level] || 0;
                 
-                weapon['str_scaling'] = this.args.weapon_source_scaling[weapon['name']]['s' + upgrade_level];
-                weapon['dex_scaling'] = this.args.weapon_source_scaling[weapon['name']]['d' + upgrade_level];
-                weapon['int_scaling'] = this.args.weapon_source_scaling[weapon['name']]['i' + upgrade_level];
-                weapon['fai_scaling'] = this.args.weapon_source_scaling[weapon['name']]['f' + upgrade_level];
-                weapon['arc_scaling'] = this.args.weapon_source_scaling[weapon['name']]['a' + upgrade_level];
+                weapon['str_scaling'] = this.args.weapon_source_scaling[weapon['name']]['s' + upgrade_level] || 0;
+                weapon['dex_scaling'] = this.args.weapon_source_scaling[weapon['name']]['d' + upgrade_level] || 0;
+                weapon['int_scaling'] = this.args.weapon_source_scaling[weapon['name']]['i' + upgrade_level] || 0;
+                weapon['fai_scaling'] = this.args.weapon_source_scaling[weapon['name']]['f' + upgrade_level] || 0;
+                weapon['arc_scaling'] = this.args.weapon_source_scaling[weapon['name']]['a' + upgrade_level] || 0;
                 
-                weapon['scarlet_rot'] = this.args.weapon_passives[weapon['name']]['r'];
-                weapon['madness'] = this.args.weapon_passives[weapon['name']]['m'];
-                weapon['sleep'] = this.args.weapon_passives[weapon['name']]['s'];
-                weapon['frostbite'] = this.args.weapon_passives[weapon['name']]['f' + upgrade_level];
-                weapon['poison'] = this.args.weapon_passives[weapon['name']]['p' + upgrade_level];
-                weapon['bleed'] = this.args.weapon_passives[weapon['name']]['b' + upgrade_level];
+                weapon['scarlet_rot'] = this.args.weapon_passives[weapon['name']]['r'] || 0;
+                weapon['madness'] = this.args.weapon_passives[weapon['name']]['m'] || 0;
+                weapon['sleep'] = this.args.weapon_passives[weapon['name']]['s'] || 0;
+                weapon['frostbite'] = this.args.weapon_passives[weapon['name']]['f' + upgrade_level] || 0;
+                weapon['poison'] = this.args.weapon_passives[weapon['name']]['p' + upgrade_level] || 0;
+                weapon['bleed'] = this.args.weapon_passives[weapon['name']]['b' + upgrade_level] || 0;
             }
             
             //add element scaling data

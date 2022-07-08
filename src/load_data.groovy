@@ -354,11 +354,11 @@ Attack = Attack.collectEntries{ key, entry ->
         def new_entry = [:]
         
         (25 + 1).times{ upgrade_level ->
-            new_entry["p$upgrade_level"] = entry["Phys +$upgrade_level"]
-            new_entry["m$upgrade_level"] = entry["Mag +$upgrade_level"]
-            new_entry["f$upgrade_level"] = entry["Fire +$upgrade_level"]
-            new_entry["l$upgrade_level"] = entry["Ligh +$upgrade_level"]
-            new_entry["h$upgrade_level"] = entry["Holy +$upgrade_level"]
+            if(entry["Phys +$upgrade_level"] as double > 0) new_entry["p$upgrade_level"] = entry["Phys +$upgrade_level"]
+            if(entry["Mag +$upgrade_level"] as double > 0) new_entry["m$upgrade_level"] = entry["Mag +$upgrade_level"]
+            if(entry["Fire +$upgrade_level"] as double > 0) new_entry["f$upgrade_level"] = entry["Fire +$upgrade_level"]
+            if(entry["Ligh +$upgrade_level"] as double > 0) new_entry["l$upgrade_level"] = entry["Ligh +$upgrade_level"]
+            if(entry["Holy +$upgrade_level"] as double > 0) new_entry["h$upgrade_level"] = entry["Holy +$upgrade_level"]
         }
         
         [key, new_entry]
@@ -390,11 +390,11 @@ Scaling = Scaling.collectEntries{ key, entry ->
         def new_entry = [:]
         
         (25 + 1).times{ upgrade_level ->
-            new_entry["s$upgrade_level"] = entry["Str +$upgrade_level"]
-            new_entry["d$upgrade_level"] = entry["Dex +$upgrade_level"]
-            new_entry["i$upgrade_level"] = entry["Int +$upgrade_level"]
-            new_entry["f$upgrade_level"] = entry["Fai +$upgrade_level"]
-            new_entry["a$upgrade_level"] = entry["Arc +$upgrade_level"]
+            if(entry["Str +$upgrade_level"] as double > 0) new_entry["s$upgrade_level"] = entry["Str +$upgrade_level"]
+            if(entry["Dex +$upgrade_level"] as double > 0) new_entry["d$upgrade_level"] = entry["Dex +$upgrade_level"]
+            if(entry["Int +$upgrade_level"] as double > 0) new_entry["i$upgrade_level"] = entry["Int +$upgrade_level"]
+            if(entry["Fai +$upgrade_level"] as double > 0) new_entry["f$upgrade_level"] = entry["Fai +$upgrade_level"]
+            if(entry["Arc +$upgrade_level"] as double > 0) new_entry["a$upgrade_level"] = entry["Arc +$upgrade_level"]
         }
         
         [key, new_entry]
@@ -432,14 +432,14 @@ Passive = Passive.collectEntries{ key, entry ->
     try{
         def new_entry = [:]
         
-        new_entry['r'] = entry['Scarlet Rot +0']
-        new_entry['m'] = entry['Madness +0']
-        new_entry['s'] = entry['Sleep +0']
+        if(entry['Scarlet Rot +0'] as double > 0) new_entry['r'] = entry['Scarlet Rot +0']
+        if(entry['Madness +0'] as double > 0) new_entry['m'] = entry['Madness +0']
+        if(entry['Sleep +0'] as double > 0) new_entry['s'] = entry['Sleep +0']
         
         (25 + 1).times{ upgrade_level ->
-            new_entry["f$upgrade_level"] = entry["Frost +$upgrade_level"]
-            new_entry["p$upgrade_level"] = entry["Poison +$upgrade_level"]
-            new_entry["b$upgrade_level"] = entry["Blood +$upgrade_level"]
+            if(entry["Frost +$upgrade_level"] as double > 0) new_entry["f$upgrade_level"] = entry["Frost +$upgrade_level"]
+            if(entry["Poison +$upgrade_level"] as double > 0) new_entry["p$upgrade_level"] = entry["Poison +$upgrade_level"]
+            if(entry["Blood +$upgrade_level"] as double > 0) new_entry["b$upgrade_level"] = entry["Blood +$upgrade_level"]
         }
         
         [key, new_entry]
