@@ -38,11 +38,11 @@ var inputForm = {
                         (weapon['max_upgrade_level'] == '25' ? this.args.upgrade_cap : this.args.somber_upgrade_cap ) :
                         this.args.upgrade_level;
                 
-                weapon['base_physical_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['Phys +' + upgrade_level];
-                weapon['base_magic_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['Mag +' + upgrade_level];
-                weapon['base_fire_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['Fire +' + upgrade_level];
-                weapon['base_lightning_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['Ligh +' + upgrade_level];
-                weapon['base_holy_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['Holy +' + upgrade_level];
+                weapon['base_physical_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['p' + upgrade_level];
+                weapon['base_magic_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['m' + upgrade_level];
+                weapon['base_fire_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['f' + upgrade_level];
+                weapon['base_lightning_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['l' + upgrade_level];
+                weapon['base_holy_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['h' + upgrade_level];
                 
                 weapon['str_scaling'] = this.args.weapon_source_scaling[weapon['name']]['s' + upgrade_level];
                 weapon['dex_scaling'] = this.args.weapon_source_scaling[weapon['name']]['d' + upgrade_level];

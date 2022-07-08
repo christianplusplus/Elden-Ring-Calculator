@@ -348,6 +348,27 @@ Attack += ranged_weapons_with_ammo.collectEntries{ weapon ->
         throw e
     }
 }
+//clean up the object
+Attack = Attack.collectEntries{ key, entry ->
+    try{
+        def new_entry = [:]
+        
+        (25 + 1).times{ upgrade_level ->
+            new_entry["p$upgrade_level"] = entry["Phys +$upgrade_level"]
+            new_entry["m$upgrade_level"] = entry["Mag +$upgrade_level"]
+            new_entry["f$upgrade_level"] = entry["Fire +$upgrade_level"]
+            new_entry["l$upgrade_level"] = entry["Ligh +$upgrade_level"]
+            new_entry["h$upgrade_level"] = entry["Holy +$upgrade_level"]
+        }
+        
+        [key, new_entry]
+    }catch(e){
+        pritnln key
+        println entry
+        println e
+        throw e
+    }
+}
 new File(targetDirectory, 'weapon_base_attacks.json').write(JsonOutput.toJson(Attack))
 
 
