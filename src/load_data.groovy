@@ -363,6 +363,29 @@ Scaling += ranged_weapons_with_ammo.collectEntries{ weapon ->
         throw e
     }
 }
+//clean up the object
+Scaling.each{ key, entry ->
+    try{
+        entry.remove('Name')
+        (25 + 1).times{ upgrade_level ->
+            entry["s$upgrade_level"] = entry["Str +$upgrade_level"]
+            entry.remove("Str +$upgrade_level")
+            entry["d$upgrade_level"] = entry["Dex +$upgrade_level"]
+            entry.remove("Dex +$upgrade_level")
+            entry["i$upgrade_level"] = entry["Int +$upgrade_level"]
+            entry.remove("Int +$upgrade_level")
+            entry["f$upgrade_level"] = entry["Fai +$upgrade_level"]
+            entry.remove("Fai +$upgrade_level")
+            entry["a$upgrade_level"] = entry["Arc +$upgrade_level"]
+            entry.remove("Arc +$upgrade_level")
+        }
+    }catch(e){
+        pritnln key
+        println entry
+        println e
+        throw e
+    }
+}
 new File(targetDirectory, 'weapon_source_scaling.json').write(JsonOutput.toJson(Scaling))
 
 //add ranged ammo combinations to Passive data
@@ -381,6 +404,34 @@ Passive += ranged_weapons_with_ammo.collectEntries{ weapon ->
         [weapon.name, new_attack_stats]
     }catch(e){
         println weapon
+        println e
+        throw e
+    }
+}
+//clean up the object
+Passive.each{ key, entry ->
+    try{
+        entry.remove('Type 1')
+        entry.remove('Type 2')
+        entry.remove('Name')
+        entry['r'] = entry['Scarlet Rot +0']
+        entry.remove('Scarlet Rot +0')
+        entry['m'] = entry['Madness +0']
+        entry.remove('Madness +0')
+        entry['s'] = entry['Sleep +0']
+        entry.remove('Sleep +0')
+        
+        (25 + 1).times{ upgrade_level ->
+            entry["f$upgrade_level"] = entry["Frost +$upgrade_level"]
+            entry.remove("Frost +$upgrade_level")
+            entry["p$upgrade_level"] = entry["Poison +$upgrade_level"]
+            entry.remove("Poison +$upgrade_level")
+            entry["b$upgrade_level"] = entry["Blood +$upgrade_level"]
+            entry.remove("Blood +$upgrade_level")
+        }
+    }catch(e){
+        pritnln key
+        println entry
         println e
         throw e
     }
