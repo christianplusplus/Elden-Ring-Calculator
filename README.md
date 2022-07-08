@@ -1,11 +1,11 @@
 # TODO
 ## BETA
-* Ranged weapon ammo data pipeline.
-* Ranged weapon ammo data calcuations.
+* Minimize json files.
 * Write an FAQ.
 * "Tweek this result" button.
 * Re-source and automate data pipelines.
 ## RELEASE
+* Input Page Routing
 * Value modifiers.
 * Save/Load Profile/Cookie.
 * Custom weapon filters.

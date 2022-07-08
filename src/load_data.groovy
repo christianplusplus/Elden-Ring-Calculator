@@ -8,6 +8,14 @@ def csvOuterQuoteExpression = /^"|"$/
 def getLineList = { String line ->
     line.split(csvSplitterExpression).collect{it.replaceAll(csvOuterQuoteExpression, '')}
 }
+def ranged_weapon_types = ['Light Bow', 'Bow', 'Greatbow', 'Crossbow', 'Ballista']
+def weapon_ammo_map = [
+    'Light Bow': 'Arrow',
+    'Bow': 'Arrow',
+    'Greatbow': 'Greatarrow',
+    'Crossbow': 'Bolt',
+    'Ballista': 'Greatbolt',
+]
 
 List.metaClass.collectWithIndex = { yield ->
     def collected = []
@@ -74,20 +82,14 @@ def fileNames = [
     'Passive',
     'Scaling',
     'AttackElementCorrectParam',
+    'ammo_values',
 ]
 fileNames.each{binding.setProperty(it, csvToObject(it))}
 
-//base attack power data
-new File(targetDirectory, 'weapon_base_attacks.json').write(JsonOutput.toJson(Attack))
-
-//scaling attack power data
-new File(targetDirectory, 'weapon_source_scaling.json').write(JsonOutput.toJson(Scaling))
-
-//passive data
-new File(targetDirectory, 'weapon_passives.json').write(JsonOutput.toJson(Passive))
+//regular files to arrays
+Boss_Data = csvToArray('Boss_Data')
 
 //boss data to array
-Boss_Data = csvToArray('Boss_Data')
 Boss_Data << [['NPC ID','SpEffect ID','Name','HP','Standard','Slash','Strike','Pierce','Magic','Fire','Lightning','Holy','Poison','Rot','Blood','Frost','Sleep','Madness','Death Blight','Poise'],['76543210','0','Target Dummy (No Resistances, Weaknesses, or Difficulty Scaling)','60000.0','1','1','1','1','1','1','1','1','306.096','306.096','306.096','306.096','306.096','306.096','306.096','120']].transpose().collectEntries()
 new File(targetDirectory, 'boss_data.json').write(JsonOutput.toJson(Boss_Data))
 
@@ -96,8 +98,14 @@ swing_values = motionCsvToObject('weapon_swing_types').collectEntries{ key, entr
     try{
         [key,
             [
-                normal_light_1h: [entry['1h R1 1'], entry['1h R1 2'], entry['1h R1 3'], entry['1h R1 4'], entry['1h R1 5'], entry['1h R1 6']],
-                normal_light_2h: [entry['2h R1 1'], entry['2h R1 2'], entry['2h R1 3'], entry['2h R1 4'], entry['2h R1 5'], entry['2h R1 6']],
+                normal_light_1h: ranged_weapon_types.contains(entry['Weapon Class']) ?
+                ['Pierce']
+                :
+                [entry['1h R1 1'], entry['1h R1 2'], entry['1h R1 3'], entry['1h R1 4'], entry['1h R1 5'], entry['1h R1 6']],
+                normal_light_2h: ranged_weapon_types.contains(entry['Weapon Class']) ?
+                ['Pierce']
+                :
+                [entry['2h R1 1'], entry['2h R1 2'], entry['2h R1 3'], entry['2h R1 4'], entry['2h R1 5'], entry['2h R1 6']],
                 normal_offhand: [entry['Offhand R1 1'], entry['Offhand R1 2'], entry['Offhand R1 3'], entry['Offhand R1 4'], entry['Offhand R1 5'], entry['Offhand R1 6']],
                 normal_paired: [entry['Paired L1 1'], entry['Paired L1 2'], entry['Paired L1 3'], entry['Paired L1 4'], entry['Paired L1 5'], entry['Paired L1 6']],
                 normal_heavy_1h: [entry['1h R2 1'], entry['1h R2 2']],
@@ -157,8 +165,14 @@ motion_values = motionCsvToObject('motion_values').collectEntries{ key, entry ->
     try{
         [key,
             [
-                normal_light_1h: [entry['1h R1 1'], entry['1h R1 2'], entry['1h R1 3'], entry['1h R1 4'], entry['1h R1 5'], entry['1h R1 6']],
-                normal_light_2h: [entry['2h R1 1'], entry['2h R1 2'], entry['2h R1 3'], entry['2h R1 4'], entry['2h R1 5'], entry['2h R1 6']],
+                normal_light_1h: ranged_weapon_types.contains(entry['Weapon Class']) ?
+                [100]
+                :
+                [entry['1h R1 1'], entry['1h R1 2'], entry['1h R1 3'], entry['1h R1 4'], entry['1h R1 5'], entry['1h R1 6']],
+                normal_light_2h: ranged_weapon_types.contains(entry['Weapon Class']) ?
+                [100]
+                :
+                [entry['2h R1 1'], entry['2h R1 2'], entry['2h R1 3'], entry['2h R1 4'], entry['2h R1 5'], entry['2h R1 6']],
                 normal_offhand: [entry['Offhand R1 1'], entry['Offhand R1 2'], entry['Offhand R1 3'], entry['Offhand R1 4'], entry['Offhand R1 5'], entry['Offhand R1 6']],
                 normal_paired: [entry['Paired L1 1'], entry['Paired L1 2'], entry['Paired L1 3'], entry['Paired L1 4'], entry['Paired L1 5'], entry['Paired L1 6']],
                 normal_heavy_1h: [entry['1h R2 1'], entry['1h R2 2']],
@@ -265,26 +279,27 @@ def weapons = Extra_Data.collect{ key, entry ->
     try{
         max_upgrade_level = entry['Max Upgrade']
         [
-            'name': key,
-            'base_weapon_name': entry['Weapon Name'],
-            'affinity': entry['Affinity'] == 'None' ? 'Standard' : entry['Affinity'] == '-' ? 'N/A' : entry['Affinity'],
-            'max_upgrade_level': max_upgrade_level,
-            'weight': entry['Weight'],
-            //'poise': entry['Poise'],  got removed?
-            'weapon_type': entry['Weapon Type'],
-            'dual_wieldable': entry['2H Dual-Wield']=='Yes',
-            'required_str': entry['Required (Str)'],
-            'required_dex': entry['Required (Dex)'],
-            'required_int': entry['Required (Int)'],
-            'required_fai': entry['Required (Fai)'],
-            'required_arc': entry['Required (Arc)'],
-            'physical_damage_types': entry['Physical Damage Type'].split('/'),
-            'physical_damage_calculation_id': CalcCorrectGraph_ID[(key)]['Physical'],
-            'magic_damage_calculation_id': CalcCorrectGraph_ID[(key)]['Magic'],
-            'fire_damage_calculation_id': CalcCorrectGraph_ID[(key)]['Fire'],
-            'lightning_damage_calculation_id': CalcCorrectGraph_ID[(key)]['Lightning'],
-            'holy_damage_calculation_id': CalcCorrectGraph_ID[(key)]['Holy'],
-            'attack_element_scaling_id': CalcCorrectGraph_ID[(key)]['AttackElementCorrect ID'],
+            name: key,
+            base_weapon_name: entry['Weapon Name'],
+            affinity: entry['Affinity'] == 'None' ? 'Standard' : entry['Affinity'] == '-' ? 'N/A' : entry['Affinity'],
+            max_upgrade_level: max_upgrade_level,
+            weight: entry['Weight'],
+            //poise: entry['Poise'],  got removed?
+            weapon_type: entry['Weapon Type'],
+            dual_wieldable: entry['2H Dual-Wield']=='Yes',
+            required_str: entry['Required (Str)'],
+            required_dex: entry['Required (Dex)'],
+            required_int: entry['Required (Int)'],
+            required_fai: entry['Required (Fai)'],
+            required_arc: entry['Required (Arc)'],
+            physical_damage_types: entry['Physical Damage Type'].split('/'),
+            physical_damage_calculation_id: CalcCorrectGraph_ID[(key)]['Physical'],
+            magic_damage_calculation_id: CalcCorrectGraph_ID[(key)]['Magic'],
+            fire_damage_calculation_id: CalcCorrectGraph_ID[(key)]['Fire'],
+            lightning_damage_calculation_id: CalcCorrectGraph_ID[(key)]['Lightning'],
+            holy_damage_calculation_id: CalcCorrectGraph_ID[(key)]['Holy'],
+            attack_element_scaling_id: CalcCorrectGraph_ID[(key)]['AttackElementCorrect ID'],
+            ammo: 'N/A',
         ]
     }catch(e){
         println key
@@ -293,4 +308,81 @@ def weapons = Extra_Data.collect{ key, entry ->
         throw e
     }
 }
+
+//generate ranged weapon and ammo combinations
+
+def ranged_weapons = weapons.findAll{ ranged_weapon_types.contains(it['weapon_type']) }
+
+def ranged_weapons_with_ammo = ranged_weapons.collectMany{ weapon ->
+    ammo_values.values().findAll{
+        it['Weapon Type'] == weapon_ammo_map[weapon.weapon_type]
+    }.collect{
+        def new_weapon = [:] + weapon
+        new_weapon.name = "$weapon.name (with $it.Name)"
+        new_weapon.physical_damage_types = [it['Physical Damage Type']]
+        new_weapon.ammo = it.Name
+        new_weapon
+    }
+}
+
+weapons = weapons.findAll{ !ranged_weapon_types.contains(it.weapon_type) } + ranged_weapons_with_ammo
+
 new File(targetDirectory, 'weapons.json').write(JsonOutput.toJson(weapons))
+
+//add ranged ammo combinations to Attack data
+Attack += ranged_weapons_with_ammo.collectEntries{ weapon ->
+    try{
+        def new_attack_stats = [:] + Attack[weapon.base_weapon_name]
+        (25 + 1).times { upgrade_level ->
+            new_attack_stats["Phys +$upgrade_level"] = new_attack_stats["Phys +$upgrade_level"] as double + (ammo_values[weapon.ammo]['Attack Power (Physical)'] as double)
+            new_attack_stats["Mag +$upgrade_level"] = new_attack_stats["Mag +$upgrade_level"] as double + (ammo_values[weapon.ammo]['Attack Power (Magic)'] as double)
+            new_attack_stats["Fire +$upgrade_level"] = new_attack_stats["Fire +$upgrade_level"] as double + (ammo_values[weapon.ammo]['Attack Power (Fire)'] as double)
+            new_attack_stats["Ligh +$upgrade_level"] = new_attack_stats["Ligh +$upgrade_level"] as double + (ammo_values[weapon.ammo]['Attack Power (Lightning)'] as double)
+            new_attack_stats["Holy +$upgrade_level"] = new_attack_stats["Holy +$upgrade_level"] as double + (ammo_values[weapon.ammo]['Attack Power (Holy)'] as double)
+        }
+        new_attack_stats.Name = weapon.name
+        [weapon.name, new_attack_stats]
+    }catch(e){
+        println weapon
+        println e
+        throw e
+    }
+}
+new File(targetDirectory, 'weapon_base_attacks.json').write(JsonOutput.toJson(Attack))
+
+
+//add ranged ammo combinations to Scaling data
+Scaling += ranged_weapons_with_ammo.collectEntries{ weapon ->
+    try{
+        def new_attack_stats = [:] + Scaling[weapon.base_weapon_name]
+        new_attack_stats.Name = weapon.name
+        [weapon.name, new_attack_stats]
+    }catch(e){
+        println weapon
+        println e
+        throw e
+    }
+}
+new File(targetDirectory, 'weapon_source_scaling.json').write(JsonOutput.toJson(Scaling))
+
+//add ranged ammo combinations to Passive data
+Passive += ranged_weapons_with_ammo.collectEntries{ weapon ->
+    try{
+        def new_attack_stats = [:] + Passive[weapon.base_weapon_name]
+        new_attack_stats["Scarlet Rot +0"] = new_attack_stats["Scarlet Rot +0"] as double + (ammo_values[weapon.ammo]['Base Rot Build-up'] == '-' ? 0 : ammo_values[weapon.ammo]['Base Rot Build-up'] as double)
+        new_attack_stats["Sleep +0"] = new_attack_stats["Sleep +0"] as double + (ammo_values[weapon.ammo]['Base Sleep Build-up'] == '-' ? 0 : ammo_values[weapon.ammo]['Base Sleep Build-up'] as double)
+        (25 + 1).times { upgrade_level ->
+            new_attack_stats["Frost +$upgrade_level"] = new_attack_stats["Frost +$upgrade_level"] as double + (ammo_values[weapon.ammo]['Base Frost Build-up'] == '-' ? 0 : ammo_values[weapon.ammo]['Base Frost Build-up'] as double)
+            if(weapon.base_weapon_name == 'Serpent Bow') new_attack_stats["Poison +$upgrade_level"] = 15
+            new_attack_stats["Poison +$upgrade_level"] = new_attack_stats["Poison +$upgrade_level"] as double + (ammo_values[weapon.ammo]['Base Poison Build-up'] == '-' ? 0 : ammo_values[weapon.ammo]['Base Poison Build-up'] as double)
+            new_attack_stats["Blood +$upgrade_level"] = new_attack_stats["Blood +$upgrade_level"] as double + (ammo_values[weapon.ammo]['Base Blood Build-up'] == '-' ? 0 : ammo_values[weapon.ammo]['Base Blood Build-up'] as double)
+        }
+        new_attack_stats.Name = weapon.name
+        [weapon.name, new_attack_stats]
+    }catch(e){
+        println weapon
+        println e
+        throw e
+    }
+}
+new File(targetDirectory, 'weapon_passives.json').write(JsonOutput.toJson(Passive))
