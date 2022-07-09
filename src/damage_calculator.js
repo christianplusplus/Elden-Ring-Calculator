@@ -27,10 +27,10 @@ self['optimize'] = function(objective_statement, minimum_attributes, optimize_cl
             if(optimize_free_points)
                 result['attributes'] = resultArray[1].attrs;
         }
+        result['weapon'] = beautify_weapon_stats(resultArray[1], result_objective, modifiers, options);
     } catch(e) {
         return {error: "No Results"};
     }
-    result['weapon'] = beautify_weapon_stats(resultArray[1], result_objective, modifiers, options);
     return result;
 }
 
