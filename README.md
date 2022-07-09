@@ -1,5 +1,6 @@
 # TODO
 ## BETA
+* Debug ranged damage
 * Write an FAQ.
 * Update to 1.05
 ## RELEASE
