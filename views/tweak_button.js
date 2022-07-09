@@ -5,7 +5,6 @@ var tweakButton = {
     },
     methods: {
         tweak() {
-            this.args.ready_to_tweak = false;
             if('attributes' in this.result) {
                 this.args.attributes.str = this.result.attributes.str;
                 this.args.attributes.dex = this.result.attributes.dex;

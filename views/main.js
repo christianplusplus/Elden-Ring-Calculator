@@ -186,6 +186,7 @@ var Main = {
         },
         quick_run(runnable, ...args) {
             this.result = self[runnable](...args);
+            this.args.ready_to_tweak = false;
             this.output_state = 'output';
         },
         run(runnable, ...args) {
