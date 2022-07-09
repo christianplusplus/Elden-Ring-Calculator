@@ -125,6 +125,7 @@ var Main = {
                 upgrade_cap: 25,
                 somber_upgrade_cap: 10,
                 motion_values: {},
+                ready_to_tweak: false,
                 clazz: {},
                 class_stats: {
                     hero: {'vig':14,'min':9,'end':12,'str':16,'dex':9,'int':7,'fai':8,'arc':11},
@@ -215,6 +216,7 @@ var Main = {
         print(output) {
             this.args.disabled = false;
             this.result = output;
+            this.args.ready_to_tweak = true;
             this.output_state = 'output';
         },
     },

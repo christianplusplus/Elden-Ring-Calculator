@@ -13,7 +13,7 @@ var resultForm = {
 <weaponResultForm v-if="state=='output' && result.weapon != null"
     :result="result"
 />
-<attributeResultForm v-if="state=='output' && result.attributes != null"
+<attributeResultForm v-if="state=='output' && result.attributes != null && result.class == null"
     :result="result"
     :args="args"
 />
@@ -23,6 +23,10 @@ var resultForm = {
 />
 <progressBar v-if="state=='update'"
     :progress="progress"
+/>
+<tweakButton v-if="state == 'output' && result.error == null && (args.optimize_class || args.optimize_attributes || args.optimize_weapon) && args.ready_to_tweak"
+    :result="result"
+    :args="args"
 />
 `,
 };

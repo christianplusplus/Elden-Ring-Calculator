@@ -1,9 +1,9 @@
 # TODO
 ## BETA
 * Write an FAQ.
-* "Tweek this result" button.
-* Re-source and automate data pipelines.
+* Update to 1.05
 ## RELEASE
+* Re-source and automate data pipelines.
 * Input Page Routing
 * Value modifiers.
 * Save/Load Profile/Cookie.

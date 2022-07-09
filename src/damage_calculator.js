@@ -17,7 +17,8 @@ self['optimize'] = function(objective_statement, minimum_attributes, optimize_cl
                 resultArray = optimize_class_with_class_level(objective, minimum_attributes, class_level, weapons, modifiers, options);
             else
                 resultArray = optimize_class_with_minimum_attributes(objective, minimum_attributes, weapons, modifiers, options);
-            result['class'] = {class_name: resultArray[2].name, attack_attributes: resultArray[1].attrs};
+            result['class'] = {class_name: resultArray[2].name, class_stats: class_stats[resultArray[2].name]};
+            result['attributes'] = resultArray[1].attrs;
         }
         else {
             if(!optimize_free_points)

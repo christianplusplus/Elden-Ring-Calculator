@@ -224,6 +224,18 @@ select {
     text-align: center;
 }
 
+.div_button {/*
+    width: 100px;
+    height: 50px;*/
+    align-self: center;
+    text-align: center;
+}
+
+.div_button:hover {
+    filter: brightness(150%);
+    cursor: pointer;
+}
+
 @keyframes fire
 {
    0%
