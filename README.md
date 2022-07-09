@@ -1,9 +1,9 @@
 # TODO
 ## BETA
-* Debug ranged damage
 * Write an FAQ.
 * Update to 1.05
 ## RELEASE
+* NG+ data
 * Re-source and automate data pipelines.
 * Input Page Routing
 * Value modifiers.
