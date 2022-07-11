@@ -194,8 +194,30 @@ def difficulty_scaling = csvToObject('difficulty_scaling').collectEntries{ key, 
 new File(targetDirectory, 'difficulty_scaling.json').write(JsonOutput.toJson(difficulty_scaling))
 
 //weapon data to list
-def weapons = csvToList('weapons').collect{
-
+def weapons = csvToList('weapons').findAll('Sort ID' != '9999999').collect{
+    try{
+        [
+            name: it['Row Name'],
+            base_weapon_id: it['Origin Weapon +0'],
+            weapon_type: it[''],
+            Weapon Category
+            Weapon Moveset Category
+            Moveset Attribute
+            Moveset Override Category
+            weight: it['Weight'],
+            affinity:  it[],
+            max_upgrade_level:  it[],
+            str_requirement: it['Requirement: STR'],
+            dex_requirement: it['Requirement: DEX'],
+            int_requirement: it['Requirement: INT'],
+            fai_requirement: it['Requirement: FTH'],
+            arc_requirement: it['Requirement: FTH'],
+            is_dual_wieldable: it['is_dual_weapon'],
+        ]
+    }catch(e){
+        println it
+        throw e
+    }
 }
 
 

@@ -13,7 +13,8 @@ def getRepeatingColumnList = { String line ->
     }
 }
 
-def lines = new File('bosses.csv').readLines()
-def columns = getRepeatingColumnList(lines[0])
-def values = lines.find{getLineList(it)[0] == '43113906'}
-def object = [columns, getLineList(values)].transpose().collectEntries()
+def lines = new File('weapons.csv').readLines()
+def columns = getLineList(lines[0])
+def values = getLineList(lines.find{getLineList(it)[0] == '1000100'})
+def object = [columns, values].transpose().collectEntries()
+object.each{println it}
