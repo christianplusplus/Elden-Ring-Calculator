@@ -255,11 +255,11 @@ var Main = {
                 this.args.weapon_passives = data;
             });
         
-        fetch('data/boss_data.json')
+        fetch('data/bosses.json')
             .then(response => response.json())
             .then(data => {
-                this.args.bosses = data.sort((a,b)=>a.Name<b.Name?-1:a.Name>b.Name?1:0);
-                this.args.enemy = this.args.bosses.find(b=>b.Name=='Target Dummy (No Resistances, Weaknesses, or Difficulty Scaling)');
+                this.args.bosses = data;
+                this.args.enemy = this.args.bosses.find(b=>b.name=='Target Dummy (No Resistances, Weaknesses, or Difficulty Scaling)');
             });
             
         fetch('data/difficulty_scaling.json')

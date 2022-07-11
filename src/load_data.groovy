@@ -26,6 +26,13 @@ List.metaClass.collectWithIndex = { yield ->
     return collected 
 }
 
+def getRepeatingColumnList = { String line ->
+    def i = 0
+    line.split(csvSplitterExpression).collect{
+        it.replaceAll(csvOuterQuoteExpression, '') + "#${i++}"
+    }
+}
+
 def csvToObject = { String fileName ->
     def lines = new File(sourceDirectory, fileName + ".csv").readLines()
     def columns = getLineList(lines[0])
@@ -34,11 +41,13 @@ def csvToObject = { String fileName ->
     }.collectEntries{
     
         //fixes
+        /*
         it[0] = it[0].replaceAll('epee', 'Epee')
         it[1] = it[1].replaceAll("Man-serpent's Shield", "Man-Serpent's Shield")
         it[1] = it[1].replaceAll("^Celebrant's Cleaver\$", "Celebrant's Cleaver Blades")
         it[1] = it[1].replaceAll("Relic Sword", "Sacred Relic Sword")
         it[1] = it[1].replaceAll("Mohgwyn's Spear", "Mohgwyn's Sacred Spear")
+        */
         
         [it[0], [columns, it].transpose().collectEntries()]
     }
@@ -54,16 +63,18 @@ def motionCsvToObject = { String fileName ->
     }.collectEntries{
         
         //fixes
+        /*
         it[1] = it[1].replaceAll('Épée', 'Epee')
         it[1] = it[1].replaceAll('Miséricorde', 'Misericorde')
         it[1] = it[1].replaceAll("Varré's Bouquet", "Varre's Bouquet")
         it[1] = it[1].replaceAll("Celebrant's Cleaver", "Celebrant's Cleaver Blades")
+        */
         
         [it[1], [columns, it].transpose().collectEntries()]
     }
 }
 
-def csvToArray = { String fileName ->
+def csvToList = { String fileName ->
     def lines = new File(sourceDirectory, fileName + ".csv").readLines()
     def columns = getLineList(lines[0])
     def object = lines[1..-1].collect{
@@ -73,26 +84,122 @@ def csvToArray = { String fileName ->
     }
 }
 
-//regular files to objects
-def fileNames = [
-    'Extra_Data',
-    'Attack',
-    'CalcCorrectGraph_ID',
-    'SpEffectParam',
-    'Passive',
-    'Scaling',
-    'AttackElementCorrectParam',
-    'ammo_values',
-]
-fileNames.each{binding.setProperty(it, csvToObject(it))}
+def csvBossesToList = { String fileName ->
+    def lines = new File(sourceDirectory, fileName + ".csv").readLines()
+    def columns = getRepeatingColumnList(lines[0])
+    def object = lines[1..-1].collect{
+        getLineList(it)
+    }.collect{
+        [columns, it].transpose().collectEntries()
+    }
+}
 
-//regular files to arrays
-Boss_Data = csvToArray('Boss_Data')
 
 //boss data to array
-Boss_Data << [['NPC ID','SpEffect ID','Name','HP','Standard','Slash','Strike','Pierce','Magic','Fire','Lightning','Holy','Poison','Rot','Blood','Frost','Sleep','Madness','Death Blight','Poise'],['76543210','0','Target Dummy (No Resistances, Weaknesses, or Difficulty Scaling)','60000.0','1','1','1','1','1','1','1','1','306.096','306.096','306.096','306.096','306.096','306.096','306.096','120']].transpose().collectEntries()
-new File(targetDirectory, 'boss_data.json').write(JsonOutput.toJson(Boss_Data))
+def bosses = csvBossesToList('bosses').collectMany{
+    try{
+        def list = []
+        
+        list << [
+            name: it['Name 1#11'],
+            difficulty_scaling_id: it['SpEffect ID#5'],
+            ngp_difficulty_scaling_id: it['SpEffect ID (NG+)#6'],
+            standard: (100 - (it['Standard Negation#14'] as int)) / 100,
+            slash: (100 - (it['Slash Negation#15'] as int)) / 100,
+            strike: (100 - (it['Strike Negation#16'] as int)) / 100,
+            pierce: (100 - (it['Pierce Negation#17'] as int)) / 100,
+            magic: (100 - (it['Magic Negation#18'] as int)) / 100,
+            fire: (100 - (it['Fire Negation#19'] as int)) / 100,
+            lighting: (100 - (it['Lightning Negation#20'] as int)) / 100,
+            holy: (100 - (it['Holy Negation#21'] as int)) / 100,
+        ]
+        
+        if(it['NPC ID 2#1'] != '-') {
+            list << [
+                name: it['Name 2#31'],
+                difficulty_scaling_id: it['SpEffect ID#5'],
+                ngp_difficulty_scaling_id: it['SpEffect ID (NG+)#6'],
+                standard: (100 - (it['Standard Negation#34'] as int)) / 100,
+                slash: (100 - (it['Slash Negation#35'] as int)) / 100,
+                strike: (100 - (it['Strike Negation#36'] as int)) / 100,
+                pierce: (100 - (it['Pierce Negation#37'] as int)) / 100,
+                magic: (100 - (it['Magic Negation#38'] as int)) / 100,
+                fire: (100 - (it['Fire Negation#39'] as int)) / 100,
+                lighting: (100 - (it['Lightning Negation#40'] as int)) / 100,
+                holy: (100 - (it['Holy Negation#41'] as int)) / 100,
+            ]
+        }
+        
+        if(it['NPC ID 3#2'] != '-') {
+            list << [
+                name: it['Name 3#51'],
+                difficulty_scaling_id: it['SpEffect ID#5'],
+                ngp_difficulty_scaling_id: it['SpEffect ID (NG+)#6'],
+                standard: (100 - (it['Standard Negation#54'] as int)) / 100,
+                slash: (100 - (it['Slash Negation#55'] as int)) / 100,
+                strike: (100 - (it['Strike Negation#56'] as int)) / 100,
+                pierce: (100 - (it['Pierce Negation#57'] as int)) / 100,
+                magic: (100 - (it['Magic Negation#58'] as int)) / 100,
+                fire: (100 - (it['Fire Negation#59'] as int)) / 100,
+                lighting: (100 - (it['Lightning Negation#60'] as int)) / 100,
+                holy: (100 - (it['Holy Negation#61'] as int)) / 100,
+            ]
+        }
+        
+        if(it['NPC ID (Phase 2)#3'] != '-') {
+            list << [
+                name: it['Actual Name (Phase 2)#70'] + ' (2nd Phase)',
+                difficulty_scaling_id: it['SpEffect ID#5'],
+                ngp_difficulty_scaling_id: it['SpEffect ID (NG+)#6'],
+                standard: (100 - (it['Standard Negation#73'] as int)) / 100,
+                slash: (100 - (it['Slash Negation#74'] as int)) / 100,
+                strike: (100 - (it['Strike Negation#75'] as int)) / 100,
+                pierce: (100 - (it['Pierce Negation#76'] as int)) / 100,
+                magic: (100 - (it['Magic Negation#77'] as int)) / 100,
+                fire: (100 - (it['Fire Negation#78'] as int)) / 100,
+                lighting: (100 - (it['Lightning Negation#79'] as int)) / 100,
+                holy: (100 - (it['Holy Negation#80'] as int)) / 100,
+            ]
+        }
+        
+        list
+    }catch(e){
+        println it
+        throw e
+    }
+}
+bosses << [['name', 'difficulty_scaling_id', 'ngp_difficulty_scaling_id', 'standard','slash','strike','pierce','magic','fire','lightning','holy'],['Target Dummy (No Resistances, Weaknesses, or Difficulty Scaling)','0','0',1,1,1,1,1,1,1,1]].transpose().collectEntries()
+bosses.sort{ a, b -> a.name <=> b.name }
+new File(targetDirectory, 'bosses.json').write(JsonOutput.toJson(bosses))
 
+//difficulty data to object
+def difficulty_scaling = csvToObject('difficulty_scaling').collectEntries{ key, entry ->
+    try{
+        [key,
+            [
+                defense: entry['Defense'] as double,
+                physical: entry['Physical Attack'] as double,
+                magic: entry['Magic Attack'] as double,
+                fire: entry['Fire Attack'] as double,
+                lightning: entry['Lightning Attack'] as double,
+                holy: entry['Holy Attack'] as double,
+            ]
+        ]
+    }catch(e){
+        println key
+        println entry
+        throw e
+    }
+}
+new File(targetDirectory, 'difficulty_scaling.json').write(JsonOutput.toJson(difficulty_scaling))
+
+//weapon data to list
+def weapons = csvToList('weapons').collect{
+
+}
+
+
+/*
 //swing values to Object
 swing_values = motionCsvToObject('weapon_swing_types').collectEntries{ key, entry ->
     try{
@@ -273,8 +380,6 @@ AttackElementCorrectParam = AttackElementCorrectParam.collectEntries{ key, entry
 }
 new File(targetDirectory, 'attack_element_scaling.json').write(JsonOutput.toJson(AttackElementCorrectParam))
 
-new File(targetDirectory, 'difficulty_scaling.json').write(JsonOutput.toJson(SpEffectParam))
-
 def weapons = Extra_Data.collect{ key, entry ->
     try{
         max_upgrade_level = entry['Max Upgrade']
@@ -451,3 +556,4 @@ Passive = Passive.collectEntries{ key, entry ->
     }
 }
 new File(targetDirectory, 'weapon_passives.json').write(JsonOutput.toJson(Passive))
+*/
