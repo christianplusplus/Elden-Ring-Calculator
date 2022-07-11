@@ -200,6 +200,7 @@ def weapons = csvToList('weapons').findAll('Sort ID' != '9999999').collect{
             name: it['Row Name'],
             base_weapon_id: it['Origin Weapon +0'],
             weapon_type: it[''],
+            reinforce_id
             Weapon Category
             Weapon Moveset Category
             Moveset Attribute
