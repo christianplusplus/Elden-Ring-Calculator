@@ -94,7 +94,7 @@ var inputForm = {
             if(this.args.is_dual_wieldable)
                 constraints.push(weapon => weapon.dual_wieldable);
             if(this.args.options.must_have_required_attributes && !this.args.optimize_attributes) {
-                constraints.push(weapon => weapon.required_str <= this.args.attributes.str);
+                constraints.push(weapon => this.args.options['is_two_handing'] ? weapon.required_str <= this.args.attributes.str * 1.5 : weapon.required_str <= this.args.attributes.str);
                 constraints.push(weapon => weapon.required_dex <= this.args.attributes.dex);
                 constraints.push(weapon => weapon.required_int <= this.args.attributes.int);
                 constraints.push(weapon => weapon.required_fai <= this.args.attributes.fai);
