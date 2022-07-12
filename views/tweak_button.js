@@ -17,6 +17,7 @@ var tweakButton = {
             this.args.optimize_attributes = false;
             this.args.weapon = this.args.weapons.find(weapon => weapon.name == this.result.weapon.name);
             this.args.upgrade_level = this.args.weapon.max_upgrade_level == '25' ? this.args.upgrade_cap : this.args.somber_upgrade_cap;
+            this.args.options.must_have_required_attributes = false;
         },
     },
     template:`
