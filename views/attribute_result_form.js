@@ -7,7 +7,7 @@ var attributeResultForm = {
         mixWhiteBlueRed(value) {
             var red, green, blue, color;
             if(value > 0) {
-                blue = Math.max(Math.min(value, 1), 0.5);
+                blue = Math.max(Math.min(value, 1), 0.3);
                 blue = Math.floor(blue * 255);
                 red = (255 - blue).toString(16).padStart(2, '0');
                 green = (255 - blue).toString(16).padStart(2, '0');
