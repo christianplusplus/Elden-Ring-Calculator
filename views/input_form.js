@@ -149,22 +149,18 @@ var inputForm = {
                 return this.args.movesets[this.args.moveset_category].is_two_handable;
             return false;
         },
-        moveset() {
-            var formatted_moveset_modifer = this.has_valid_moveset_modifier ? '_' + this.args.moveset_modifier : '';
-            var formatted_handedness;
-            if(this.moveset_is_two_handable) {
-                this.args.options['is_two_handing'] = this.args.is_two_handing;
-                formatted_handedness = this.args.is_two_handing ? '_2h' : '_1h';
-            }
-            else {
-                this.args.options['is_two_handing'] = false;
-                formatted_handedness = '';
-            }
-            return {moveset_aggregate: this.args.moveset_aggregate, moveset_name: this.args.moveset_category + formatted_moveset_modifer + formatted_handedness, hit_aggregate: this.args.hit_aggregate};
-        },
         is_two_handing() {
             this.args.options['is_two_handing'] = this.moveset_is_two_handable && this.args.is_two_handing;
             return this.args.options['is_two_handing'];
+        },
+        moveset() {
+            var formatted_moveset_modifer = this.has_valid_moveset_modifier ? '_' + this.args.moveset_modifier : '';
+            var formatted_handedness;
+            if(this.moveset_is_two_handable)
+                formatted_handedness = this.is_two_handing ? '_2h' : '_1h';
+            else
+                formatted_handedness = '';
+            return {moveset_aggregate: this.args.moveset_aggregate, moveset_name: this.args.moveset_category + formatted_moveset_modifer + formatted_handedness, hit_aggregate: this.args.hit_aggregate};
         },
         has_multi_movesets() {
             if(this.has_moveset_modifiers)
