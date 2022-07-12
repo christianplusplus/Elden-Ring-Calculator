@@ -94,7 +94,7 @@ var inputForm = {
             if(this.args.is_dual_wieldable)
                 constraints.push(weapon => weapon.dual_wieldable);
             if(this.args.options.must_have_required_attributes && !this.args.optimize_attributes) {
-                constraints.push(weapon => this.args.options['is_two_handing'] ? weapon.required_str <= this.args.attributes.str * 1.5 : weapon.required_str <= this.args.attributes.str);
+                constraints.push(weapon => this.is_two_handing ? weapon.required_str <= this.args.attributes.str * 1.5 : weapon.required_str <= this.args.attributes.str);
                 constraints.push(weapon => weapon.required_dex <= this.args.attributes.dex);
                 constraints.push(weapon => weapon.required_int <= this.args.attributes.int);
                 constraints.push(weapon => weapon.required_fai <= this.args.attributes.fai);
@@ -161,6 +161,10 @@ var inputForm = {
                 formatted_handedness = '';
             }
             return {moveset_aggregate: this.args.moveset_aggregate, moveset_name: this.args.moveset_category + formatted_moveset_modifer + formatted_handedness, hit_aggregate: this.args.hit_aggregate};
+        },
+        is_two_handing() {
+            this.args.options['is_two_handing'] = this.moveset_is_two_handable && this.args.is_two_handing;
+            return this.args.options['is_two_handing'];
         },
         has_multi_movesets() {
             if(this.has_moveset_modifiers)
