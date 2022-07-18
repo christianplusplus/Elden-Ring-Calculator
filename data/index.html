@@ -1,0 +1,13 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<script>
+var scaling;
+fetch('difficulty_scaling.json')
+    .then(response => response.json())
+    .then(data => {
+        scaling = data;
+    });
+</script>
+</head>
+</html>

@@ -9,6 +9,216 @@ def getLineList = { String line ->
     line.split(csvSplitterExpression).collect{it.replaceAll(csvOuterQuoteExpression, '')}
 }
 def ranged_weapon_types = ['Light Bow', 'Bow', 'Greatbow', 'Crossbow', 'Ballista']
+def weapon_type_map = [
+    '1': 'Dagger',
+    '3': 'Straight Sword',
+    '9': 'Curved Sword',
+    '5': 'Greatsword',
+    '7': 'Colossal Sword',
+    '15': 'Thrusting Sword',
+    '16': 'Heavy Thrusting Sword',
+    '11': 'Curved Greatsword',
+    '13': 'Katana',
+    '14': 'Twinblade',
+    '21': 'Hammer',
+    '23': 'Great Hammer',
+    '24': 'Flail',
+    '17': 'Axe',
+    '19': 'Greataxe',
+    '25': 'Spear',
+    '28': 'Greate Spear',
+    '29': 'Halberd',
+    '31': 'Reaper',
+    '39': 'Whip',
+    '35': 'Fist',
+    '37': 'Claw',
+    '41': 'Colossal Weapon',
+    '87': 'Torch',
+    '65': 'Small Shield',
+    '67': 'Medium Shield',
+    '69': 'Greateshield',
+    '57': 'Glintstone Staff',
+    '61': 'Sacred Seal',
+    '50': 'Light Bow',
+    '51': 'Bow',
+    '53': 'Greatbow',
+    '55': 'Crossbow',
+    '56': 'Ballista',
+/*
+    '20': 'Dagger',
+    '23': 'Straight Sword',
+    '28': 'Curved Sword',
+    '25': 'Greatsword',
+    '26': 'Colossal Sword',
+    '27': 'Thrusting Sword',
+    '39': 'Heavy Thrusting Sword',
+    '40': 'Curved Greatsword',
+    '29': 'Katana',
+    '24': 'Twinblade',
+    '33': 'Hammer',
+    '35': 'Great Hammer',
+    '34': 'Flail',
+    '30': 'Axe',
+    '32': 'Greataxe',
+    '36': 'Spear',
+    '37': 'Greate Spear',
+    '38': 'Halberd',
+    '50': 'Reaper',
+    '43': 'Whip',
+    '42': 'Fist',
+    '22': 'Claw',
+    '31': 'Colossal Weapon',
+    '21': 'Torch',
+    '48': 'Small Shield',
+    '49': 'Medium Shield',
+    '47': 'Greateshield',
+    '41': 'Glintstone Staff',
+    '51': 'Light Bow',
+    '44': 'Bow',
+    '45': 'Greatbow',
+    '46': 'Crossbow',
+    '52': 'Ballista',
+    
+    '103': 'Dagger', // Black Knife/Erdsteel
+    '101': 'Dagger', // Curvy Dagger
+    '100': 'Dagger', // Sickle
+    '104': 'Dagger', // Wakizashi
+    
+    '111': 'Straight Sword', // Shortsword
+    '110': 'Straight Sword', // Broadsword/Cane Sword
+    '852': 'Straight Sword', // Ornamental Straight Sword
+    '113': 'Straight Sword', // Carian Knight's Sword/Lazuli Glintstone Sword
+    '112': 'Straight Sword', // Miquellan Knight's Sword
+    '117': 'Straight Sword', // Warhawk's Talon
+    
+    '128': 'Greatsword', // Inseparable Sword
+    '126': 'Greatsword',
+    '129': 'Greatsword',
+    '130': 'Greatsword',
+    '127': 'Greatsword',
+    '125': 'Greatsword',
+    
+    '136': 'Colossal Sword',
+    '135': 'Colossal Sword',
+    '832': 'Colossal Sword',
+    '137': 'Colossal Sword',
+    '138': 'Colossal Sword',
+    
+    '145': 'Thrusting Sword',
+    '146': 'Thrusting Sword',
+    '147': 'Thrusting Sword',
+    
+    '150': 'Heavy Thrusting Sword',
+    '151': 'Heavy Thrusting Sword',
+    
+    '161': 'Curved Sword',
+    '155': 'Curved Sword',
+    '156': 'Curved Sword',
+    '157': 'Curved Sword',
+    '159': 'Curved Sword',
+    '158': 'Curved Sword',
+    
+    '216': 'Curved Greatsword',
+    '215': 'Curved Greatsword',
+    
+    '167': 'Katana',
+    '166': 'Katana',
+    '165': 'Katana',
+    
+    '121': 'Twinblade',
+    '120': 'Twinblade',
+    
+    '183': 'Hammer',
+    '180': 'Hammer',
+    '182': 'Hammer',
+    '181': 'Hammer',
+    '184': 'Hammer',
+    
+    '176': 'Great Hammer',
+    
+    '170': 'Axe',
+    '172': 'Axe',
+    '171': 'Axe',
+    
+    '177': 'Greataxe',
+    '175': 'Greataxe',
+    
+    '203': 'Spear',
+    '200': 'Spear',
+    '201': 'Spear',
+    '202': 'Spear',
+    
+    '205': 'Great Spear',
+    '207': 'Great Spear',
+    '206': 'Great Spear',
+    
+    '210': 'Halberd',
+    '211': 'Halberd',
+    '212': 'Halberd',
+    
+    '225': 'Reaper',
+    
+    '226': 'Whip',
+    
+    '221': 'Fist',
+    '220': 'Fist',
+    
+    '227': 'Claw',
+    
+    '196': 'Colossal Weapon',
+    '195': 'Colossal Weapon',
+    '831': 'Colossal Weapon',
+    '839': 'Colossal Weapon',
+    '197': 'Colossal Weapon',
+    '198': 'Colossal Weapon',
+    
+    '250': 'Torch',
+    '251': 'Torch',
+    
+    '240': 'Sacred Seal',
+    
+    '232': 'Light Bow',
+    
+    '230': 'Bow',
+    '231': 'Bow',
+    
+    '233': 'Crossbow',
+    '236': 'Crossbow',
+    
+    '234': 'Ballista',
+*/
+]
+def weapon_affinity_map = [
+    '0': 'Standard',
+    '1900': 'Standard',
+    '3100': 'Standard',
+    '8000': 'Standard',
+    '8100': 'Standard',
+    '8200': 'Standard',
+    '100': 'Heavy',
+    '6000': 'Heavy',
+    '200': 'Keen',
+    '5000': 'Keen',
+    '300': 'Quality',
+    '400': 'Fire',
+    '500': 'Flame Art',
+    '600': 'Lightning',
+    '700': 'Sacred',
+    '800': 'Magic',
+    '900': 'Cold',
+    '1000': 'Poison',
+    '1100': 'Blood',
+    '1200': 'Occult',
+    
+    '2200': 'Somber',
+    '2400': 'Somber',
+    '3200': 'Somber',
+    '3300': 'Somber',
+    '8300': 'Somber',
+    '8500': 'Somber',
+    
+    '3000': 'Unupgradable',
+]
 def weapon_ammo_map = [
     'Light Bow': 'Arrow',
     'Bow': 'Arrow',
@@ -175,14 +385,12 @@ new File(targetDirectory, 'bosses.json').write(JsonOutput.toJson(bosses))
 //difficulty data to object
 def difficulty_scaling = csvToObject('difficulty_scaling').collectEntries{ key, entry ->
     try{
+        if(![entry['Physical Attack'], entry['Magic Attack'], entry['Fire Attack'], entry['Lightning Attack'], entry['Holy Attack']].every{it == entry['Physical Attack']})
+            throw new Exception('The assumption that elemental scaling is uniform is not valid.')
         [key,
             [
                 defense: entry['Defense'] as double,
-                physical: entry['Physical Attack'] as double,
-                magic: entry['Magic Attack'] as double,
-                fire: entry['Fire Attack'] as double,
-                lightning: entry['Lightning Attack'] as double,
-                holy: entry['Holy Attack'] as double,
+                resistance: entry['Physical Attack'] as double,
             ]
         ]
     }catch(e){
@@ -193,34 +401,53 @@ def difficulty_scaling = csvToObject('difficulty_scaling').collectEntries{ key, 
 }
 new File(targetDirectory, 'difficulty_scaling.json').write(JsonOutput.toJson(difficulty_scaling))
 
+def raw_weapons = csvToObject('weapons')
 //weapon data to list
-def weapons = csvToList('weapons').findAll('Sort ID' != '9999999').collect{
+def weapons = raw_weapons.values().findAll{it['Sort ID'] != '9999999' && it['skip'] != 'arrow'}.collect{
     try{
+        def weapon_type_id = it['Weapon Type']
+        if(!weapon_type_map.containsKey(weapon_type_id))
+            throw new Exception("Unexpected weapon moveset ID \"$weapon_type_id\".")
+        def reinforce_id = it['Reinforce Type ID']
+        if(!weapon_affinity_map.containsKey(reinforce_id))
+            throw new Exception("Unexpected weapon reinforce ID \"$reinforce_id\".")
         [
             name: it['Row Name'],
-            base_weapon_id: it['Origin Weapon +0'],
-            weapon_type: it[''],
-            reinforce_id
-            Weapon Category
-            Weapon Moveset Category
-            Moveset Attribute
-            Moveset Override Category
-            weight: it['Weight'],
-            affinity:  it[],
-            max_upgrade_level:  it[],
-            str_requirement: it['Requirement: STR'],
-            dex_requirement: it['Requirement: DEX'],
-            int_requirement: it['Requirement: INT'],
-            fai_requirement: it['Requirement: FTH'],
-            arc_requirement: it['Requirement: FTH'],
-            is_dual_wieldable: it['is_dual_weapon'],
+            base_weapon: raw_weapons[it['Origin Weapon +0']]['Row Name'],
+            reinforce_id: reinforce_id,
+            elemental_scaling_id: it['Attack Element Correct ID'],
+            moveset_id: it['Moveset Override Category'] == '0' ? it['Weapon Moveset Category'] : it['Moveset Override Category'],
+            weapon_type: weapon_type_map[weapon_type_id],
+            affinity: weapon_affinity_map[reinforce_id],
+            weight: it['Weight'] as double,
+            max_upgrade_level: it['Orign Weapon +1'] == '-1' ? 0 : it['Orign Weapon +11'] == '-1' ? 10 : 25,
+            base_physical_damage: it['Damage: Physical'] as int,
+            base_magic_damage: it['Damage: Magic'] as int,
+            base_fire_damage: it['Damage: Fire'] as int,
+            base_lightning_damage: it['Damage: Lightning'] as int,
+            base_holy_damage: it['Damage: Holy'] as int,
+            str_requirement: it['Requirement: STR'] as int,
+            dex_requirement: it['Requirement: DEX'] as int,
+            int_requirement: it['Requirement: INT'] as int,
+            fai_requirement: it['Requirement: FTH'] as int,
+            arc_requirement: it['Requirement: ARC'] as int,
+            base_str_scaling : it['Correction: STR'] as int,
+            base_dex_scaling : it['Correction: DEX'] as int,
+            base_int_scaling : it['Correction: INT'] as int,
+            base_fai_scaling : it['Correction: FTH'] as int,
+            base_arc_scaling : it['Correction: ARC'] as int,
+            void_multiplier: it['Bonus Damage %: Void'] as double,
+            undead_multiplier: it['Bonus Damage %: Undead'] as double,
+            ancient_dragon_multiplier: it['Bonus Damage %: Ancient Dragon'] as double,
+            dragon_wyvern_multiplier: it['Bonus Damage %: Dragon/Wyrm'] as double,
+            //is_dual_wieldable: it['is_dual_weapon'] as boolean,
         ]
     }catch(e){
         println it
         throw e
     }
 }
-
+new File(targetDirectory, 'weapons.json').write(JsonOutput.toJson(weapons))
 
 /*
 //swing values to Object
