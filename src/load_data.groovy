@@ -44,7 +44,10 @@ def weapon_type_map = [
     '53': 'Greatbow',
     '55': 'Crossbow',
     '56': 'Ballista',
+]
+
 /*
+def moveset_map = [
     '20': 'Dagger',
     '23': 'Straight Sword',
     '28': 'Curved Sword',
@@ -186,8 +189,9 @@ def weapon_type_map = [
     '236': 'Crossbow',
     
     '234': 'Ballista',
-*/
 ]
+*/
+
 def weapon_affinity_map = [
     '0': 'Standard',
     '1900': 'Standard',
@@ -195,19 +199,31 @@ def weapon_affinity_map = [
     '8000': 'Standard',
     '8100': 'Standard',
     '8200': 'Standard',
+    
     '100': 'Heavy',
     '6000': 'Heavy',
+    
     '200': 'Keen',
     '5000': 'Keen',
+    
     '300': 'Quality',
+    
     '400': 'Fire',
+    
     '500': 'Flame Art',
+    
     '600': 'Lightning',
+    
     '700': 'Sacred',
+    
     '800': 'Magic',
+    
     '900': 'Cold',
+    
     '1000': 'Poison',
+    
     '1100': 'Blood',
+    
     '1200': 'Occult',
     
     '2200': 'Somber',
@@ -217,7 +233,7 @@ def weapon_affinity_map = [
     '8300': 'Somber',
     '8500': 'Somber',
     
-    '3000': 'Unupgradable',
+    '3000': 'Somber',//'Unupgradable',
 ]
 def weapon_ammo_map = [
     'Light Bow': 'Arrow',
@@ -401,9 +417,11 @@ def difficulty_scaling = csvToObject('difficulty_scaling').collectEntries{ key, 
 }
 new File(targetDirectory, 'difficulty_scaling.json').write(JsonOutput.toJson(difficulty_scaling))
 
+def weapon_id_motion_names = csvToList('weapon_id_motion_names').findAll{it['Weapon Class']}.collectEntries{[it['ID'], it['Weapon']]}
+
 def raw_weapons = csvToObject('weapons')
 //weapon data to list
-def weapons = raw_weapons.values().findAll{it['Sort ID'] != '9999999' && it['skip'] != 'arrow'}.collect{
+def weapons = csvToList('weapons').findAll{it['Sort ID'] != '9999999' && it['skip'] != 'arrow'}.collect{
     try{
         def weapon_type_id = it['Weapon Type']
         if(!weapon_type_map.containsKey(weapon_type_id))
@@ -412,11 +430,13 @@ def weapons = raw_weapons.values().findAll{it['Sort ID'] != '9999999' && it['ski
         if(!weapon_affinity_map.containsKey(reinforce_id))
             throw new Exception("Unexpected weapon reinforce ID \"$reinforce_id\".")
         [
+            id: it['Row ID'],
             name: it['Row Name'],
-            base_weapon: raw_weapons[it['Origin Weapon +0']]['Row Name'],
+            base_weapon_name: raw_weapons[it['Origin Weapon +0']]['Row Name'],
+            motion_name: weapon_id_motion_names[it['Origin Weapon +0']],
             reinforce_id: reinforce_id,
             elemental_scaling_id: it['Attack Element Correct ID'],
-            moveset_id: it['Moveset Override Category'] == '0' ? it['Weapon Moveset Category'] : it['Moveset Override Category'],
+            //moveset_id: it['Moveset Override Category'] == '0' ? it['Weapon Moveset Category'] : it['Moveset Override Category'],
             weapon_type: weapon_type_map[weapon_type_id],
             affinity: weapon_affinity_map[reinforce_id],
             weight: it['Weight'] as double,
@@ -440,6 +460,7 @@ def weapons = raw_weapons.values().findAll{it['Sort ID'] != '9999999' && it['ski
             undead_multiplier: it['Bonus Damage %: Undead'] as double,
             ancient_dragon_multiplier: it['Bonus Damage %: Ancient Dragon'] as double,
             dragon_wyvern_multiplier: it['Bonus Damage %: Dragon/Wyrm'] as double,
+            ammo: 'N/A',
             //is_dual_wieldable: it['is_dual_weapon'] as boolean,
         ]
     }catch(e){
@@ -447,11 +468,9 @@ def weapons = raw_weapons.values().findAll{it['Sort ID'] != '9999999' && it['ski
         throw e
     }
 }
-new File(targetDirectory, 'weapons.json').write(JsonOutput.toJson(weapons))
 
-/*
 //swing values to Object
-swing_values = motionCsvToObject('weapon_swing_types').collectEntries{ key, entry ->
+def swing_values = motionCsvToObject('swing_values').collectEntries{ key, entry ->
     try{
         [key,
             [
@@ -518,7 +537,7 @@ swing_values = motionCsvToObject('weapon_swing_types').collectEntries{ key, entr
 }
 
 //motion values to object
-motion_values = motionCsvToObject('motion_values').collectEntries{ key, entry ->
+def motion_values = motionCsvToObject('motion_values').collectEntries{ key, entry ->
     try{
         [key,
             [
@@ -590,7 +609,8 @@ motion_values = motion_values.collectEntries{ weapon, entry ->
 
 new File(targetDirectory, 'motion_values.json').write(JsonOutput.toJson(motion_values))
 
-AttackElementCorrectParam = AttackElementCorrectParam.collectEntries{ key, entry ->
+
+def elemental_scaling = csvToObject('elemental_scaling').collectEntries{ key, entry ->
     try{
         [key,
             [
@@ -628,53 +648,18 @@ AttackElementCorrectParam = AttackElementCorrectParam.collectEntries{ key, entry
         throw e
     }
 }
-new File(targetDirectory, 'attack_element_scaling.json').write(JsonOutput.toJson(AttackElementCorrectParam))
-
-def weapons = Extra_Data.collect{ key, entry ->
-    try{
-        max_upgrade_level = entry['Max Upgrade']
-        [
-            name: key,
-            base_weapon_name: entry['Weapon Name'],
-            affinity: entry['Affinity'] == 'None' ? 'Standard' : entry['Affinity'] == '-' ? 'N/A' : entry['Affinity'],
-            max_upgrade_level: max_upgrade_level,
-            weight: entry['Weight'],
-            //poise: entry['Poise'],  got removed?
-            weapon_type: entry['Weapon Type'],
-            dual_wieldable: entry['2H Dual-Wield']=='Yes',
-            required_str: entry['Required (Str)'],
-            required_dex: entry['Required (Dex)'],
-            required_int: entry['Required (Int)'],
-            required_fai: entry['Required (Fai)'],
-            required_arc: entry['Required (Arc)'],
-            physical_damage_types: entry['Physical Damage Type'].split('/'),
-            physical_damage_calculation_id: CalcCorrectGraph_ID[(key)]['Physical'],
-            magic_damage_calculation_id: CalcCorrectGraph_ID[(key)]['Magic'],
-            fire_damage_calculation_id: CalcCorrectGraph_ID[(key)]['Fire'],
-            lightning_damage_calculation_id: CalcCorrectGraph_ID[(key)]['Lightning'],
-            holy_damage_calculation_id: CalcCorrectGraph_ID[(key)]['Holy'],
-            attack_element_scaling_id: CalcCorrectGraph_ID[(key)]['AttackElementCorrect ID'],
-            ammo: 'N/A',
-        ]
-    }catch(e){
-        println key
-        println entry
-        println e
-        throw e
-    }
-}
+new File(targetDirectory, 'elemental_scaling.json').write(JsonOutput.toJson(elemental_scaling))
 
 //generate ranged weapon and ammo combinations
 
-def ranged_weapons = weapons.findAll{ ranged_weapon_types.contains(it['weapon_type']) }
+def ranged_weapons = weapons.findAll{ranged_weapon_types.contains(it['weapon_type'])}
 
 def ranged_weapons_with_ammo = ranged_weapons.collectMany{ weapon ->
-    ammo_values.values().findAll{
-        it['Weapon Type'] == weapon_ammo_map[weapon.weapon_type]
+    raw_weapons.values().findAll{
+        it['skip'] == 'arrow'
     }.collect{
         def new_weapon = [:] + weapon
-        new_weapon.name = "$weapon.name (with $it.Name)"
-        new_weapon.physical_damage_types = [it['Physical Damage Type']]
+        new_weapon.name = "$weapon.name with $it.Name"
         new_weapon.ammo = it.Name
         new_weapon
     }
@@ -683,7 +668,7 @@ def ranged_weapons_with_ammo = ranged_weapons.collectMany{ weapon ->
 weapons = weapons.findAll{ !ranged_weapon_types.contains(it.weapon_type) } + ranged_weapons_with_ammo
 
 new File(targetDirectory, 'weapons.json').write(JsonOutput.toJson(weapons))
-
+/*
 //add ranged ammo combinations to Attack data
 Attack += ranged_weapons_with_ammo.collectEntries{ weapon ->
     try{

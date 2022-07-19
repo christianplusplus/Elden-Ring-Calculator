@@ -1,0 +1,411 @@
+Weapon Class,Weapon,ID,staminaConsumptionRate,toughnessCorrectRate,guardLevel,guardBaseRepel,atkAttribute,atkAttribute2,weakA_DamageRate,weakB_DamageRate,weakC_DamageRate,weakD_DamageRate
+Dagger,Dagger,1000000,1,0.011,1,10,Slash,Pierce,1,1,1,1
+Dagger,Parrying Dagger,1020000,1,0.011,1,10,Slash,Pierce,1,1,1,1
+Dagger,Miséricorde,1030000,1.11,0.011,1,10,Slash,Pierce,1,1,1,1
+Dagger,Great Knife,1090000,1,0.011,1,10,Slash,Pierce,1,1,1,1
+Dagger,Bloodstained Dagger,1140000,1.07,0.011,1,10,Slash,Pierce,1,1,1,1
+Dagger,Erdsteel Dagger,1150000,1.07,0.011,1,10,Slash,Pierce,1,1,1,1
+Dagger,Wakizashi,1100000,1.2,0.011,1,10,Slash,Pierce,1,1,1,1
+Dagger,Celebrant's Sickle,1060000,1.04,0.011,1,10,Slash,Pierce,1,1,1,1
+Dagger,Ivory Sickle,1130000,1.11,0.011,1,10,Slash,Pierce,1,1,1,1
+Dagger,Crystal Knife,1050000,1.03,0.011,1,10,Slash,Pierce,1,1,1,1
+Dagger,Scorpion's Stinger,1080000,1.1,0.011,1,10,Slash,Pierce,1,1,1,1
+Dagger,Cinquedea,1110000,1.23,0.011,1,10,Slash,Pierce,1,1,1,1
+Dagger,Glintstone Kris,1070000,1.04,0.011,1,10,Slash,Pierce,1,1,1,1
+Dagger,Reduvia,1040000,1.1,0.011,1,10,Slash,Pierce,1,1,1,1
+Dagger,Blade of Calling,1160000,1.04,0.011,1,10,Slash,Pierce,1,1,1,1
+Dagger,Black Knife,1010000,1.11,0.011,1,10,Slash,Pierce,1,1,1,1
+Straight Sword,Short Sword,2010000,0.93,0.015,1,10,Standard,Pierce,1,1,1,1
+Straight Sword,Longsword,2000000,1,0.015,1,10,Standard,Pierce,1,1,1,1
+Straight Sword,Broadsword,2020000,1.03,0.015,1,10,Standard,Pierce,1,1,1,1
+Straight Sword,Weathered Straight Sword,2050000,0.965,0.015,1,10,Standard,Pierce,1,1,1,1
+Straight Sword,Lordsworn's Straight Sword,2040000,1,0.015,1,10,Standard,Pierce,1,1,1,1
+Straight Sword,Noble's Slender Sword,2230000,1.045,0.015,1,10,Standard,Pierce,1,1,1,1
+Straight Sword,Cane Sword,2210000,0.915,0.015,1,10,Standard,Pierce,1,1,1,1
+Straight Sword,Warhawk's Talon,2240000,0.97,0.015,1,10,Standard,Pierce,1,1,1,1
+Straight Sword,Lazuli Glintstone Sword,2250000,0.96,0.015,1,10,Standard,Pierce,1,1,1,1
+Straight Sword,Carian Knight's Sword,2180000,1.07,0.015,1,10,Standard,Pierce,1,1,1,1
+Straight Sword,Crystal Sword,2150000,1.06,0.015,1,10,Standard,Pierce,1,1,1,1
+Straight Sword,Rotten Crystal Sword,2260000,1.06,0.015,1,10,Standard,Pierce,1,1,1,1
+Straight Sword,Miquellan Knight's Sword,2200000,1,0.015,1,10,Standard,Pierce,1,1,1,1
+Straight Sword,Ornamental Straight Sword,2060000,0.97,0.015,1,10,Standard,Pierce,1,1,1,1
+Straight Sword,Golden Epitaph,2070000,1,0.015,1,10,Standard,Pierce,1,1.3,1,1
+Straight Sword,Sword of St. Trina,2190000,0.93,0.015,1,10,Standard,Pierce,1,1,1,1
+Straight Sword,Regalia of Eochaid,2220000,1.05,0.015,1,10,Standard,Pierce,1,1,1,1
+Straight Sword,Coded Sword,2110000,0.98,0.015,1,10,Standard,Pierce,1,1,1,1
+Straight Sword,Sword of Night and Flame,2140000,1.03,0.015,1,10,Standard,Pierce,1,1,1,1
+Greatsword,Bastard Sword,3000000,1,0.03,1,10,Standard,Pierce,1,1,1,1
+Greatsword,Claymore,3180000,1,0.03,1,10,Standard,Pierce,1,1,1,1
+Greatsword,Iron Greatsword,3020000,1.075,0.03,1,10,Standard,Pierce,1,1,1,1
+Greatsword,Lordsworn's Greatsword,3030000,1,0.03,1,10,Standard,Pierce,1,1,1,1
+Greatsword,Knight's Greatsword,3040000,1.07,0.03,1,10,Standard,Pierce,1,1,1,1
+Greatsword,Banished Knight's Greatsword,3080000,1.03,0.03,1,10,Standard,Pierce,1,1,1,1
+Greatsword,Forked Greatsword,3010000,1.01,0.03,1,10,Standard,Pierce,1,1,1,1
+Greatsword,Flamberge,3050000,1.04,0.03,1,10,Standard,Pierce,1,1,1,1
+Greatsword,Gargoyle's Greatsword,3190000,1.06,0.03,1,10,Standard,Pierce,1,1,1,1
+Greatsword,Gargoyle's Blackblade,3210000,1.06,0.03,1,10,Standard,Pierce,1,1,1,1
+Greatsword,Inseparable Sword,2090000,1.03,0.03,1,10,Standard,Pierce,1,1.2,1,1
+Greatsword,Sword of Milos,3160000,1.07,0.03,1,10,Standard,Pierce,1,1,1,1
+Greatsword,Marais Executioner's Sword,3150000,1.06,0.03,1,10,Standard,Pierce,1,1,1,1
+Greatsword,Ordovis's Greatsword,3060000,1.115,0.03,1,10,Standard,Pierce,1,1,1,1
+Greatsword,Alabaster Lord's Sword,3070000,0.93,0.03,1,10,Standard,Pierce,1.2,1,1,1
+Greatsword,Death's Poker,3200000,0.99,0.03,1,10,Standard,Pierce,1,1,1,1
+Greatsword,Helphen's Steeple,3130000,1.1,0.03,1,10,Standard,Pierce,1,1,1,1
+Greatsword,Blasphemous Blade,3140000,1.2,0.03,1,10,Standard,Pierce,1,1,1,1
+Greatsword,Golden Order Greatsword,3170000,1.04,0.03,1,10,Standard,Pierce,1,1.2,1,1
+Greatsword,Dark Moon Greatsword,3090000,1.07,0.03,1,10,Standard,Pierce,1,1,1,1
+Greatsword,Sacred Relic Sword,3100000,1.08,0.03,1,10,Standard,Pierce,1,1,1,1
+Colossal Sword,Zweihander,4040000,0.98,0.078,2,30,Standard,Pierce,1,1,1,1
+Colossal Sword,Greatsword,4000000,1.135,0.078,2,30,Standard,Pierce,1,1,1,1
+Colossal Sword,Watchdog's Greatsword,4010000,1.06,0.078,2,30,Standard,Pierce,1,1,1,1
+Colossal Sword,Troll's Golden Sword,4030000,1.015,0.078,2,30,Standard,Pierce,1,1,1,1
+Colossal Sword,Troll Knight's Sword,4110000,1,0.078,2,30,Standard,Pierce,1,1,1,1
+Colossal Sword,Royal Greatsword,4060000,1.07,0.078,2,30,Standard,Pierce,1,1,1,1
+Colossal Sword,Grafted Blade Greatsword,4100000,1.045,0.078,2,30,Standard,Pierce,1,1,1,1
+Colossal Sword,Ruins Greatsword,4080000,1.075,0.078,2,30,Standard,Pierce,1,1,1,1
+Colossal Sword,Starscourge Greatsword,4050000,1.03,0.078,2,30,Standard,Pierce,1.3,1,1,1
+Colossal Sword,Godslayer's Greatsword,4070000,1.02,0.078,2,30,Standard,Pierce,1,1,1,1
+Colossal Sword,Maliketh's Black Blade,4020000,1.1,0.078,2,30,Standard,Pierce,1,1,1,1
+Thrusting Sword,Rapier,5020000,1,0.014,1,10,Standard,Pierce,1,1,1,1
+Thrusting Sword,Estoc,5000000,1.2,0.014,1,10,Standard,Pierce,1,1,1,1
+Thrusting Sword,Noble's Estoc,5060000,1.14,0.014,1,10,Standard,Pierce,1,1,1,1
+Thrusting Sword,Cleanrot Knight's Sword,5010000,1.13,0.014,1,10,Standard,Pierce,1,1,1,1
+Thrusting Sword,Rogier's Rapier,5030000,1.1,0.014,1,10,Standard,Pierce,1,1,1,1
+Thrusting Sword,Antspur Rapier,5040000,1.03,0.014,1,10,Standard,Pierce,1,1,1,1
+Thrusting Sword,Frozen Needle,5050000,1,0.014,1,10,Standard,Pierce,1,1,1,1
+Heavy Thrusting Sword,Great Épée,6020000,1.03,0.03,1,10,Standard,Pierce,1,1,1,1
+Heavy Thrusting Sword,Godskin Stitcher,6010000,1.1,0.03,1,10,Standard,Pierce,1,1,1,1
+Heavy Thrusting Sword,Bloody Helice,6000000,1.17,0.03,1,10,Standard,Pierce,1,1,1,1
+Heavy Thrusting Sword,Dragon King's Cragblade,6040000,1.13,0.03,1,10,Standard,Pierce,1,1,1.15,1.3
+Curved Sword,Scimitar,7140000,1,0.015,1,10,Slash,Slash,1,1,1,1
+Curved Sword,Falchion,7000000,1.03,0.015,1,10,Slash,Slash,1,1,1,1
+Curved Sword,Shamshir,7030000,1.07,0.015,1,10,Slash,Slash,1,1,1,1
+Curved Sword,Grossmesser,7150000,1.13,0.015,1,10,Slash,Slash,1,1,1,1
+Curved Sword,Bandit's Curved Sword,7040000,1.2,0.015,1,10,Slash,Slash,1,1,1,1
+Curved Sword,Shotel,7020000,0.915,0.015,1,10,Slash,Slash,1,1,1,1
+Curved Sword,Scavenger's Curved Sword,7080000,1.04,0.015,1,10,Slash,Slash,1,1,1,1
+Curved Sword,Mantis Blade,7120000,1.1,0.015,1,10,Slash,Slash,1,1,1,1
+Curved Sword,Beastman's Curved Sword,7010000,1.06,0.015,1,10,Slash,Slash,1,1,1,1
+Curved Sword,Flowing Curved Sword,7060000,1.03,0.015,1,10,Slash,Slash,1,1,1,1
+Curved Sword,Serpent-God's Curved Sword,7110000,1.06,0.015,1,10,Slash,Slash,1,1,1,1
+Curved Sword,Magma Blade,7050000,1.06,0.015,1,10,Slash,Slash,1,1,1,1
+Curved Sword,Nox Flowing Sword,2080000,1.08,0.015,1,10,Slash,Slash,1,1,1,1
+Curved Sword,Wing of Astel,7070000,0.97,0.015,1,10,Slash,Slash,1.2,1,1,1
+Curved Sword,Eclipse Shotel,7100000,0.96,0.015,1,10,Slash,Slash,1,1,1,1
+Curved Greatsword,Dismounter,8020000,1,0.03,1,10,Slash,Slash,1,1,1,1
+Curved Greatsword,Omen Cleaver,8060000,1.03,0.03,1,10,Slash,Slash,1,1,1,1
+Curved Greatsword,Monk's Flameblade,8070000,0.93,0.03,1,10,Slash,Slash,1,1,1,1
+Curved Greatsword,Beastman's Cleaver,8080000,1.07,0.03,1,10,Slash,Slash,1,1,1,1
+Curved Greatsword,Bloodhound's Fang,8030000,1.07,0.03,1,10,Slash,Slash,1,1,1,1
+Curved Greatsword,Onyx Lord's Greatsword,8010000,1.03,0.03,1,10,Slash,Slash,1.2,1,1,1
+Curved Greatsword,Zamor Curved Sword,8050000,0.89,0.03,1,10,Slash,Slash,1,1,1,1
+Curved Greatsword,Magma Wyrm's Scalesword,8040000,1.16,0.03,1,10,Slash,Slash,1,1,1,1
+Curved Greatsword,Morgott's Cursed Sword,8100000,0.95,0.03,1,10,Slash,Slash,1,1,1,1
+Katana,Uchigatana,9000000,1,0.015,1,10,Slash,Pierce,1,1,1,1
+Katana,Nagakiba,9010000,1.14,0.015,1,10,Slash,Pierce,1,1,1,1
+Katana,Serpentbone Blade,9080000,1.04,0.015,1,10,Slash,Pierce,1,1,1,1
+Katana,Meteoric Ore Blade,9030000,1.035,0.015,1,10,Slash,Pierce,1.2,1,1,1
+Katana,Moonveil,9060000,1.07,0.015,1,10,Slash,Pierce,1,1,1,1
+Katana,Rivers of Blood,9040000,1.07,0.015,1,10,Slash,Pierce,1,1,1,1
+Katana,Dragonscale Blade,9070000,1,0.015,1,10,Slash,Pierce,1,1,1.1,1.2
+Katana,Hand of Malenia,9020000,1.14,0.015,1,10,Slash,Pierce,1,1,1,1
+Twinblade,Twinblade,10000000,1,0.015,1,10,Standard,Pierce,1,1,1,1
+Twinblade,Twinned Knight Swords,10030000,1.03,0.015,1,10,Standard,Pierce,1,1,1,1
+Twinblade,Godskin Peeler,10010000,1.07,0.015,1,10,Standard,Pierce,1,1,1,1
+Twinblade,Gargoyle's Twinblade,10080000,1.005,0.015,1,10,Standard,Pierce,1,1,1,1
+Twinblade,Gargoyle's Black Blades,10090000,1.005,0.015,1,10,Standard,Pierce,1,1,1,1
+Twinblade,Eleonora's Poleblade,10050000,0.97,0.015,1,10,Standard,Pierce,1,1,1,1
+Axe,Hand Axe,14020000,0.97,0.015,1,10,Standard,Standard,1,1,1,1
+Axe,Forked Hatchet,14010000,0.9,0.015,1,10,Pierce,Standard,1,1,1,1
+Axe,Battle Axe,14000000,1.07,0.015,1,10,Standard,Standard,1,1,1,1
+Axe,Warped Axe,15010000,1.23,0.015,2,10,Standard,Standard,1,1,1,1
+Axe,Jawbone Axe,14030000,1.06,0.015,1,10,Strike,Strike,1,1,1,1
+Axe,Iron Cleaver,14040000,1.13,0.015,1,10,Standard,Standard,1,1,1,1
+Axe,Highland Axe,14100000,1.07,0.015,1,10,Standard,Standard,1,1,1,1
+Axe,Celebrant's Cleaver,14060000,1.07,0.015,1,10,Standard,Standard,1,1,1,1
+Axe,Sacrificial Axe,14110000,1.06,0.015,1,10,Standard,Standard,1,1,1,1
+Axe,Icerind Hatchet,14080000,0.98,0.015,1,10,Standard,Standard,1,1,1.1,1.2
+Axe,Ripple Blade,14050000,1.07,0.015,1,10,Standard,Standard,1,1,1,1
+Axe,Stormhawk Axe,14140000,1.1,0.015,1,10,Standard,Standard,1,1,1,1
+Axe,Rosus' Axe,14120000,1.1,0.015,1,10,Standard,Standard,1,1,1,1
+Greataxe,Greataxe,15000000,1.005,0.03,2,30,Standard,Standard,1,1,1,1
+Greataxe,Crescent Moon Axe,15030000,1.03,0.03,2,30,Standard,Standard,1,1,1,1
+Greataxe,Longhaft Axe,15050000,1.03,0.045,2,30,Standard,Standard,1,1,1,1
+Greataxe,Executioner's Greataxe,15080000,1.09,0.03,2,30,Standard,Standard,1,1,1,1
+Greataxe,Great Omenkiller Cleaver,15020000,1,0.03,2,30,Standard,Standard,1,1,1,1
+Greataxe,Rusted Anchor,15060000,0.99,0.03,2,30,Pierce,Standard,1,1,1,1
+Greataxe,Butchering Knife,15120000,0.86,0.03,2,30,Standard,Standard,1,1,1,1
+Greataxe,Gargoyle's Great Axe,15130000,0.86,0.03,2,30,Standard,Standard,1,1,1,1
+Greataxe,Gargoyle's Black Axe,15140000,0.86,0.03,2,30,Standard,Standard,1,1,1,1
+Greataxe,Winged Greathorn,15110000,1,0.03,2,30,Standard,Standard,1,1,1,1
+Greataxe,Axe of Godrick,15040000,1,0.03,2,30,Standard,Standard,1,1,1,1
+Hammer,Club,11010000,0.955,0.018,1,10,Strike,Strike,1,1,1,1
+Hammer,Curved Club,11030000,1.04,0.018,1,10,Strike,Strike,1,1,1,1
+Hammer,Spiked Club,11070000,1.04,0.018,1,10,Strike,Strike,1,1,1,1
+Hammer,Stone Club,11140000,1.105,0.018,1,10,Strike,Strike,1,1,1,1
+Hammer,Mace,11000000,1,0.018,1,10,Strike,Strike,1,1,1,1
+Hammer,Morning Star,11050000,1.03,0.018,1,10,Strike,Pierce,1,1,1,1
+Hammer,Warpick,11040000,0.9,0.018,1,10,Pierce,Strike,1,1,1,1
+Hammer,Hammer,11080000,1.17,0.018,1,10,Strike,Strike,1,1,1,1
+Hammer,Monk's Flamemace,11090000,1.14,0.018,1,10,Strike,Strike,1,1,1,1
+Hammer,Varré's Bouquet,11060000,0.87,0.018,1,10,Strike,Strike,1,1,1,1
+Hammer,Envoy's Horn,11100000,0.97,0.018,1,10,Strike,Strike,1,1,1,1
+Hammer,Nox Flowing Hammer,11120000,1.17,0.018,1,10,Strike,Strike,1,1,1,1
+Hammer,Ringed Finger,11130000,1.05,0.018,1,10,Strike,Strike,1,1,1,1
+Hammer,Scepter of the All-Knowing,11110000,1.06,0.018,1,10,Strike,Pierce,1,1,1,1
+Hammer,Marika's Hammer,11150000,1.1,0.018,1,10,Strike,Strike,1,1,1,1
+Flail,Flail,13010000,1,0.018,1,10,Strike,Strike,1,1,1,1
+Flail,Nightrider Flail,13000000,1.03,0.018,1,10,Strike,Strike,1,1,1,1
+Flail,Chainlink Flail,13040000,1.2,0.018,1,10,Strike,Strike,1,1,1,1
+Flail,Family Heads,13020000,1.04,0.018,1,10,Strike,Strike,1,1,1,1
+Flail,Bastard's Stars,13030000,1.04,0.018,1,10,Strike,Strike,1.2,1,1,1
+Great Hammer,Large Club,12000000,1.015,0.062,2,30,Strike,Strike,1,1,1,1
+Great Hammer,Curved Great Club,12080000,1.01,0.062,2,30,Strike,Strike,1,1,1,1
+Great Hammer,Great Mace,12060000,1.06,0.062,2,30,Strike,Strike,1,1,1,1
+Great Hammer,Pickaxe,12140000,1.03,0.062,2,30,Pierce,Strike,1,1,1,1
+Great Hammer,Brick Hammer,12190000,1.05,0.062,2,30,Strike,Strike,1,1,1,1
+Great Hammer,Battle Hammer,12020000,1.01,0.062,2,30,Strike,Strike,1,1,1,1
+Great Hammer,Rotten Battle Hammer,12210000,1.01,0.062,2,30,Strike,Strike,1,1,1,1
+Great Hammer,Celebrant's Skull,12130000,0.965,0.062,2,30,Strike,Strike,1,1,1,1
+Great Hammer,Great Stars,12180000,1.07,0.062,2,30,Strike,Strike,1,1,1,1
+Great Hammer,Greathorn Hammer,12010000,1.04,0.062,2,30,Strike,Strike,1,1,1,1
+Great Hammer,Envoy's Long Horn,12160000,1.05,0.062,2,30,Strike,Strike,1,1,1,1
+Great Hammer,Cranial Vessel Candlestand,12170000,1.17,0.062,2,30,Strike,Strike,1,1,1,1
+Great Hammer,Beastclaw Greathammer,12150000,1,0.062,2,30,Strike,Strike,1,1,1,1
+Great Hammer,Devourer's Scepter,12200000,1.12,0.062,2,30,Strike,Strike,1,1,1,1
+Colossal Weapon,Duelist Greataxe,23040000,1.03,0.099,2,30,Standard,Standard,1,1,1,1
+Colossal Weapon,Rotten Greataxe,23150000,1.03,0.099,2,30,Standard,Standard,1,1,1,1
+Colossal Weapon,Golem's Halberd,23120000,1.08,0.099,2,30,Standard,Pierce,1,1,1,1
+Colossal Weapon,Giant-Crusher,23110000,1.295,0.099,2,30,Strike,Strike,1,1,1,1
+Colossal Weapon,Prelate's Inferno Crozier,23000000,1.25,0.099,2,30,Strike,Strike,1,1,1,1
+Colossal Weapon,Great Club,23020000,1.12,0.099,2,30,Strike,Strike,1,1,1,1
+Colossal Weapon,Troll's Hammer,23130000,1.105,0.099,2,30,Strike,Strike,1,1,1,1
+Colossal Weapon,Dragon Greatclaw,23060000,0.93,0.099,2,30,Strike,Strike,1,1,1.15,1.3
+Colossal Weapon,Watchdog's Staff,23010000,1.15,0.099,2,30,Strike,Strike,1,1,1,1
+Colossal Weapon,Staff of the Avatar,23070000,1.18,0.099,2,30,Strike,Strike,1,1,1,1
+Colossal Weapon,Rotten Staff,23140000,1.15,0.099,2,30,Strike,Strike,1,1,1,1
+Colossal Weapon,Envoy's Greathorn,23030000,1.158,0.099,2,30,Strike,Strike,1,1,1,1
+Colossal Weapon,Ghiza's Wheel,23100000,1.025,0.099,2,30,Standard,Standard,1,1,1,1
+Colossal Weapon,Fallingstar Beast Jaw,23080000,1.23,0.099,2,30,Strike,Strike,1.2,1,1,1
+Colossal Weapon,Axe of Godfrey,23050000,1,0.099,2,30,Standard,Standard,1,1,1,1
+Spear,Short Spear,16000000,1,0.015,1,10,Standard,Pierce,1,1,1,1
+Spear,Iron Spear,16150000,1.07,0.015,1,10,Standard,Pierce,1,1,1,1
+Spear,Spear,16010000,1.07,0.015,1,10,Standard,Pierce,1,1,1,1
+Spear,Partisan,16050000,1.24,0.015,1,10,Standard,Pierce,1,1,1,1
+Spear,Pike,16070000,1.435,0.015,1,10,Standard,Pierce,1,1,1,1
+Spear,Spiked Spear,16140000,1.21,0.015,1,10,Standard,Pierce,1,1,1,1
+Spear,Cross-Naginata,16110000,1.34,0.015,1,10,Standard,Pierce,1,1,1,1
+Spear,Clayman's Harpoon,16030000,1.14,0.015,1,10,Standard,Pierce,1,1,1,1
+Spear,Celebrant's Rib-Rake,16060000,1.12,0.015,1,10,Standard,Pierce,1,1,1,1
+Spear,Torchpole,16080000,1.22,0.015,1,10,Standard,Pierce,1,1,1,1
+Spear,Inquisitor's Girandole,16130000,1.27,0.015,1,10,Standard,Pierce,1,1,1,1
+Spear,Crystal Spear,16020000,1.14,0.015,1,10,Standard,Pierce,1,1,1,1
+Spear,Rotten Crystal Spear,16160000,1.14,0.015,1,10,Standard,Pierce,1,1,1,1
+Spear,Cleanrot Spear,16040000,1.14,0.015,1,10,Standard,Pierce,1,1,1,1
+Spear,Death Ritual Spear,16120000,1.24,0.015,1,10,Standard,Pierce,1,1,1,1
+Spear,Bolt of Gransax,16090000,1.41,0.015,1,10,Standard,Pierce,1,1,1.1,1.2
+Great Spear,Lance,17060000,1.07,0.03,1,10,Standard,Pierce,1,1,1,1
+Great Spear,Treespear,17070000,1.105,0.03,1,10,Standard,Pierce,1,1,1,1
+Great Spear,Serpent-Hunter,17030000,1.12,0.03,1,10,Standard,Pierce,1,1,1,1
+Great Spear,Siluria's Tree,17020000,1.1,0.03,1,10,Standard,Pierce,1,1,1,1
+Great Spear,Vyke's War Spear,17050000,1,0.03,1,10,Standard,Pierce,1,1,1,1
+Great Spear,Mohgwyn's Sacred Spear,17010000,1.1,0.03,1,10,Standard,Pierce,1,1,1,1
+Halberd,Halberd,18000000,1,0.023,1,10,Standard,Pierce,1,1,1,1
+Halberd,Banished Knight's Halberd,18030000,1,0.023,1,10,Standard,Pierce,1,1,1,1
+Halberd,Lucerne,18020000,0.93,0.023,1,10,Standard,Pierce,1,1,1,1
+Halberd,Glaive,18090000,1.1,0.023,1,10,Standard,Pierce,1,1,1,1
+Halberd,Vulgar Militia Shotel,18130000,0.96,0.023,1,10,Standard,Pierce,1,1,1,1
+Halberd,Vulgar Militia Saw,18070000,0.96,0.023,1,10,Standard,Pierce,1,1,1,1
+Halberd,Guardian's Swordspear,18110000,1.03,0.023,1,10,Standard,Pierce,1,1,1,1
+Halberd,Gargoyle's Halberd,18150000,1.08,0.023,1,10,Standard,Pierce,1,1,1,1
+Halberd,Gargoyle's Black Halberd,18160000,1.08,0.023,1,10,Standard,Pierce,1,1,1,1
+Halberd,Nightrider Glaive,18050000,1.16,0.023,1,10,Standard,Pierce,1,1,1,1
+Halberd,Pest's Glaive,18010000,0.97,0.023,1,10,Standard,Pierce,1,1,1,1
+Halberd,Ripple Crescent Halberd,18060000,1.015,0.023,1,10,Standard,Pierce,1,1,1,1
+Halberd,Golden Halberd,18080000,1.15,0.023,1,10,Standard,Pierce,1,1,1,1
+Halberd,Dragon Halberd,18140000,1.075,0.023,1,10,Standard,Pierce,1,1,1.05,1.1
+Halberd,Loretta's War Sickle,18100000,1.1,0.023,1,10,Standard,Pierce,1,1,1,1
+Halberd,Commander's Standard,18040000,1.145,0.023,1,10,Standard,Pierce,1,1,1,1
+Reaper,Scythe,19000000,1,0.015,1,10,Slash,Slash,1,1,1,1
+Reaper,Grave Scythe,19010000,1.06,0.015,1,10,Slash,Slash,1,1,1,1
+Reaper,Halo Scythe,19020000,1.03,0.015,1,10,Slash,Slash,1,1,1,1
+Reaper,Winged Scythe,19060000,1,0.015,1,10,Slash,Slash,1,1,1,1
+Whip,Whip,20000000,1,0.014,1,10,Strike,Strike,1,1,1,1
+Whip,Thorned Whip,20020000,1.07,0.014,1,10,Strike,Strike,1,1,1,1
+Whip,Urumi,20070000,1.06,0.014,1,10,Slash,Slash,1,1,1,1
+Whip,Hoslow's Petal Whip,20050000,1.13,0.014,1,10,Strike,Strike,1,1,1,1
+Whip,Magma Whip Candlestick,20030000,1.03,0.014,1,10,Strike,Strike,1,1,1,1
+Whip,Giant's Red Braid,20060000,1.03,0.014,1,10,Strike,Strike,1,1,1,1
+Fist,Caestus,21000000,1,0.015,1,10,Strike,Strike,1,1,1,1
+Fist,Spiked Caestus,21010000,1,0.015,1,10,Strike,Strike,1,1,1,1
+Fist,Katar,21100000,1.07,0.015,1,10,Standard,Pierce,1,1,1,1
+Fist,Iron Ball,21070000,1.06,0.015,1,10,Strike,Strike,1,1,1,1
+Fist,Star Fist,21080000,1.145,0.015,1,10,Strike,Strike,1,1,1,1
+Fist,Clinging Bone,21110000,1.11,0.015,1,10,Standard,Pierce,1,1,1,1
+Fist,Veteran's Prosthesis,21120000,1.2,0.015,1,10,Standard,Pierce,1,1,1,1
+Fist,Cipher Pata,21130000,1.01,0.015,1,10,Standard,Pierce,1,1,1,1
+Fist,Grafted Dragon,21060000,1.1,0.015,1,10,Strike,Strike,1,1,1.05,1.1
+Claw,Hookclaws,22000000,1,0.011,1,10,Slash,Pierce,1,1,1,1
+Claw,Bloodhound Claws,22020000,1.06,0.011,1,10,Slash,Pierce,1,1,1,1
+Claw,Venomous Fang,22010000,0.99,0.011,1,10,Slash,Pierce,1,1,1,1
+Claw,Raptor Talons,22030000,0.97,0.011,1,10,Slash,Pierce,1,1,1,1
+Light Bow,Shortbow,40000000,1,0.011,1,10,Slash,Slash,1,1,1,1
+Light Bow,Composite Bow,40050000,1,0.011,1,10,Slash,Slash,1,1,1,1
+Light Bow,Red Branch Shortbow,40020000,1,0.011,1,10,Slash,Slash,1,1,1,1
+Light Bow,Misbegotten Shortbow,40010000,1,0.011,1,10,Slash,Slash,1,1,1,1
+Light Bow,Harp Bow,40030000,1,0.011,1,10,Slash,Slash,1,1,1,1
+Bow,Longbow,41000000,1,0.011,1,10,Slash,Slash,1,1,1,1
+Bow,Albinauric Bow,41010000,1,0.011,1,10,Slash,Slash,1,1,1,1
+Bow,Black Bow,41070000,1,0.011,1,10,Slash,Slash,1,1,1,1
+Bow,Pulley Bow,41060000,1,0.011,1,10,Slash,Slash,1,1,1,1
+Bow,Horn Bow,41020000,1,0.011,1,10,Slash,Slash,1,1,1,1
+Bow,Serpent Bow,41040000,1,0.011,1,10,Slash,Slash,1,1,1,1
+Bow,Erdtree Bow,41030000,1,0.011,1,10,Slash,Slash,1,1,1,1
+Greatbow,Greatbow,42040000,1,0.099,1,10,Slash,Slash,1,1,1,1
+Greatbow,Golem Greatbow,42010000,1,0.099,1,10,Slash,Slash,1,1,1,1
+Greatbow,Erdtree Greatbow,42030000,1,0.099,1,10,Slash,Slash,1,1,1,1
+Greatbow,Lion Greatbow,42000000,1,0.099,1,10,Slash,Slash,1,1,1,1
+Crossbow,Soldier's Crossbow,43000000,0.97,0.011,1,10,Slash,Slash,1,1,1,1
+Crossbow,Light Crossbow,43020000,1,0.011,1,10,Slash,Slash,1,1,1,1
+Crossbow,Heavy Crossbow,43030000,1.06,0.011,1,10,Slash,Slash,1,1,1,1
+Crossbow,Arbalest,43080000,1.09,0.011,1,10,Slash,Slash,1,1,1,1
+Crossbow,Crepus's Black-Key Crossbow,43110000,1.045,0.011,1,10,Slash,Slash,1,1,1,1
+Crossbow,Pulley Crossbow,43050000,1,0.011,1,10,Slash,Slash,1,1,1,1
+Crossbow,Full Moon Crossbow,43060000,1,0.011,1,10,Slash,Slash,1,1,1,1
+Ballista,Hand Ballista,44000000,1,0.099,1,10,Slash,Slash,1,1,1,1
+Ballista,Jar Cannon,44010000,1.12,0.099,1,10,Slash,Slash,1,1,1,1
+Glintstone Staff,Astrologer's Staff,33130000,1,0.011,1,10,Strike,Strike,1,1,1,1
+Glintstone Staff,Glintstone Staff,33000000,1,0.011,1,10,Strike,Strike,1,1,1,1
+Glintstone Staff,Academy Glintstone Staff,33200000,1,0.011,1,10,Strike,Strike,1,1,1,1
+Glintstone Staff,Digger's Staff,33120000,1.09,0.011,1,10,Strike,Strike,1,1,1,1
+Glintstone Staff,Demi-Human Queen's Staff,33060000,1,0.011,1,10,Strike,Strike,1,1,1,1
+Glintstone Staff,Azur's Glintstone Staff,33230000,1.045,0.011,1,10,Strike,Strike,1,1,1,1
+Glintstone Staff,Lusat's Glintstone Staff,33240000,1.045,0.011,1,10,Strike,Strike,1,1,1,1
+Glintstone Staff,Carian Glintstone Staff,33210000,1,0.011,1,10,Strike,Strike,1,1,1,1
+Glintstone Staff,Carian Glintblade Staff,33170000,0.97,0.011,1,10,Strike,Strike,1,1,1,1
+Glintstone Staff,Carian Regal Scepter,33090000,1,0.011,1,10,Strike,Strike,1,1,1,1
+Glintstone Staff,Albinauric Staff,33190000,0.97,0.011,1,10,Strike,Strike,1,1,1,1
+Glintstone Staff,Staff of Loss,33280000,0.97,0.011,1,10,Strike,Strike,1,1,1,1
+Glintstone Staff,Gelmir Glintstone Staff,33050000,0.97,0.011,1,10,Strike,Strike,1,1,1,1
+Glintstone Staff,Crystal Staff,33040000,1.09,0.011,1,10,Strike,Strike,1,1,1,1
+Glintstone Staff,Rotten Crystal Staff,33270000,1.09,0.011,1,10,Strike,Strike,1,1,1,1
+Glintstone Staff,Meteorite Staff,33250000,1.09,0.011,1,10,Strike,Strike,1,1,1,1
+Glintstone Staff,Staff of the Guilty,33260000,1.09,0.011,1,10,Strike,Strike,1,1,1,1
+Glintstone Staff,Prince of Death's Staff,33180000,1,0.011,1,10,Strike,Strike,1,1,1,1
+Sacred Seal,Finger Seal,34000000,1,0.011,1,10,Strike,Strike,1,1,1,1
+Sacred Seal,Erdtree Seal,34070000,1,0.011,1,10,Strike,Strike,1,1,1,1
+Sacred Seal,Golden Order Seal,34060000,1,0.011,1,10,Strike,Strike,1,1,1,1
+Sacred Seal,Gravel Stone Seal,34030000,1,0.011,1,10,Strike,Strike,1,1,1,1
+Sacred Seal,Giant's Seal,34020000,1,0.011,1,10,Strike,Strike,1,1,1,1
+Sacred Seal,Godslayer's Seal,34010000,1,0.011,1,10,Strike,Strike,1,1,1,1
+Sacred Seal,Clawmark Seal,34040000,1,0.011,1,10,Strike,Strike,1,1,1,1
+Sacred Seal,Frenzied Flame Seal,34090000,1,0.011,1,10,Strike,Strike,1,1,1,1
+Sacred Seal,Dragon Communion Seal,34080000,1,0.011,1,10,Strike,Strike,1,1,1,1
+Torch,Torch,24000000,0.91,0.018,1,10,Strike,Strike,1,1,1,1
+Torch,Beast-Repellent Torch,24060000,0.97,0.018,1,10,Strike,Strike,1,1,1,1
+Torch,Steel-Wire Torch,24020000,0.96,0.018,1,10,Strike,Strike,1,1,1,1
+Torch,Sentry's Torch,24070000,1.12,0.018,1,10,Strike,Strike,1,1,1,1
+Torch,Ghostflame Torch,24050000,0.89,0.018,1,10,Strike,Strike,1,1,1,1
+Torch,St. Trina's Torch,24040000,0.96,0.018,1,10,Strike,Strike,1,1,1,1
+Small Shield,Rickety Shield,30030000,1,0.015,2,30,Strike,Strike,1,1,1,1
+Small Shield,Riveted Wooden Shield,30090000,1.03,0.015,2,30,Strike,Strike,1,1,1,1
+Small Shield,Blue-White Wooden Shield,30100000,1.03,0.015,2,30,Strike,Strike,1,1,1,1
+Small Shield,Scripture Wooden Shield,30080000,1,0.015,2,30,Strike,Strike,1,1,1,1
+Small Shield,Red Thorn Roundshield,30070000,1,0.015,2,30,Strike,Strike,1,1,1,1
+Small Shield,Pillory Shield,30040000,1.07,0.015,2,30,Strike,Strike,1,1,1,1
+Small Shield,Buckler,30000000,0.93,0.015,2,30,Strike,Strike,1,1,1,1
+Small Shield,Iron Roundshield,30120000,1.06,0.015,2,30,Strike,Strike,1,1,1,1
+Small Shield,Gilded Iron Shield,30130000,1.06,0.015,2,30,Strike,Strike,1,1,1,1
+Small Shield,Man-Serpent's Shield,30020000,1,0.015,2,30,Strike,Strike,1,1,1,1
+Small Shield,Ice Crest Shield,30140000,1.06,0.015,2,30,Strike,Strike,1,1,1,1
+Small Shield,Rift Shield,30110000,1,0.015,2,30,Strike,Strike,1,1,1,1
+Small Shield,Perfumer's Shield,30010000,0.97,0.015,2,30,Strike,Strike,1,1,1,1
+Small Shield,Shield of the Guilty,31170000,1,0.03,2,30,Strike,Strike,1,1,1,1
+Small Shield,Spiralhorn Shield,30190000,1.04,0.015,2,30,Strike,Strike,1,1,1,1
+Small Shield,Smoldering Shield,30150000,1.06,0.015,2,30,Strike,Strike,1,1,1,1
+Small Shield,Coil Shield,30200000,0.97,0.015,2,30,Strike,Strike,1,1,1,1
+Medium Shield,Hawk Crest Wooden Shield,31270000,0.935,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Horse Crest Wooden Shield,31240000,0.935,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Candletree Wooden Shield,31250000,0.935,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Flame Crest Wooden Shield,31260000,0.935,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Marred Wooden Shield,31020000,0.955,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Sun Realm Shield,31050000,0.94,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Round Shield,31070000,0.955,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Large Leather Shield,31230000,0.9,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Black Leather Shield,31340000,0.9,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Marred Leather Shield,31010000,0.9,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Heater Shield,31330000,0.915,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Blue Crest Heater Shield,31300000,0.915,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Red Crest Heater Shield,31290000,0.915,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Beast Crest Heater Shield,31280000,0.915,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Inverted Hawk Heater Shield,31320000,0.915,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Eclipse Crest Heater Shield,31310000,0.915,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Kite Shield,31000000,0.93,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Blue-Gold Kite Shield,31100000,1,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Scorpion Kite Shield,31080000,0.93,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Twinbird Kite Shield,31090000,0.93,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Brass Shield,31130000,1.175,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Banished Knight's Shield,31030000,1.07,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Albinauric Shield,31040000,0.93,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Beastman's Jar-Shield,30060000,0.96,0.015,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Carian Knight's Shield,31190000,0.93,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Silver Mirrorshield,31060000,0.86,0.03,3,50,Strike,Strike,1,1,1,1
+Medium Shield,Great Turtle Shell,31140000,1.015,0.03,3,50,Strike,Strike,1,1,1,1
+Greatshield,Wooden Greatshield,32290000,0.88,0.062,4,70,Strike,Strike,1,1,1,1
+Greatshield,Lordsworn's Shield,32300000,0.91,0.062,4,70,Strike,Strike,1,1,1,1
+Greatshield,Briar Greatshield,32050000,0.902,0.062,4,70,Strike,Strike,1,1,1,1
+Greatshield,Spiked Palisade Shield,32170000,0.94,0.062,4,70,Strike,Strike,1,1,1,1
+Greatshield,Icon Shield,32140000,0.94,0.062,4,70,Strike,Strike,1,1,1,1
+Greatshield,Golden Beast Crest Shield,32090000,0.955,0.062,4,70,Strike,Strike,1,1,1,1
+Greatshield,Manor Towershield,32190000,1.015,0.062,4,70,Strike,Strike,1,1,1,1
+Greatshield,Crossed-Tree Towershield,32200000,1.015,0.062,4,70,Strike,Strike,1,1,1,1
+Greatshield,Inverted Hawk Towershield,32210000,1.015,0.062,4,70,Strike,Strike,1,1,1,1
+Greatshield,Dragon Towershield,32000000,1.045,0.062,4,70,Strike,Strike,1,1,1,1
+Greatshield,Distinguished Greatshield,32020000,1.07,0.062,4,70,Strike,Strike,1,1,1,1
+Greatshield,Gilded Greatshield,32270000,1.045,0.062,4,70,Strike,Strike,1,1,1,1
+Greatshield,Cuckoo Greatshield,32250000,1,0.062,4,70,Strike,Strike,1,1,1,1
+Greatshield,Redmane Greatshield,32230000,0.965,0.062,4,70,Strike,Strike,1,1,1,1
+Greatshield,Golden Greatshield,32260000,1.03,0.062,4,70,Strike,Strike,1,1,1,1
+Greatshield,Haligtree Crest Greatshield,32280000,1.1,0.062,4,70,Strike,Strike,1,1,1,1
+Greatshield,Crucible Hornshield,32030000,0.935,0.062,4,70,Strike,Strike,1,1,1,1
+Greatshield,Dragonclaw Shield,32040000,0.97,0.062,4,70,Strike,Strike,1,1,1.15,1.3
+Greatshield,Fingerprint Stone Shield,32130000,1.24,0.062,4,70,Strike,Strike,1,1,1,1
+Greatshield,Eclipse Crest Greatshield,32240000,1,0.062,4,70,Strike,Strike,1,1,1,1
+Greatshield,Ant's Skull Plate,32220000,0.97,0.062,4,80,Strike,Strike,1,1,1,1
+Greatshield,Erdtree Greatshield,32080000,0.93,0.062,4,70,Strike,Strike,1,1,1,1
+Greatshield,Jellyfish Shield,32120000,0.88,0.062,4,70,Strike,Strike,1,1,1,1
+Greatshield,Visage Shield,32160000,1.15,0.062,4,70,Strike,Strike,1,1,1,1
+Greatshield,One-Eyed Shield,32150000,1.09,0.062,4,70,Strike,Strike,1,1,1,1
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
+,,,0,0,,,,,0,0,0,0
