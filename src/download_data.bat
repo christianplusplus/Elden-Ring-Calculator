@@ -1,11 +1,7 @@
-curl -o ..\src_data\elemental_scaling.csv -L "https://docs.google.com/spreadsheets/d/1ybiI1WgyRs67kGklUXeroi58KDab2KsU_hKutBORiW0/export?gid=1749106382&format=csv"
-curl -o ..\src_data\weapon_base_attack_power.csv -L "https://docs.google.com/spreadsheets/d/1ybiI1WgyRs67kGklUXeroi58KDab2KsU_hKutBORiW0/export?gid=724804355&format=csv"
-curl -o ..\src_data\weapon_attribute_scaling.csv -L "https://docs.google.com/spreadsheets/d/1ybiI1WgyRs67kGklUXeroi58KDab2KsU_hKutBORiW0/export?gid=670105415&format=csv"
-curl -o ..\src_data\weapon_passive.csv -L "https://docs.google.com/spreadsheets/d/1ybiI1WgyRs67kGklUXeroi58KDab2KsU_hKutBORiW0/export?gid=626456404&format=csv"
-curl -o ..\src_data\weapon_damage_graph.csv -L "https://docs.google.com/spreadsheets/d/1ybiI1WgyRs67kGklUXeroi58KDab2KsU_hKutBORiW0/export?gid=1714239924&format=csv"
+curl -o ..\src_data\element_scaling.csv -L "https://docs.google.com/spreadsheets/d/1ybiI1WgyRs67kGklUXeroi58KDab2KsU_hKutBORiW0/export?gid=1749106382&format=csv"
 curl -o ..\src_data\weapons.csv -L "https://docs.google.com/spreadsheets/d/1ybiI1WgyRs67kGklUXeroi58KDab2KsU_hKutBORiW0/export?gid=1982108250&format=csv"
 curl -o ..\src_data\reinforce.csv -L "https://docs.google.com/spreadsheets/d/1ybiI1WgyRs67kGklUXeroi58KDab2KsU_hKutBORiW0/export?gid=399958675&format=csv"
-curl -o ..\src_data\ammo_values.csv -L "https://docs.google.com/spreadsheets/d/1x6LvzrqA9LWXPbzPZBDG8aL4N3Xc_ZxtEFMWpUxQj5c/export?gid=1491084983&format=csv"
+curl -o ..\src_data\passives.csv -L "https://docs.google.com/spreadsheets/d/1ybiI1WgyRs67kGklUXeroi58KDab2KsU_hKutBORiW0/export?gid=1571528518&format=csv"
 
 curl -o ..\src_data\weapon_id_motion_names.csv -L "https://docs.google.com/spreadsheets/d/1j4bpTbsnp5Xsgw9TP2xv6d8R4qk0ErpE9r_5LGIDraU/export?gid=809407445&format=csv"
 curl -o ..\src_data\motion_values.csv -L "https://docs.google.com/spreadsheets/d/1j4bpTbsnp5Xsgw9TP2xv6d8R4qk0ErpE9r_5LGIDraU/export?gid=0&format=csv"
