@@ -434,7 +434,7 @@ def weapons = csvToList('weapons').findAll{it['Sort ID'] != '9999999' && it['ski
             name: it['Row Name'],
             base_weapon_name: raw_weapons[it['Origin Weapon +0']]['Row Name'],
             motion_name: weapon_id_motion_names[it['Origin Weapon +0']],
-            reinforce_id: reinforce_id,
+            reinforce_id: reinforce_id as int,
             elemental_scaling_id: it['Attack Element Correct ID'],
             //moveset_id: it['Moveset Override Category'] == '0' ? it['Weapon Moveset Category'] : it['Moveset Override Category'],
             weapon_type: weapon_type_map[weapon_type_id],
@@ -456,6 +456,9 @@ def weapons = csvToList('weapons').findAll{it['Sort ID'] != '9999999' && it['ski
             base_int_scaling : it['Correction: INT'] as int,
             base_fai_scaling : it['Correction: FTH'] as int,
             base_arc_scaling : it['Correction: ARC'] as int,
+            passive_1: it['Behavior SpEffect 1'] as int,
+            passive_2: it['Behavior SpEffect 2'] as int,
+            passive_3: it['Behavior SpEffect 3'] as int,
             void_multiplier: it['Bonus Damage %: Void'] as double,
             undead_multiplier: it['Bonus Damage %: Undead'] as double,
             ancient_dragon_multiplier: it['Bonus Damage %: Ancient Dragon'] as double,
@@ -661,6 +664,14 @@ def ranged_weapons_with_ammo = ranged_weapons.collectMany{ weapon ->
         def new_weapon = [:] + weapon
         new_weapon.name = "$weapon.name with $it.Name"
         new_weapon.ammo = it.Name
+        new_weapon.base_physical_damage += it['Damage: Physical'] as int
+        new_weapon.base_magic_damage += it['Damage: Magic'] as int
+        new_weapon.base_fire_damage += it['Damage: Fire'] as int
+        new_weapon.base_lightning_damage += it['Damage: Lightning'] as int
+        new_weapon.base_holy_damage += it['Damage: Holy'] as int
+        new_weapon.passive_1 = it['Behavior SpEffect 1'] as int
+        new_weapon.passive_2 = it['Behavior SpEffect 2'] as int
+        new_weapon.passive_3 = it['Behavior SpEffect 3'] as int
         new_weapon
     }
 }
