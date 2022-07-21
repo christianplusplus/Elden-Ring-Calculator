@@ -439,11 +439,11 @@ def weapons = csvToList('weapons').findAll{it['Sort ID'] != '9999999' && it['ski
             affinity: weapon_affinity_map[reinforce_id],
             weight: it['Weight'] as double,
             max_upgrade_level: it['Orign Weapon +1'] == '-1' ? 0 : it['Orign Weapon +11'] == '-1' ? 10 : 25,
-            physical_damage: it['Damage: Physical'] as int,
-            magic_damage: it['Damage: Magic'] as int,
-            fire_damage: it['Damage: Fire'] as int,
-            lightning_damage: it['Damage: Lightning'] as int,
-            holy_damage: it['Damage: Holy'] as int,
+            physical_attack_power: it['Damage: Physical'] as int,
+            magic_attack_power: it['Damage: Magic'] as int,
+            fire_attack_power: it['Damage: Fire'] as int,
+            lightning_attack_power: it['Damage: Lightning'] as int,
+            holy_attack_power: it['Damage: Holy'] as int,
             physical_correction_id: it['Correction Type: Physical'] as int,
             magic_correction_id: it['Correction Type: Magic'] as int,
             fire_correction_id: it['Correction Type: Fire'] as int,
@@ -712,11 +712,11 @@ def ranged_weapons_with_ammo = ranged_weapons.collectMany{ weapon ->
             def new_weapon = [:] + weapon
             new_weapon.name = "$weapon.name with $it.Name"
             new_weapon.ammo = it.Name
-            new_weapon.physical_damage += it['Damage: Physical'] as int
-            new_weapon.magic_damage += it['Damage: Magic'] as int
-            new_weapon.fire_damage += it['Damage: Fire'] as int
-            new_weapon.lightning_damage += it['Damage: Lightning'] as int
-            new_weapon.holy_damage += it['Damage: Holy'] as int
+            new_weapon.physical_attack_power += it['Damage: Physical'] as int
+            new_weapon.magic_attack_power += it['Damage: Magic'] as int
+            new_weapon.fire_attack_power += it['Damage: Fire'] as int
+            new_weapon.lightning_attack_power += it['Damage: Lightning'] as int
+            new_weapon.holy_attack_power += it['Damage: Holy'] as int
             new_weapon.passive_1 = it['Behavior SpEffect 1'] as int
             new_weapon.passive_2 = it['Behavior SpEffect 2'] as int
             new_weapon.passive_3 = it['Behavior SpEffect 3'] as int

@@ -116,10 +116,11 @@ var Main = {
                 hit_aggregate: 'last',
                 bosses: {},
                 enemy: {},
-                attack_element_scaling: {},
+                element_scaling: {},
                 weapon_base_attacks: {},
                 weapon_source_scaling: {},
-                weapon_passives: {},
+                passives: {},
+                reinforce: {},
                 difficulty_scaling: {},
                 upgrade_level: 0,
                 upgrade_cap: 25,
@@ -225,34 +226,28 @@ var Main = {
         fetch('data/weapons.json')
             .then(response => response.json())
             .then(data => {
-                this.args.weapons = Object.values(data);
+                this.args.weapons = data;
                 this.args.weapon_types = [...new Set(this.args.weapons.map(w=>w.weapon_type))];
                 this.args.ammo_types = [...new Set(this.args.weapons.map(w=>w.ammo))];
                 this.args.affinities = [...new Set(this.args.weapons.map(w=>w.affinity))];
             });
 
-        fetch('data/attack_element_scaling.json')
+        fetch('data/element_scaling.json')
             .then(response => response.json())
             .then(data => {
-                this.args.attack_element_scaling = data;
-            });
-            
-        fetch('data/weapon_base_attacks.json')
-            .then(response => response.json())
-            .then(data => {
-                this.args.weapon_base_attacks = data;
-            });
-            
-        fetch('data/weapon_source_scaling.json')
-            .then(response => response.json())
-            .then(data => {
-                this.args.weapon_source_scaling = data;
+                this.args.element_scaling = data;
             });
         
-        fetch('data/weapon_passives.json')
+        fetch('data/passives.json')
             .then(response => response.json())
             .then(data => {
-                this.args.weapon_passives = data;
+                this.args.passives = data;
+            });
+            
+        fetch('data/reinforce.json')
+            .then(response => response.json())
+            .then(data => {
+                this.args.reinforce = data;
             });
         
         fetch('data/bosses.json')

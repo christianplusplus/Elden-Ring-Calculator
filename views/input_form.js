@@ -35,27 +35,25 @@ var inputForm = {
             //add upgradable stats
             for(var weapon of weapons) {
                 var upgrade_level = this.args.optimize_weapon ?
-                        (weapon['max_upgrade_level'] == '25' ? this.args.upgrade_cap : this.args.somber_upgrade_cap ) :
-                        this.args.upgrade_level;
+                    Math.min(weapon.max_upgrade_level, weapon.affinity == 'Somber' ? this.args.somber_upgrade_cap : this.args.upgrade_cap) :
+                    this.args.upgrade_level;
+                    
                 
-                weapon['base_physical_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['p' + upgrade_level] || 0;
-                weapon['base_magic_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['m' + upgrade_level] || 0;
-                weapon['base_fire_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['f' + upgrade_level] || 0;
-                weapon['base_lightning_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['l' + upgrade_level] || 0;
-                weapon['base_holy_attack_power'] = this.args.weapon_base_attacks[weapon['name']]['h' + upgrade_level] || 0;
+                weapon.physical_attack_power *= this.args.reinforce[weapon.reinforce_id + upgrade_level].physical;
+                weapon.magic_attack_power *= this.args.reinforce[weapon.reinforce_id + upgrade_level].magic;
+                weapon.fire_attack_power. *= this.args.reinforce[weapon.reinforce_id + upgrade_level].fire;
+                weapon.lightning_attack_power. *= this.args.reinforce[weapon.reinforce_id + upgrade_level].lightning;
+                weapon.holy_attack_power. *= this.args.reinforce[weapon.reinforce_id + upgrade_level].holy;
                 
-                weapon['str_scaling'] = this.args.weapon_source_scaling[weapon['name']]['s' + upgrade_level] || 0;
-                weapon['dex_scaling'] = this.args.weapon_source_scaling[weapon['name']]['d' + upgrade_level] || 0;
-                weapon['int_scaling'] = this.args.weapon_source_scaling[weapon['name']]['i' + upgrade_level] || 0;
-                weapon['fai_scaling'] = this.args.weapon_source_scaling[weapon['name']]['f' + upgrade_level] || 0;
-                weapon['arc_scaling'] = this.args.weapon_source_scaling[weapon['name']]['a' + upgrade_level] || 0;
+                weapon.str_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].str;
+                weapon.dex_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].str;
+                weapon.int_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].str;
+                weapon.fai_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].str;
+                weapon.arc_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].str;
                 
-                weapon['scarlet_rot'] = this.args.weapon_passives[weapon['name']]['r'] || 0;
-                weapon['madness'] = this.args.weapon_passives[weapon['name']]['m'] || 0;
-                weapon['sleep'] = this.args.weapon_passives[weapon['name']]['s'] || 0;
-                weapon['frostbite'] = this.args.weapon_passives[weapon['name']]['f' + upgrade_level] || 0;
-                weapon['poison'] = this.args.weapon_passives[weapon['name']]['p' + upgrade_level] || 0;
-                weapon['bleed'] = this.args.weapon_passives[weapon['name']]['b' + upgrade_level] || 0;
+                weapon['rot'] = weapon['death'] = weapon['madness'] = weapon['sleep'] = weapon['frost'] = weapon['poison'] = weapon['bleed'] = 0;
+                var passive_offset_1 = this.args.reinforce[weapon.reinforce_id + upgrade_level].passive_offset_1;
+                var passive_offset_2 = this.args.reinforce[weapon.reinforce_id + upgrade_level].passive_offset_2;
             }
             
             //add element scaling data
@@ -91,14 +89,12 @@ var inputForm = {
                 constraints.push(this.args.affinities_selected.map(affinity => (weapon => weapon.affinity == affinity)).reduce(this.disjunction));
             if(this.args.ammo_types_selected.length && this.args.ammo_types_selected.length < this.args.ammo_types.length)
                 constraints.push(this.args.ammo_types_selected.map(ammo => (weapon => weapon.ammo == ammo)).reduce(this.disjunction));
-            if(this.args.is_dual_wieldable)
-                constraints.push(weapon => weapon.dual_wieldable);
             if(this.args.options.must_have_required_attributes && !this.args.optimize_attributes) {
-                constraints.push(weapon => weapon.required_str <= this.args.attributes.str);
-                constraints.push(weapon => weapon.required_dex <= this.args.attributes.dex);
-                constraints.push(weapon => weapon.required_int <= this.args.attributes.int);
-                constraints.push(weapon => weapon.required_fai <= this.args.attributes.fai);
-                constraints.push(weapon => weapon.required_arc <= this.args.attributes.arc);
+                constraints.push(weapon => weapon.str_requirement <= this.args.attributes.str);
+                constraints.push(weapon => weapon.dex_requirement <= this.args.attributes.dex);
+                constraints.push(weapon => weapon.int_requirement <= this.args.attributes.int);
+                constraints.push(weapon => weapon.fai_requirement <= this.args.attributes.fai);
+                constraints.push(weapon => weapon.arc_requirement <= this.args.attributes.arc);
             }
             return constraints;
         },
@@ -319,10 +315,6 @@ var inputForm = {
         </div>
     </div>
     <div>
-        <div>
-            <input type="checkbox" name="isDualWieldable" v-model="args.options.is_dual_wieldable" :true-value=true :false-value=false>
-            <label for="isDualWieldable"> Dual Wieldable</label>
-        </div>
         <div>
             <input type="checkbox" name="meetsAttributeRequirements" v-model="args.options.must_have_required_attributes" :true-value=true :false-value=false>
             <label for="meetsAttributeRequirements"> Required Attributes</label>
