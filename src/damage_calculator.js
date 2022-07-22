@@ -245,11 +245,11 @@ function progress(units = 1) {
 
 function get_minimum_weapon_attributes(weapon, minimum_attributes, free_attributes, modifiers, options) {
     var locked_attribute_distribution = {};
-    var attributes_needed = Math.max((options['is_two_handing'] ? Math.ceil(parseInt(weapon['required_str']) / 1.5) : parseInt(weapon['required_str'])) - minimum_attributes['str'], 0);
+    var attributes_needed = Math.max((options['is_two_handing'] ? Math.ceil(parseInt(weapon['str_requirement']) / 1.5) : parseInt(weapon['str_requirement'])) - minimum_attributes['str'], 0);
     locked_attribute_distribution['str'] = minimum_attributes['str'] + attributes_needed;
     free_attributes -= attributes_needed;
     attack_sources.slice(1).forEach(attack_source => {
-        attributes_needed = Math.max(parseInt(weapon['required_' + attack_source]) - minimum_attributes[attack_source], 0);
+        attributes_needed = Math.max(parseInt(weapon[attack_source + '_requirement']) - minimum_attributes[attack_source], 0);
         locked_attribute_distribution[attack_source] = minimum_attributes[attack_source] + attributes_needed;
         free_attributes -= attributes_needed;
     });
@@ -259,7 +259,7 @@ function get_minimum_weapon_attributes(weapon, minimum_attributes, free_attribut
 function beautify_weapon_stats(result, result_objective, modifiers, options) {
     var attack_power = get_attack_powers(result.weapon, result.attrs, modifiers, options);
     var base_attack_power = attack_types.map(
-            attack_type => ({[attack_type]: parseFloat(result.weapon['base_' + attack_type + '_attack_power'])})
+            attack_type => ({[attack_type]: parseFloat(result.weapon[attack_type + '_attack_power'])})
         ).reduce(
             (a,b) => Object.assign(a,b),
             {}
@@ -275,12 +275,12 @@ function beautify_weapon_stats(result, result_objective, modifiers, options) {
         affinity: result.weapon['affinity'],
         weight: result.weapon['weight'],
         weapon_type: result.weapon['weapon_type'],
-        dual_wieldable: result.weapon['dual_wieldable'],
-        required_str: result.weapon['required_str'],
-        required_dex: result.weapon['required_dex'],
-        required_int: result.weapon['required_int'],
-        required_fai: result.weapon['required_fai'],
-        required_arc: result.weapon['required_arc'],
+        //dual_wieldable: result.weapon['dual_wieldable'],
+        required_str: result.weapon['str_requirement'],
+        required_dex: result.weapon['dex_requirement'],
+        required_int: result.weapon['int_requirement'],
+        required_fai: result.weapon['fai_requirement'],
+        required_arc: result.weapon['arc_requirement'],
         str_scaling_grade: get_scaling_grade(result.weapon['str_scaling']),
         dex_scaling_grade: get_scaling_grade(result.weapon['dex_scaling']),
         int_scaling_grade: get_scaling_grade(result.weapon['int_scaling']),
@@ -302,10 +302,10 @@ function beautify_weapon_stats(result, result_objective, modifiers, options) {
                 (a,b) => Object.assign(a,b),
                 {}
             ),
-        scarlet_rot: parseInt(result.weapon['scarlet_rot']),
+        scarlet_rot: parseInt(result.weapon['rot']),
         madness: parseInt(result.weapon['madness']),
         sleep: parseInt(result.weapon['sleep']),
-        frostbite: parseInt(result.weapon['frostbite']),
+        frostbite: parseInt(result.weapon['frost']),
         poison: parseInt(result.weapon['poison']),
         bleed: parseInt(result.weapon['bleed']),
         damage: result_objective(result),
@@ -486,9 +486,9 @@ function get_movement_damage(attack_powers, target, movement_value, swing_type) 
 }
 
 function get_type_damage(attack_type, attack_power, target, movement_value, swing_type) {
-    attack_power *= movement_value / 100;
-    var defense = parseFloat(target[capitalize(attack_type) + ' Defense']) * 100;
-    var resistance = parseFloat(attack_type == 'physical' ? target[capitalize(swing_type)] : target[capitalize(attack_type)]);
+    attack_power *= movement_value;
+    var defense = parseFloat(target['defense']);
+    var resistance = parseFloat(attack_type == 'physical' ? target[swing_type] : target[attack_type]);
     return DAMAGE_FORMULA(attack_power, defense) * resistance;
 }
 
@@ -503,7 +503,7 @@ function sum(a, b) {
 function get_attack_powers(weapon, attributes, modifiers, options) {
     var attack_powers = {};
     attack_types.forEach( attack_type =>
-        attack_powers[attack_type] = parseFloat(weapon['base_' + attack_type + '_attack_power']) + get_max_bonus_attack_power(weapon, attack_type, attributes, modifiers, options)
+        attack_powers[attack_type] = parseFloat(weapon[attack_type + '_attack_power']) + get_max_bonus_attack_power(weapon, attack_type, attributes, modifiers, options)
     );
     return attack_powers;
 }
@@ -515,15 +515,15 @@ function get_max_bonus_attack_power(weapon, attack_type, attributes, modifiers, 
         source_attack_power = source_attack_powers.reduce((a, b) => a + b);
     }
     else {
-        source_attack_power = parseFloat(weapon['base_' + attack_type + '_attack_power']) * -0.4;
+        source_attack_power = parseFloat(weapon[attack_type + '_attack_power']) * -0.4;
     }
     return source_attack_power;
 }
 
 function meets_requirement(weapon, attack_type, attributes, source, modifiers, options) {
     if(source == 'str')
-        return !can_scale(weapon, attack_type, source) || attributes[source] >= (options['is_two_handing'] ? Math.ceil(parseInt(weapon['required_str']) / 1.5) : parseInt(weapon['required_str']));
-    return !can_scale(weapon, attack_type, source) || attributes[source] >= parseInt(weapon['required_' + source]);
+        return !can_scale(weapon, attack_type, source) || attributes[source] >= (options['is_two_handing'] ? Math.ceil(parseInt(weapon['str_requirement']) / 1.5) : parseInt(weapon['str_requirement']));
+    return !can_scale(weapon, attack_type, source) || attributes[source] >= parseInt(weapon[source + '_requirement']);
 }
 
 function get_attack_power_per_source(weapon, attack_type, attributes, source, modifiers, options) {
@@ -532,9 +532,9 @@ function get_attack_power_per_source(weapon, attack_type, attributes, source, mo
     var attribute = attributes[source];
     if(options['is_two_handing'] && source == 'str')
         attribute *= 1.5;
-    var base_attack_power = parseFloat(weapon['base_' + attack_type + '_attack_power']);
+    var base_attack_power = parseFloat(weapon[attack_type + '_attack_power']);
     var bonus_attack_power_scaling = parseFloat(weapon[source +'_scaling']);
-    var calculation_id = parseInt(weapon[attack_type + '_damage_calculation_id'])
+    var calculation_id = parseInt(weapon[attack_type + '_correction_id'])
     var attribute_correction = parseFloat(attribute_curves[calculation_id](attribute)) / 100;
     var bonus_attack_power = base_attack_power * bonus_attack_power_scaling * attribute_correction;
     return bonus_attack_power;

@@ -37,47 +37,62 @@ var inputForm = {
                 var upgrade_level = this.args.optimize_weapon ?
                     Math.min(weapon.max_upgrade_level, weapon.affinity == 'Somber' ? this.args.somber_upgrade_cap : this.args.upgrade_cap) :
                     this.args.upgrade_level;
+                try{
+                    weapon.physical_attack_power *= this.args.reinforce[weapon.reinforce_id + upgrade_level].physical;
+                    weapon.magic_attack_power *= this.args.reinforce[weapon.reinforce_id + upgrade_level].magic;
+                    weapon.fire_attack_power *= this.args.reinforce[weapon.reinforce_id + upgrade_level].fire;
+                    weapon.lightning_attack_power *= this.args.reinforce[weapon.reinforce_id + upgrade_level].lightning;
+                    weapon.holy_attack_power *= this.args.reinforce[weapon.reinforce_id + upgrade_level].holy;
                     
-                
-                weapon.physical_attack_power *= this.args.reinforce[weapon.reinforce_id + upgrade_level].physical;
-                weapon.magic_attack_power *= this.args.reinforce[weapon.reinforce_id + upgrade_level].magic;
-                weapon.fire_attack_power. *= this.args.reinforce[weapon.reinforce_id + upgrade_level].fire;
-                weapon.lightning_attack_power. *= this.args.reinforce[weapon.reinforce_id + upgrade_level].lightning;
-                weapon.holy_attack_power. *= this.args.reinforce[weapon.reinforce_id + upgrade_level].holy;
-                
-                weapon.str_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].str;
-                weapon.dex_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].str;
-                weapon.int_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].str;
-                weapon.fai_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].str;
-                weapon.arc_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].str;
-                
-                weapon['rot'] = weapon['death'] = weapon['madness'] = weapon['sleep'] = weapon['frost'] = weapon['poison'] = weapon['bleed'] = 0;
-                var passive_offset_1 = this.args.reinforce[weapon.reinforce_id + upgrade_level].passive_offset_1;
-                var passive_offset_2 = this.args.reinforce[weapon.reinforce_id + upgrade_level].passive_offset_2;
-            }
-            
-            //add element scaling data
-            for(var weapon of weapons) {
-                for(var attack_type of this.args.attack_types) {
-                    for(var attack_source of this.args.attack_sources) {
-                        var field = attack_type + '_' + attack_source + '_element_scaling';
-                        weapon[field] = this.args.attack_element_scaling[weapon['attack_element_scaling_id']][field];
+                    weapon.str_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].str;
+                    weapon.dex_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].str;
+                    weapon.int_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].str;
+                    weapon.fai_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].str;
+                    weapon.arc_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].str;
+                    
+                    weapon.rot = weapon.death = weapon.madness = weapon.sleep = weapon.frost = weapon.poison = weapon.bleed = 0;
+                    var passive_offset
+                    var passive_value
+                    var passive_type
+                    if('passive_id_1' in weapon) {
+                        passive_offset = this.args.reinforce[weapon.reinforce_id + upgrade_level].passive_offset_1;
+                        try{
+                            passive_value = this.args.passives[weapon.passive_id_1 + passive_offset].value
+                            passive_type = this.args.passives[weapon.passive_id_1 + passive_offset].type
+                            weapon[passive_type] += passive_value
+                        }catch(e){}//cold +6 bug
                     }
+                    if('passive_id_2' in weapon) {
+                        passive_offset = this.args.reinforce[weapon.reinforce_id + upgrade_level].passive_offset_2;
+                        try{
+                            passive_value = this.args.passives[weapon.passive_id_2 + passive_offset].value
+                            passive_type = this.args.passives[weapon.passive_id_2 + passive_offset].type
+                            weapon[passive_type] += passive_value
+                        }catch(e){}//cold +6 bug
+                    }
+                
+                    //add element scaling data
+                    for(var attack_type of this.args.attack_types) {
+                        for(var attack_source of this.args.attack_sources) {
+                            var field = attack_type + '_' + attack_source + '_element_scaling';
+                            weapon[field] = this.args.element_scaling[weapon['element_scaling_id']][field];
+                        }
+                    }
+                
+                    //add moveset
+                    weapon.moveset = this.args.motion_values[weapon.motion_name][this.moveset.moveset_name];
+                }catch(e){
+                    console.log(e);
+                    console.log(weapon);
                 }
             }
             
-            //add moveset
-            for(var weapon of weapons) {
-                try{
-                    weapon.moveset = this.args.motion_values[weapon.base_weapon_name][this.moveset.moveset_name];
-                }catch{console.log(weapon)}
-            }
             
             
             return weapons;
         },
         extended_enemy() {
-            return Object.assign({}, this.args.enemy, this.args.difficulty_scaling[this.args.enemy['SpEffect ID']]);
+            return Object.assign({}, this.args.enemy, this.args.difficulty_scaling[this.args.enemy.difficulty_scaling_id]);
         },
     },
     computed: {
@@ -349,7 +364,7 @@ var inputForm = {
             <label for="enemy">Enemy </label>
             <select name="enemy" v-model="args.enemy">
                 <option v-for="boss in args.bosses" :value="boss">
-                    {{ boss.Name }}
+                    {{ boss.name }}
                 </option>
             </select>
         </div>

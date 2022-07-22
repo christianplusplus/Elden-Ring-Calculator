@@ -265,16 +265,6 @@ def csvToObject = { String fileName ->
     def object = lines[1..-1].collect{
         getLineList(it)
     }.collectEntries{
-    
-        //fixes
-        /*
-        it[0] = it[0].replaceAll('epee', 'Epee')
-        it[1] = it[1].replaceAll("Man-serpent's Shield", "Man-Serpent's Shield")
-        it[1] = it[1].replaceAll("^Celebrant's Cleaver\$", "Celebrant's Cleaver Blades")
-        it[1] = it[1].replaceAll("Relic Sword", "Sacred Relic Sword")
-        it[1] = it[1].replaceAll("Mohgwyn's Spear", "Mohgwyn's Sacred Spear")
-        */
-        
         [it[0], [columns, it].transpose().collectEntries()]
     }
 }
@@ -287,15 +277,6 @@ def motionCsvToObject = { String fileName ->
     }.findAll{
         it[0] && it[0].length() > 0
     }.collectEntries{
-        
-        //fixes
-        /*
-        it[1] = it[1].replaceAll('Épée', 'Epee')
-        it[1] = it[1].replaceAll('Miséricorde', 'Misericorde')
-        it[1] = it[1].replaceAll("Varré's Bouquet", "Varre's Bouquet")
-        it[1] = it[1].replaceAll("Celebrant's Cleaver", "Celebrant's Cleaver Blades")
-        */
-        
         [it[1], [columns, it].transpose().collectEntries()]
     }
 }
@@ -405,8 +386,7 @@ def difficulty_scaling = csvToObject('difficulty_scaling').collectEntries{ key, 
             throw new Exception('The assumption that elemental scaling is uniform is not valid.')
         [key,
             [
-                defense: entry['Defense'] as double,
-                resistance: entry['Physical Attack'] as double,
+                defense: (entry['Defense'] as double) * 100,
             ]
         ]
     }catch(e){
@@ -418,7 +398,7 @@ def difficulty_scaling = csvToObject('difficulty_scaling').collectEntries{ key, 
 new File(targetDirectory, 'difficulty_scaling.json').write(JsonOutput.toJson(difficulty_scaling))
 
 //weapon data to list
-def weapon_id_motion_names = csvToList('weapon_id_motion_names')
+def weapon_id_motion_names = csvToList('weapon_id_motion_names').collectEntries{[it['ID'],it['Weapon']]}
 def raw_weapons = csvToObject('weapons')
 def weapons = csvToList('weapons').findAll{it['Sort ID'] != '9999999' && it['skip'] != 'arrow'}.collect{
     try{
@@ -428,17 +408,17 @@ def weapons = csvToList('weapons').findAll{it['Sort ID'] != '9999999' && it['ski
         def reinforce_id = it['Reinforce Type ID']
         if(!weapon_affinity_map.containsKey(reinforce_id))
             throw new Exception("Unexpected weapon reinforce ID \"$reinforce_id\".")
-        [
+        def weapon = [
             id: it['Row ID'],
             name: it['Row Name'],
             base_weapon_name: raw_weapons[it['Origin Weapon +0']]['Row Name'],
-            motion_name: weapon_id_motion_names[it['Origin Weapon +0']]['Weapon'],
+            motion_name: weapon_id_motion_names[it['Origin Weapon +0']],
             reinforce_id: reinforce_id as int,
             element_scaling_id: it['Attack Element Correct ID'],
             weapon_type: weapon_type_map[weapon_type_id],
             affinity: weapon_affinity_map[reinforce_id],
             weight: it['Weight'] as double,
-            max_upgrade_level: it['Orign Weapon +1'] == '-1' ? 0 : it['Orign Weapon +11'] == '-1' ? 10 : 25,
+            max_upgrade_level: it['Origin Weapon +1'] == '-1' ? 0 : it['Origin Weapon +11'] == '-1' ? 10 : 25,
             physical_attack_power: it['Damage: Physical'] as int,
             magic_attack_power: it['Damage: Magic'] as int,
             fire_attack_power: it['Damage: Fire'] as int,
@@ -458,20 +438,39 @@ def weapons = csvToList('weapons').findAll{it['Sort ID'] != '9999999' && it['ski
             int_requirement: it['Requirement: INT'] as int,
             fai_requirement: it['Requirement: FTH'] as int,
             arc_requirement: it['Requirement: ARC'] as int,
-            str_scaling : it['Correction: STR'] as int,
-            dex_scaling : it['Correction: DEX'] as int,
-            int_scaling : it['Correction: INT'] as int,
-            fai_scaling : it['Correction: FTH'] as int,
-            arc_scaling : it['Correction: ARC'] as int,
-            passive_1: it['Behavior SpEffect 1'] as int,
-            passive_2: it['Behavior SpEffect 2'] as int,
-            passive_3: it['Behavior SpEffect 3'] as int,
-            void_multiplier: it['Bonus Damage %: Void'] as double,
-            undead_multiplier: it['Bonus Damage %: Undead'] as double,
-            ancient_dragon_multiplier: it['Bonus Damage %: Ancient Dragon'] as double,
-            dragon_wyvern_multiplier: it['Bonus Damage %: Dragon/Wyrm'] as double,
+            str_scaling : (it['Correction: STR'] as double) / 100,
+            dex_scaling : (it['Correction: DEX'] as double) / 100,
+            int_scaling : (it['Correction: INT'] as double) / 100,
+            fai_scaling : (it['Correction: FTH'] as double) / 100,
+            arc_scaling : (it['Correction: ARC'] as double) / 100,
             ammo: 'N/A',
         ]
+        
+        if(it['Behavior SpEffect 1'] != '-1')
+            weapon['passive_id_1'] = it['Behavior SpEffect 1'] as int
+        if(it['Behavior SpEffect 2'] != '-1')
+            weapon['passive_id_2'] = it['Behavior SpEffect 2'] as int
+        
+        if(it['Bonus Damage %: Void'] != '1')
+            weapon['void_multiplier'] = it['Bonus Damage %: Void'] as double
+        if(it['Bonus Damage %: Undead'] != '1')
+            weapon['undead_multiplier'] = it['Bonus Damage %: Undead'] as double
+        if(it['Bonus Damage %: Ancient Dragon'] != '1')
+            weapon['ancient_dragon_multiplier'] = it['Bonus Damage %: Ancient Dragon'] as double
+        if(it['Bonus Damage %: Dragon/Wyrm'] != '1')
+            weapon['dragon_wyvern_multiplier'] = it['Bonus Damage %: Dragon/Wyrm'] as double
+        
+        weapon['physical_damage_types'] = []
+        if(it['Type Display: Normal'] == 'TRUE')
+            weapon['physical_damage_types'] << 'Standard'
+        if(it['Type Display: Strike'] == 'TRUE')
+            weapon['physical_damage_types'] << 'Strike'
+        if(it['Type Display: Slash'] == 'TRUE')
+            weapon['physical_damage_types'] << 'Slash'
+        if(it['Type Display: Thrust'] == 'TRUE')
+            weapon['physical_damage_types'] << 'Pierce'
+        
+        weapon
     }catch(e){
         println it
         throw e
@@ -482,7 +481,6 @@ def passive_map = [
     Blood: 'bleed',
     Rot: 'rot',
     Death: 'death',
-    None: null,
     Sleep: 'sleep',
     Poison: 'poison',
     Frost: 'frost',
@@ -490,7 +488,7 @@ def passive_map = [
 ]
 
 def passives = csvToObject('passives').collectEntries{ key, entry ->
-    [ key as int,
+    [key,
         [
             value: entry['Value'] as int,
             type: passive_map[entry['Type']],
@@ -501,7 +499,7 @@ def passives = csvToObject('passives').collectEntries{ key, entry ->
 new File(targetDirectory, 'passives.json').write(JsonOutput.toJson(passives))
 
 def reinforce = csvToObject('reinforce').collectEntries{ key, entry ->
-    [ key as int,
+    [key,
         [
             physical: entry['Physical Attack'] as double,
             magic: entry['Magic Attack'] as double,
@@ -578,7 +576,7 @@ def swing_values = motionCsvToObject('swing_values').collectEntries{ key, entry 
                 backstab: [entry['Backstab']],
                 riposte: [entry['Riposte']],
                 shieldpoke: [entry['Shieldpoke']],
-            ].collectEntries{weapon, moves -> [weapon, moves.findAll().collect{move -> (move =~ /Standard|Slash|Pierce|Strike/).collect{it}}]}
+            ].collectEntries{weapon, moves -> [weapon, moves.findAll().collect{move -> (move =~ /Standard|Slash|Pierce|Strike/).collect{it.toLowerCase()}}]}
         ]
     }catch(e){
         println key
@@ -645,7 +643,7 @@ def motion_values = motionCsvToObject('motion_values').collectEntries{ key, entr
                 backstab: [entry['Backstab']],
                 riposte: [entry['Riposte']],
                 shieldpoke: [entry['Shieldpoke']],
-            ].collectEntries{weapon, moves -> [weapon, moves.findAll().collect{move -> (move =~ /\d+(?:\.\d+)?/).collect{hit -> hit as double}}]}
+            ].collectEntries{weapon, moves -> [weapon, moves.findAll().collect{move -> (move =~ /\d+(?:\.\d+)?/).collect{hit -> (hit as double) / 100}}]}
         ]
     }catch(e){
         println key
@@ -666,31 +664,31 @@ def element_scaling = csvToObject('element_scaling').collectEntries{ key, entry 
     try{
         [key,
             [
-                'physical_str_element_scaling': entry['Physical Scaling: STR']=='1',
-                'physical_dex_element_scaling': entry['Physical Scaling: DEX']=='1',
-                'physical_int_element_scaling': entry['Physical Scaling: INT']=='1',
-                'physical_fai_element_scaling': entry['Physical Scaling: FAI']=='1',
-                'physical_arc_element_scaling': entry['Physical Scaling: ARC']=='1',
-                'magic_str_element_scaling': entry['Magic Scaling: STR']=='1',
-                'magic_dex_element_scaling': entry['Magic Scaling: DEX']=='1',
-                'magic_int_element_scaling': entry['Magic Scaling: INT']=='1',
-                'magic_fai_element_scaling': entry['Magic Scaling: FAI']=='1',
-                'magic_arc_element_scaling': entry['Magic Scaling: ARC']=='1',
-                'fire_str_element_scaling': entry['Fire Scaling: STR']=='1',
-                'fire_dex_element_scaling': entry['Fire Scaling: DEX']=='1',
-                'fire_int_element_scaling': entry['Fire Scaling: INT']=='1',
-                'fire_fai_element_scaling': entry['Fire Scaling: FAI']=='1',
-                'fire_arc_element_scaling': entry['Fire Scaling: ARC']=='1',
-                'lightning_str_element_scaling': entry['Lightning Scaling: STR']=='1',
-                'lightning_dex_element_scaling': entry['Lightning Scaling: DEX']=='1',
-                'lightning_int_element_scaling': entry['Lightning Scaling: INT']=='1',
-                'lightning_fai_element_scaling': entry['Lightning Scaling: FAI']=='1',
-                'lightning_arc_element_scaling': entry['Lightning Scaling: ARC']=='1',
-                'holy_str_element_scaling': entry['Holy Scaling: STR']=='1',
-                'holy_dex_element_scaling': entry['Holy Scaling: DEX']=='1',
-                'holy_int_element_scaling': entry['Holy Scaling: INT']=='1',
-                'holy_fai_element_scaling': entry['Holy Scaling: FAI']=='1',
-                'holy_arc_element_scaling': entry['Holy Scaling: ARC']=='1',
+                physical_str_element_scaling: entry['Physical Scaling: STR']=='1',
+                physical_dex_element_scaling: entry['Physical Scaling: DEX']=='1',
+                physical_int_element_scaling: entry['Physical Scaling: INT']=='1',
+                physical_fai_element_scaling: entry['Physical Scaling: FAI']=='1',
+                physical_arc_element_scaling: entry['Physical Scaling: ARC']=='1',
+                magic_str_element_scaling: entry['Magic Scaling: STR']=='1',
+                magic_dex_element_scaling: entry['Magic Scaling: DEX']=='1',
+                magic_int_element_scaling: entry['Magic Scaling: INT']=='1',
+                magic_fai_element_scaling: entry['Magic Scaling: FAI']=='1',
+                magic_arc_element_scaling: entry['Magic Scaling: ARC']=='1',
+                fire_str_element_scaling: entry['Fire Scaling: STR']=='1',
+                fire_dex_element_scaling: entry['Fire Scaling: DEX']=='1',
+                fire_int_element_scaling: entry['Fire Scaling: INT']=='1',
+                fire_fai_element_scaling: entry['Fire Scaling: FAI']=='1',
+                fire_arc_element_scaling: entry['Fire Scaling: ARC']=='1',
+                lightning_str_element_scaling: entry['Lightning Scaling: STR']=='1',
+                lightning_dex_element_scaling: entry['Lightning Scaling: DEX']=='1',
+                lightning_int_element_scaling: entry['Lightning Scaling: INT']=='1',
+                lightning_fai_element_scaling: entry['Lightning Scaling: FAI']=='1',
+                lightning_arc_element_scaling: entry['Lightning Scaling: ARC']=='1',
+                holy_str_element_scaling: entry['Holy Scaling: STR']=='1',
+                holy_dex_element_scaling: entry['Holy Scaling: DEX']=='1',
+                holy_int_element_scaling: entry['Holy Scaling: INT']=='1',
+                holy_fai_element_scaling: entry['Holy Scaling: FAI']=='1',
+                holy_arc_element_scaling: entry['Holy Scaling: ARC']=='1',
             ]
         ]
     }catch(e){
@@ -710,16 +708,20 @@ def ranged_weapons_with_ammo = ranged_weapons.collectMany{ weapon ->
     try{
         raw_weapons.values().findAll{it['skip'] == 'arrow'}.collect{
             def new_weapon = [:] + weapon
-            new_weapon.name = "$weapon.name with $it.Name"
-            new_weapon.ammo = it.Name
+            
+            new_weapon.name = "$weapon.name with ${it['Row Name']}"
+            new_weapon.ammo = it['Row Name']
             new_weapon.physical_attack_power += it['Damage: Physical'] as int
             new_weapon.magic_attack_power += it['Damage: Magic'] as int
             new_weapon.fire_attack_power += it['Damage: Fire'] as int
             new_weapon.lightning_attack_power += it['Damage: Lightning'] as int
             new_weapon.holy_attack_power += it['Damage: Holy'] as int
-            new_weapon.passive_1 = it['Behavior SpEffect 1'] as int
-            new_weapon.passive_2 = it['Behavior SpEffect 2'] as int
-            new_weapon.passive_3 = it['Behavior SpEffect 3'] as int
+            
+            if(it['Behavior SpEffect 1'] != '-1')
+                weapon['passive_id_1'] = it['Behavior SpEffect 1'] as int
+            if(it['Behavior SpEffect 2'] != '-1')
+                weapon['passive_id_2'] = it['Behavior SpEffect 2'] as int
+            
             new_weapon
         }
     }catch(e){
