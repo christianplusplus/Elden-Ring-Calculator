@@ -3,6 +3,7 @@
 * Correction Graph Pipeline.
 * Passive ARC scaling.
 * Enemy type bonus multipliers.
+* Ranged best grip motion.
 * Write an FAQ.
 ## RELEASE
 * NG+ data.
