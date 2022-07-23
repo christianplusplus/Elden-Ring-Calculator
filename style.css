@@ -217,6 +217,7 @@ select {
 
 .class_result > img {
     height: 484px;
+    object-fit: contain;
 }
 
 .error_result {

@@ -129,7 +129,7 @@ var inputForm = {
             if(this.args.ammo_types_selected.length && this.args.ammo_types_selected.length < this.args.ammo_types.length)
                 constraints.push(this.args.ammo_types_selected.map(ammo => (weapon => weapon.ammo == ammo)).reduce(this.disjunction));
             if(this.args.options.must_have_required_attributes && !this.args.optimize_attributes) {
-                constraints.push(weapon => weapon.str_requirement <= this.args.attributes.str);
+                constraints.push(weapon => this.is_two_handing ? weapon.str_requirement <= this.args.attributes.str * 1.5 : weapon.str_requirement <= this.args.attributes.str);
                 constraints.push(weapon => weapon.dex_requirement <= this.args.attributes.dex);
                 constraints.push(weapon => weapon.int_requirement <= this.args.attributes.int);
                 constraints.push(weapon => weapon.fai_requirement <= this.args.attributes.fai);
@@ -184,17 +184,17 @@ var inputForm = {
                 return this.args.movesets[this.args.moveset_category].is_two_handable;
             return false;
         },
+        is_two_handing() {
+            this.args.options['is_two_handing'] = this.moveset_is_two_handable && this.args.is_two_handing;
+            return this.args.options['is_two_handing'];
+        },
         moveset() {
             var formatted_moveset_modifer = this.has_valid_moveset_modifier ? '_' + this.args.moveset_modifier : '';
             var formatted_handedness;
-            if(this.moveset_is_two_handable) {
-                this.args.options['is_two_handing'] = this.args.is_two_handing;
-                formatted_handedness = this.args.is_two_handing ? '_2h' : '_1h';
-            }
-            else {
-                this.args.options['is_two_handing'] = false;
+            if(this.moveset_is_two_handable)
+                formatted_handedness = this.is_two_handing ? '_2h' : '_1h';
+            else
                 formatted_handedness = '';
-            }
             return {moveset_aggregate: this.args.moveset_aggregate, moveset_name: this.args.moveset_category + formatted_moveset_modifer + formatted_handedness, hit_aggregate: this.args.hit_aggregate};
         },
         has_multi_movesets() {
