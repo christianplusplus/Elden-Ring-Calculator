@@ -247,7 +247,7 @@ new File(targetDirectory, 'difficulty_scaling.json').write(JsonOutput.toJson(dif
 //weapon data to list
 def weapon_id_motion_names = csvToList('weapon_id_motion_names').collectEntries{[it['ID'],it['Weapon']]}
 def raw_weapons = csvToObject('weapons')
-def weapons = csvToList('weapons').findAll{it['Sort ID'] != '9999999' && it['skip'] != 'arrow'}.collect{
+def weapons = csvToList('weapons').findAll{it['Sort ID'] != '9999999' && it['skip'] != 'arrow' && it['skip'] != 'unused'}.collect{
     try{
         def weapon_type_id = it['Weapon Type']
         if(!weapon_type_map.containsKey(weapon_type_id))
