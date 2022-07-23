@@ -9,6 +9,8 @@ def getLineList = { String line ->
     line.split(csvSplitterExpression).collect{it.replaceAll(csvOuterQuoteExpression, '')}
 }
 def ranged_weapon_types = ['Light Bow', 'Bow', 'Greatbow', 'Crossbow', 'Ballista']
+def damage_types = ['physical', 'magic', 'fire', 'lightning', 'holy']
+def sources = ['str', 'dex', 'int', 'fai', 'arc']
 def weapon_type_map = [
     '1': 'Dagger',
     '3': 'Straight Sword',
@@ -244,6 +246,8 @@ def difficulty_scaling = csvToObject('difficulty_scaling').collectEntries{ key, 
 }
 new File(targetDirectory, 'difficulty_scaling.json').write(JsonOutput.toJson(difficulty_scaling))
 
+def element_scaling = csvToObject('element_scaling')
+
 //weapon data to list
 def weapon_id_motion_names = csvToList('weapon_id_motion_names').collectEntries{[it['ID'],it['Weapon']]}
 def raw_weapons = csvToObject('weapons')
@@ -261,7 +265,7 @@ def weapons = csvToList('weapons').findAll{it['Sort ID'] != '9999999' && it['ski
             base_weapon_name: raw_weapons[it['Origin Weapon +0']]['Row Name'],
             motion_name: weapon_id_motion_names[it['Origin Weapon +0']],
             reinforce_id: reinforce_id as int,
-            element_scaling_id: it['Attack Element Correct ID'],
+            element_scaling: [:],
             weapon_type: weapon_type_map[weapon_type_id],
             affinity: weapon_affinity_map[reinforce_id],
             weight: it['Weight'] as double,
@@ -293,6 +297,11 @@ def weapons = csvToList('weapons').findAll{it['Sort ID'] != '9999999' && it['ski
             arc_scaling : (it['Correction: ARC'] as double) / 100,
             ammo: 'N/A',
         ]
+        
+        for(String damage_type : damage_types)
+            for(String source : sources)
+                if(element_scaling[it['Attack Element Correct ID']]["${damage_type.capitalize()} Scaling: ${source.toUpperCase()}"] == '1')
+                    weapon.element_scaling["${damage_type}_${source}"] = 1
         
         //for weapon extending.
         weapon.rot = weapon.death = weapon.madness = weapon.sleep = weapon.frost = weapon.poison = weapon.bleed = 0
@@ -510,46 +519,6 @@ motion_values = motion_values.collectEntries{ weapon, entry ->
 }
 
 new File(targetDirectory, 'motion_values.json').write(JsonOutput.toJson(motion_values))
-
-def element_scaling = csvToObject('element_scaling').collectEntries{ key, entry ->
-    try{
-        [key,
-            [
-                physical_str_element_scaling: entry['Physical Scaling: STR']=='1',
-                physical_dex_element_scaling: entry['Physical Scaling: DEX']=='1',
-                physical_int_element_scaling: entry['Physical Scaling: INT']=='1',
-                physical_fai_element_scaling: entry['Physical Scaling: FAI']=='1',
-                physical_arc_element_scaling: entry['Physical Scaling: ARC']=='1',
-                magic_str_element_scaling: entry['Magic Scaling: STR']=='1',
-                magic_dex_element_scaling: entry['Magic Scaling: DEX']=='1',
-                magic_int_element_scaling: entry['Magic Scaling: INT']=='1',
-                magic_fai_element_scaling: entry['Magic Scaling: FAI']=='1',
-                magic_arc_element_scaling: entry['Magic Scaling: ARC']=='1',
-                fire_str_element_scaling: entry['Fire Scaling: STR']=='1',
-                fire_dex_element_scaling: entry['Fire Scaling: DEX']=='1',
-                fire_int_element_scaling: entry['Fire Scaling: INT']=='1',
-                fire_fai_element_scaling: entry['Fire Scaling: FAI']=='1',
-                fire_arc_element_scaling: entry['Fire Scaling: ARC']=='1',
-                lightning_str_element_scaling: entry['Lightning Scaling: STR']=='1',
-                lightning_dex_element_scaling: entry['Lightning Scaling: DEX']=='1',
-                lightning_int_element_scaling: entry['Lightning Scaling: INT']=='1',
-                lightning_fai_element_scaling: entry['Lightning Scaling: FAI']=='1',
-                lightning_arc_element_scaling: entry['Lightning Scaling: ARC']=='1',
-                holy_str_element_scaling: entry['Holy Scaling: STR']=='1',
-                holy_dex_element_scaling: entry['Holy Scaling: DEX']=='1',
-                holy_int_element_scaling: entry['Holy Scaling: INT']=='1',
-                holy_fai_element_scaling: entry['Holy Scaling: FAI']=='1',
-                holy_arc_element_scaling: entry['Holy Scaling: ARC']=='1',
-            ]
-        ]
-    }catch(e){
-        println key
-        println entry
-        println e
-        throw e
-    }
-}
-new File(targetDirectory, 'element_scaling.json').write(JsonOutput.toJson(element_scaling))
 
 //generate ranged weapon and ammo combinations
 

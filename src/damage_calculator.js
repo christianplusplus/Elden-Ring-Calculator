@@ -541,7 +541,7 @@ function get_attack_power_per_source(weapon, attack_type, attributes, source, mo
 }
 
 function can_scale(weapon, attack_type, source) {
-    return weapon[attack_type + '_' + source + '_element_scaling'];
+    return weapon['element_scaling'][attack_type + '_' + source];
 }
 
 function mapObject(object, func) {

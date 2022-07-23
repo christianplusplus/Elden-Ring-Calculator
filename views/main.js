@@ -12,7 +12,6 @@ var Main = {
                 optimize_attributes: true,
                 loading_locks: {
                     weapons_loaded: false,
-                    element_scaling_loaded: false,
                     passives_loaded: false,
                     reinforce_loaded: false,
                     bosses_loaded: false,
@@ -183,16 +182,6 @@ var Main = {
     methods: {
         loaded() {
             if(Object.values(this.args.loading_locks).every(x=>x)){
-                for(var weapon of this.args.weapons) {
-                    for(var attack_type of this.args.attack_types) {
-                        for(var attack_source of this.args.attack_sources) {
-                            var field = attack_type + '_' + attack_source + '_element_scaling';
-                            var value = this.args.element_scaling[weapon['element_scaling_id']][field]
-                            if(value)
-                                weapon[field] = value;
-                        }
-                    }
-                }
                 this.args.disabled = false;
             }
         },
@@ -258,14 +247,6 @@ var Main = {
                 this.args.affinities = [...new Set(this.args.weapons.map(w=>w.affinity))];
                 
                 this.args.loading_locks.weapons_loaded = true;
-                this.loaded();
-            });
-            
-        fetch('data/element_scaling.json')
-            .then(response => response.json())
-            .then(data => {
-                this.args.element_scaling = data;
-                this.args.loading_locks.element_scaling_loaded = true;
                 this.loaded();
             });
         
