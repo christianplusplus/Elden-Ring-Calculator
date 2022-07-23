@@ -8,6 +8,7 @@
 * NG+ data.
 * Projectile movement types.
 * Find unkown passive data.
+## STRETCH FEATURES
 * Passive filters.
 * Input Page Routing.
 * Value modifiers.
