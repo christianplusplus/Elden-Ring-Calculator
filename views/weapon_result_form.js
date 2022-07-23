@@ -20,10 +20,12 @@ var weaponResultForm = {
                     <div>{{ result.weapon.affinity }}</div>
                     <div class="filler"></div>
                 </div>
+                <!--
                 <div class="filler">
                     <div>{{ 'Is ' + (result.weapon.dual_wieldable ? '' : 'Not') + ' Dual Wieldable' }}</div>
                     <div class="filler"></div>
                 </div>
+                -->
                 <div class="filler">
                     <div>Weight</div>
                     <div>{{ result.weapon.weight }}</div>
