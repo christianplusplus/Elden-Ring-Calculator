@@ -6,9 +6,10 @@
 * Enemy type bonus multipliers.
 * Write an FAQ.
 ## RELEASE
+* NG+ data.
+* Projectile movement types.
 * Find unkown passive data.
 * Passive filters.
-* NG+ data.
 * Input Page Routing.
 * Value modifiers.
 * Save/Load Profile/Cookie.
