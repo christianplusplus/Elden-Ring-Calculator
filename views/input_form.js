@@ -45,10 +45,10 @@ var inputForm = {
                     weapon.holy_attack_power *= this.args.reinforce[weapon.reinforce_id + upgrade_level].holy;
                     
                     weapon.str_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].str;
-                    weapon.dex_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].str;
-                    weapon.int_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].str;
-                    weapon.fai_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].str;
-                    weapon.arc_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].str;
+                    weapon.dex_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].dex;
+                    weapon.int_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].int;
+                    weapon.fai_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].fai;
+                    weapon.arc_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].arc;
                     
                     weapon.rot = weapon.death = weapon.madness = weapon.sleep = weapon.frost = weapon.poison = weapon.bleed = 0;
                     var passive_offset
@@ -60,7 +60,7 @@ var inputForm = {
                             passive_value = this.args.passives[weapon.passive_id_1 + passive_offset].value
                             passive_type = this.args.passives[weapon.passive_id_1 + passive_offset].type
                             weapon[passive_type] += passive_value
-                        }catch(e){}//cold +6 bug
+                        }catch(e){console.log(e);console.log(weapon.name);console.log(upgrade_level);}//cold +6 bug
                     }
                     if('passive_id_2' in weapon) {
                         passive_offset = this.args.reinforce[weapon.reinforce_id + upgrade_level].passive_offset_2;
@@ -68,7 +68,30 @@ var inputForm = {
                             passive_value = this.args.passives[weapon.passive_id_2 + passive_offset].value
                             passive_type = this.args.passives[weapon.passive_id_2 + passive_offset].type
                             weapon[passive_type] += passive_value
-                        }catch(e){}//cold +6 bug
+                        }catch(e){console.log(e);console.log(weapon.name);console.log(upgrade_level);}//cold +6 bug
+                    }
+                    if('passive_id_3' in weapon) {
+                        try{
+                            passive_value = this.args.passives[weapon.passive_id_3].value
+                            passive_type = this.args.passives[weapon.passive_id_3].type
+                            weapon[passive_type] += passive_value
+                        }catch(e){console.log(e);console.log(weapon.name);console.log(upgrade_level);}//cold +6 bug
+                    }
+                    
+                    if('bonus' in weapon) {
+                        weapon.physical_attack_power += weapon.bonus.physical_attack_power || 0;
+                        weapon.magic_attack_power += weapon.bonus.magic_attack_power || 0;
+                        weapon.fire_attack_power += weapon.bonus.fire_attack_power || 0;
+                        weapon.lightning_attack_power += weapon.bonus.lightning_attack_power || 0;
+                        weapon.holy_attack_power += weapon.bonus.holy_attack_power || 0;
+                        
+                        for(var passive of weapon.bonus.passives) {
+                            try{
+                                passive_value = this.args.passives[passive].value
+                                passive_type = this.args.passives[passive].type
+                                weapon[passive_type] += passive_value
+                            }catch(e){console.log(e);console.log(weapon.name);console.log(upgrade_level);}//cold +6 bug
+                        }
                     }
                 
                     //add element scaling data
@@ -81,7 +104,8 @@ var inputForm = {
                 
                     //add moveset
                     weapon.moveset = this.args.motion_values[weapon.motion_name][this.moveset.moveset_name];
-                }catch(e){
+                }
+                catch(e){
                     console.log(e);
                     console.log(weapon);
                 }

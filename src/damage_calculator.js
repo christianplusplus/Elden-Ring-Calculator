@@ -512,7 +512,7 @@ function get_max_bonus_attack_power(weapon, attack_type, attributes, modifiers, 
     var source_attack_power;
     if(attack_sources.every( source => meets_requirement(weapon, attack_type, attributes, source, modifiers, options))) {
         var source_attack_powers = attack_sources.map( source => get_attack_power_per_source(weapon, attack_type, attributes, source, modifiers, options));
-        source_attack_power = source_attack_powers.reduce((a, b) => a + b);
+        source_attack_power = source_attack_powers.reduce(sum);
     }
     else {
         source_attack_power = parseFloat(weapon[attack_type + '_attack_power']) * -0.4;

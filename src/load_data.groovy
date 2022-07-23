@@ -46,152 +46,6 @@ def weapon_type_map = [
     '56': 'Ballista',
 ]
 
-/*
-def moveset_map = [
-    '20': 'Dagger',
-    '23': 'Straight Sword',
-    '28': 'Curved Sword',
-    '25': 'Greatsword',
-    '26': 'Colossal Sword',
-    '27': 'Thrusting Sword',
-    '39': 'Heavy Thrusting Sword',
-    '40': 'Curved Greatsword',
-    '29': 'Katana',
-    '24': 'Twinblade',
-    '33': 'Hammer',
-    '35': 'Great Hammer',
-    '34': 'Flail',
-    '30': 'Axe',
-    '32': 'Greataxe',
-    '36': 'Spear',
-    '37': 'Greate Spear',
-    '38': 'Halberd',
-    '50': 'Reaper',
-    '43': 'Whip',
-    '42': 'Fist',
-    '22': 'Claw',
-    '31': 'Colossal Weapon',
-    '21': 'Torch',
-    '48': 'Small Shield',
-    '49': 'Medium Shield',
-    '47': 'Greateshield',
-    '41': 'Glintstone Staff',
-    '51': 'Light Bow',
-    '44': 'Bow',
-    '45': 'Greatbow',
-    '46': 'Crossbow',
-    '52': 'Ballista',
-    
-    '103': 'Dagger', // Black Knife/Erdsteel
-    '101': 'Dagger', // Curvy Dagger
-    '100': 'Dagger', // Sickle
-    '104': 'Dagger', // Wakizashi
-    
-    '111': 'Straight Sword', // Shortsword
-    '110': 'Straight Sword', // Broadsword/Cane Sword
-    '852': 'Straight Sword', // Ornamental Straight Sword
-    '113': 'Straight Sword', // Carian Knight's Sword/Lazuli Glintstone Sword
-    '112': 'Straight Sword', // Miquellan Knight's Sword
-    '117': 'Straight Sword', // Warhawk's Talon
-    
-    '128': 'Greatsword', // Inseparable Sword
-    '126': 'Greatsword',
-    '129': 'Greatsword',
-    '130': 'Greatsword',
-    '127': 'Greatsword',
-    '125': 'Greatsword',
-    
-    '136': 'Colossal Sword',
-    '135': 'Colossal Sword',
-    '832': 'Colossal Sword',
-    '137': 'Colossal Sword',
-    '138': 'Colossal Sword',
-    
-    '145': 'Thrusting Sword',
-    '146': 'Thrusting Sword',
-    '147': 'Thrusting Sword',
-    
-    '150': 'Heavy Thrusting Sword',
-    '151': 'Heavy Thrusting Sword',
-    
-    '161': 'Curved Sword',
-    '155': 'Curved Sword',
-    '156': 'Curved Sword',
-    '157': 'Curved Sword',
-    '159': 'Curved Sword',
-    '158': 'Curved Sword',
-    
-    '216': 'Curved Greatsword',
-    '215': 'Curved Greatsword',
-    
-    '167': 'Katana',
-    '166': 'Katana',
-    '165': 'Katana',
-    
-    '121': 'Twinblade',
-    '120': 'Twinblade',
-    
-    '183': 'Hammer',
-    '180': 'Hammer',
-    '182': 'Hammer',
-    '181': 'Hammer',
-    '184': 'Hammer',
-    
-    '176': 'Great Hammer',
-    
-    '170': 'Axe',
-    '172': 'Axe',
-    '171': 'Axe',
-    
-    '177': 'Greataxe',
-    '175': 'Greataxe',
-    
-    '203': 'Spear',
-    '200': 'Spear',
-    '201': 'Spear',
-    '202': 'Spear',
-    
-    '205': 'Great Spear',
-    '207': 'Great Spear',
-    '206': 'Great Spear',
-    
-    '210': 'Halberd',
-    '211': 'Halberd',
-    '212': 'Halberd',
-    
-    '225': 'Reaper',
-    
-    '226': 'Whip',
-    
-    '221': 'Fist',
-    '220': 'Fist',
-    
-    '227': 'Claw',
-    
-    '196': 'Colossal Weapon',
-    '195': 'Colossal Weapon',
-    '831': 'Colossal Weapon',
-    '839': 'Colossal Weapon',
-    '197': 'Colossal Weapon',
-    '198': 'Colossal Weapon',
-    
-    '250': 'Torch',
-    '251': 'Torch',
-    
-    '240': 'Sacred Seal',
-    
-    '232': 'Light Bow',
-    
-    '230': 'Bow',
-    '231': 'Bow',
-    
-    '233': 'Crossbow',
-    '236': 'Crossbow',
-    
-    '234': 'Ballista',
-]
-*/
-
 def weapon_affinity_map = [
     '0': 'Standard',
     '1900': 'Standard',
@@ -234,13 +88,6 @@ def weapon_affinity_map = [
     '8500': 'Somber',
     
     '3000': 'Somber',//'Unupgradable',
-]
-def weapon_ammo_map = [
-    'Light Bow': 'Arrow',
-    'Bow': 'Arrow',
-    'Greatbow': 'Greatarrow',
-    'Crossbow': 'Bolt',
-    'Ballista': 'Greatbolt',
 ]
 
 List.metaClass.collectWithIndex = { yield ->
@@ -419,6 +266,7 @@ def weapons = csvToList('weapons').findAll{it['Sort ID'] != '9999999' && it['ski
             affinity: weapon_affinity_map[reinforce_id],
             weight: it['Weight'] as double,
             max_upgrade_level: it['Origin Weapon +1'] == '-1' ? 0 : it['Origin Weapon +11'] == '-1' ? 10 : 25,
+            physical_damage_types: [],
             physical_attack_power: it['Damage: Physical'] as int,
             magic_attack_power: it['Damage: Magic'] as int,
             fire_attack_power: it['Damage: Fire'] as int,
@@ -447,9 +295,11 @@ def weapons = csvToList('weapons').findAll{it['Sort ID'] != '9999999' && it['ski
         ]
         
         if(it['Behavior SpEffect 1'] != '-1')
-            weapon['passive_id_1'] = it['Behavior SpEffect 1'] as int
+            weapon.passive_id_1 = it['Behavior SpEffect 1'] as int
         if(it['Behavior SpEffect 2'] != '-1')
-            weapon['passive_id_2'] = it['Behavior SpEffect 2'] as int
+            weapon.passive_id_2 = it['Behavior SpEffect 2'] as int
+        if(it['Behavior SpEffect 3'] != '-1')
+            weapon.passive_id_3 = it['Behavior SpEffect 3'] as int
         
         if(it['Bonus Damage %: Void'] != '1')
             weapon['void_multiplier'] = it['Bonus Damage %: Void'] as double
@@ -460,7 +310,6 @@ def weapons = csvToList('weapons').findAll{it['Sort ID'] != '9999999' && it['ski
         if(it['Bonus Damage %: Dragon/Wyrm'] != '1')
             weapon['dragon_wyvern_multiplier'] = it['Bonus Damage %: Dragon/Wyrm'] as double
         
-        weapon['physical_damage_types'] = []
         if(it['Type Display: Normal'] == 'TRUE')
             weapon['physical_damage_types'] << 'Standard'
         if(it['Type Display: Strike'] == 'TRUE')
@@ -659,7 +508,6 @@ motion_values = motion_values.collectEntries{ weapon, entry ->
 
 new File(targetDirectory, 'motion_values.json').write(JsonOutput.toJson(motion_values))
 
-
 def element_scaling = csvToObject('element_scaling').collectEntries{ key, entry ->
     try{
         [key,
@@ -702,25 +550,55 @@ new File(targetDirectory, 'element_scaling.json').write(JsonOutput.toJson(elemen
 
 //generate ranged weapon and ammo combinations
 
+def weapon_ammo_map = [
+    'Light Bow': 'Arrow',
+    'Bow': 'Arrow',
+    'Greatbow': 'Greatarrow',
+    'Crossbow': 'Bolt',
+    'Ballista': 'Greatbolt',
+]
+
 def ranged_weapons = weapons.findAll{ranged_weapon_types.contains(it['weapon_type'])}
 
+def ammunitions = raw_weapons.values().findAll{it['skip'] == 'arrow'}
+
+def ammunitions_by_type = [
+    'Arrow': ammunitions.findAll{it['Weapon Type'] == '81'},
+    'Greatarrow': ammunitions.findAll{it['Weapon Type'] == '83'},
+    'Bolt': ammunitions.findAll{it['Weapon Type'] == '85'},
+    'Greatbolt': ammunitions.findAll{it['Weapon Type'] == '86'},
+]
+
+def jsonSlurper = new JsonSlurper()
 def ranged_weapons_with_ammo = ranged_weapons.collectMany{ weapon ->
     try{
-        raw_weapons.values().findAll{it['skip'] == 'arrow'}.collect{
-            def new_weapon = [:] + weapon
+        ammunitions_by_type[weapon_ammo_map[weapon['weapon_type']]].collect{ ammo ->
             
-            new_weapon.name = "$weapon.name with ${it['Row Name']}"
-            new_weapon.ammo = it['Row Name']
-            new_weapon.physical_attack_power += it['Damage: Physical'] as int
-            new_weapon.magic_attack_power += it['Damage: Magic'] as int
-            new_weapon.fire_attack_power += it['Damage: Fire'] as int
-            new_weapon.lightning_attack_power += it['Damage: Lightning'] as int
-            new_weapon.holy_attack_power += it['Damage: Holy'] as int
+            def new_weapon = jsonSlurper.parseText(JsonOutput.toJson(weapon))
             
-            if(it['Behavior SpEffect 1'] != '-1')
-                weapon['passive_id_1'] = it['Behavior SpEffect 1'] as int
-            if(it['Behavior SpEffect 2'] != '-1')
-                weapon['passive_id_2'] = it['Behavior SpEffect 2'] as int
+            new_weapon.name = "$weapon.name with ${ammo['Row Name']}"
+            new_weapon.ammo = ammo['Row Name']
+            new_weapon.bonus = [:]
+            new_weapon.bonus.passives = []
+            new_weapon.physical_damage_types << 'Pierce'
+            
+            if(ammo['Damage: Physical'] != '0')
+                new_weapon.bonus.physical_attack_power = ammo['Damage: Physical'] as int
+            if(ammo['Damage: Magic'] != '0')
+                new_weapon.bonus.magic_attack_power = ammo['Damage: Magic'] as int
+            if(ammo['Damage: Fire'] != '0')
+                new_weapon.bonus.fire_attack_power = ammo['Damage: Fire'] as int
+            if(ammo['Damage: Lightning'] != '0')
+                new_weapon.bonus.lightning_attack_power = ammo['Damage: Lightning'] as int
+            if(ammo['Damage: Holy'] != '0')
+                new_weapon.bonus.holy_attack_power = ammo['Damage: Holy'] as int
+            
+            if(ammo['Behavior SpEffect 1'] != '-1')
+                new_weapon.bonus.passives << (ammo['Behavior SpEffect 1'] as int)
+            if(ammo['Behavior SpEffect 2'] != '-1')
+                new_weapon.bonus.passives << (ammo['Behavior SpEffect 2'] as int)
+            if(ammo['Behavior SpEffect 3'] != '-1')
+                new_weapon.bonus.passives << (ammo['Behavior SpEffect 3'] as int)
             
             new_weapon
         }
