@@ -2,6 +2,7 @@ var Main = {
     data() { 
         return {
             args: {
+                dev_mode: false,
                 disabled: false,
                 attributes: {},
                 floatingPoints:10,

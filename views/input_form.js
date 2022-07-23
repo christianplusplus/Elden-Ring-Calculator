@@ -60,7 +60,7 @@ var inputForm = {
                             passive_value = this.args.passives[weapon.passive_id_1 + passive_offset].value
                             passive_type = this.args.passives[weapon.passive_id_1 + passive_offset].type
                             weapon[passive_type] += passive_value
-                        }catch(e){console.log('No defined passive for weapon:'+weapon.name+' id:'+weapon.passive_id_1+' offset:'+passive_offset)}
+                        }catch(e){if(this.args.dev_mode)console.log('No defined passive for weapon:'+weapon.name+' id:'+weapon.passive_id_1+' offset:'+passive_offset)}
                     }
                     if('passive_id_2' in weapon) {
                         passive_offset = this.args.reinforce[weapon.reinforce_id + upgrade_level].passive_offset_2;
@@ -68,14 +68,14 @@ var inputForm = {
                             passive_value = this.args.passives[weapon.passive_id_2 + passive_offset].value
                             passive_type = this.args.passives[weapon.passive_id_2 + passive_offset].type
                             weapon[passive_type] += passive_value
-                        }catch(e){console.log('No defined passive for weapon:'+weapon.name+' id:'+weapon.passive_id_2+' offset:'+passive_offset)}
+                        }catch(e){if(this.args.dev_mode)console.log('No defined passive for weapon:'+weapon.name+' id:'+weapon.passive_id_2+' offset:'+passive_offset)}
                     }
                     if('passive_id_3' in weapon) {
                         try{
                             passive_value = this.args.passives[weapon.passive_id_3].value
                             passive_type = this.args.passives[weapon.passive_id_3].type
                             weapon[passive_type] += passive_value
-                        }catch(e){console.log('No defined passive for weapon:'+weapon.name+' id:'+weapon.passive_id_3)}
+                        }catch(e){if(this.args.dev_mode)console.log('No defined passive for weapon:'+weapon.name+' id:'+weapon.passive_id_3)}
                     }
                     
                     if('bonus' in weapon) {
@@ -84,7 +84,7 @@ var inputForm = {
                                 passive_value = this.args.passives[passive].value
                                 passive_type = this.args.passives[passive].type
                                 weapon[passive_type] += passive_value
-                            }catch(e){console.log('No defined passive for weapon:'+weapon.name+' id:'+weapon.passive)}
+                            }catch(e){if(this.args.dev_mode)console.log('No defined passive for weapon:'+weapon.name+' id:'+weapon.passive)}
                         }
                     }
                     
