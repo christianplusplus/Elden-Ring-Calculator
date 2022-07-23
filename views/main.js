@@ -3,13 +3,22 @@ var Main = {
         return {
             args: {
                 dev_mode: false,
-                disabled: false,
+                disabled: true,
                 attributes: {},
                 floatingPoints:10,
                 target_level: 150,
                 optimize_class: true,
                 optimize_weapon: true,
                 optimize_attributes: true,
+                loading_locks: {
+                    weapons_loaded: false,
+                    element_scaling_loaded: false,
+                    passives_loaded: false,
+                    reinforce_loaded: false,
+                    bosses_loaded: false,
+                    difficulty_scaling_loaded: false,
+                    motion_values_loaded: false,
+                },
                 weapon: {},
                 weapons: [],
                 weapon_types: [],
@@ -172,6 +181,21 @@ var Main = {
         };},
     },
     methods: {
+        loaded() {
+            if(Object.values(this.args.loading_locks).every(x=>x)){
+                for(var weapon of this.args.weapons) {
+                    for(var attack_type of this.args.attack_types) {
+                        for(var attack_source of this.args.attack_sources) {
+                            var field = attack_type + '_' + attack_source + '_element_scaling';
+                            var value = this.args.element_scaling[weapon['element_scaling_id']][field]
+                            if(value)
+                                weapon[field] = value;
+                        }
+                    }
+                }
+                this.args.disabled = false;
+            }
+        },
         load_class() {
             for(var [key, value] of Object.entries(this.args.clazz))
                 this.args.attributes[key] = value;
@@ -228,27 +252,37 @@ var Main = {
             .then(response => response.json())
             .then(data => {
                 this.args.weapons = data;
+                
                 this.args.weapon_types = [...new Set(this.args.weapons.map(w=>w.weapon_type))];
                 this.args.ammo_types = [...new Set(this.args.weapons.map(w=>w.ammo))];
                 this.args.affinities = [...new Set(this.args.weapons.map(w=>w.affinity))];
+                
+                this.args.loading_locks.weapons_loaded = true;
+                this.loaded();
             });
-
+            
         fetch('data/element_scaling.json')
             .then(response => response.json())
             .then(data => {
                 this.args.element_scaling = data;
+                this.args.loading_locks.element_scaling_loaded = true;
+                this.loaded();
             });
         
         fetch('data/passives.json')
             .then(response => response.json())
             .then(data => {
                 this.args.passives = data;
+                this.args.loading_locks.passives_loaded = true;
+                this.loaded();
             });
             
         fetch('data/reinforce.json')
             .then(response => response.json())
             .then(data => {
                 this.args.reinforce = data;
+                this.args.loading_locks.reinforce_loaded = true;
+                this.loaded();
             });
         
         fetch('data/bosses.json')
@@ -256,18 +290,24 @@ var Main = {
             .then(data => {
                 this.args.bosses = data;
                 this.args.enemy = this.args.bosses.find(b=>b.name=='Target Dummy (No Resistances, Weaknesses, or Difficulty Scaling)');
+                this.args.loading_locks.bosses_loaded = true;
+                this.loaded();
             });
             
         fetch('data/difficulty_scaling.json')
             .then(response => response.json())
             .then(data => {
                 this.args.difficulty_scaling = data;
+                this.args.loading_locks.difficulty_scaling_loaded = true;
+                this.loaded();
             });
         
         fetch('data/motion_values.json')
             .then(response => response.json())
             .then(data => {
                 this.args.motion_values = data;
+                this.args.loading_locks.motion_values_loaded = true;
+                this.loaded();
             });
         
         this.blank_slate();

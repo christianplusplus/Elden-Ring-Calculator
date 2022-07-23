@@ -34,10 +34,11 @@ var inputForm = {
             
             //add upgradable stats
             for(var weapon of weapons) {
-                var upgrade_level = this.args.optimize_weapon ?
-                    Math.min(weapon.max_upgrade_level, weapon.affinity == 'Somber' ? this.args.somber_upgrade_cap : this.args.upgrade_cap) :
-                    this.args.upgrade_level;
                 try{
+                    var upgrade_level = this.args.optimize_weapon ?
+                        Math.min(weapon.max_upgrade_level, weapon.affinity == 'Somber' ? this.args.somber_upgrade_cap : this.args.upgrade_cap) :
+                        this.args.upgrade_level;
+                
                     weapon.physical_attack_power *= this.args.reinforce[weapon.reinforce_id + upgrade_level].physical;
                     weapon.magic_attack_power *= this.args.reinforce[weapon.reinforce_id + upgrade_level].magic;
                     weapon.fire_attack_power *= this.args.reinforce[weapon.reinforce_id + upgrade_level].fire;
@@ -50,7 +51,6 @@ var inputForm = {
                     weapon.fai_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].fai;
                     weapon.arc_scaling *= this.args.reinforce[weapon.reinforce_id + upgrade_level].arc;
                     
-                    weapon.rot = weapon.death = weapon.madness = weapon.sleep = weapon.frost = weapon.poison = weapon.bleed = 0;
                     var passive_offset
                     var passive_value
                     var passive_type
@@ -94,14 +94,6 @@ var inputForm = {
                         weapon.fire_attack_power += weapon.bonus.fire_attack_power || 0;
                         weapon.lightning_attack_power += weapon.bonus.lightning_attack_power || 0;
                         weapon.holy_attack_power += weapon.bonus.holy_attack_power || 0;
-                    }
-                
-                    //add element scaling data
-                    for(var attack_type of this.args.attack_types) {
-                        for(var attack_source of this.args.attack_sources) {
-                            var field = attack_type + '_' + attack_source + '_element_scaling';
-                            weapon[field] = this.args.element_scaling[weapon['element_scaling_id']][field];
-                        }
                     }
                 
                     //add moveset

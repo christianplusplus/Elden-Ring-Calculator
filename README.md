@@ -1,7 +1,6 @@
 # TODO
 ## BETA
-* Trim src data.
-* Join some weapon data on mount.
+* Correction Graph Pipeline.
 * Passive ARC scaling.
 * Enemy type bonus multipliers.
 * Write an FAQ.

@@ -294,6 +294,9 @@ def weapons = csvToList('weapons').findAll{it['Sort ID'] != '9999999' && it['ski
             ammo: 'N/A',
         ]
         
+        //for weapon extending.
+        weapon.rot = weapon.death = weapon.madness = weapon.sleep = weapon.frost = weapon.poison = weapon.bleed = 0
+        
         if(it['Behavior SpEffect 1'] != '-1')
             weapon.passive_id_1 = it['Behavior SpEffect 1'] as int
         if(it['Behavior SpEffect 2'] != '-1')
